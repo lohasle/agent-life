@@ -1,0 +1,8 @@
+{
+  "version": "0.1.0",
+  "releaseDate": "2026-05-31",
+  "platforms": {
+    "macos": "Agent-Life-0.1.0-mac.dmg",
+    "windows": "Agent-Life-0.1.0-setup.exe"
+  }
+}
