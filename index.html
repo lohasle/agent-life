@@ -311,7 +311,6 @@
     <div class="nav-mid">
       <a href="#highlights" data-i18n="nav.highlights">亮点</a>
       <a href="#memory" data-i18n="nav.memory">记忆</a>
-      <a href="#stack" data-i18n="nav.stack">定位</a>
       <a href="#cli" data-i18n="nav.cli">CLI</a>
     </div>
     <div class="nav-end">
@@ -336,7 +335,6 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="hero.cta1">免费下载 Agent OS</span>
         </a>
-        <a class="btn" href="#stack"><span data-i18n="hero.cta2">为什么是个人层</span> ↓</a>
       </div>
       <div class="hero-meta">
         <span class="m"><span class="dot"></span><b data-i18n="hero.m1">开源</b> · MIT</span>
@@ -485,46 +483,6 @@
   </div>
 </section>
 
-<!-- ───────────── 定位 / POSITION (dark) ───────────── -->
-<section class="sec sec-dark" id="stack">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker" data-i18n="pos.kicker">价值链定位</span>
-      <h2 data-i18n-html="pos.h2">所有人都在接入层。<br/>我们守个人层。</h2>
-      <p data-i18n="pos.sub">接入 CLI 已经是门票。真正没人做、也最难做的，是把长期使用所有 AI CLI 的轨迹，沉淀成产品。</p>
-    </div>
-
-    <div class="ladder rv">
-      <div class="layer">
-        <div class="lname"><span class="idx">05</span><span data-i18n="pos.l5.n">输出层</span></div>
-        <div class="ldesc" data-i18n="pos.l5.d">把本机 CLI 变成设计 / 产物引擎。</div>
-        <div class="lwho">Open Design</div>
-      </div>
-      <div class="layer">
-        <div class="lname"><span class="idx">04</span><span data-i18n="pos.l4.n">运行时层</span></div>
-        <div class="ldesc" data-i18n="pos.l4.d">跑、管、resume 多个 agent 的会话。</div>
-        <div class="lwho">CliDeck</div>
-      </div>
-      <div class="layer">
-        <div class="lname"><span class="idx">03</span><span data-i18n="pos.l3.n">维护层</span></div>
-        <div class="ldesc" data-i18n="pos.l3.d">配置 / 切换 / 安装 / 端点 / 统计。</div>
-        <div class="lwho">cc-switch</div>
-      </div>
-      <div class="layer us">
-        <div class="lname"><span class="star">★</span><span class="idx">02</span><span data-i18n="pos.l2.n">个人层</span></div>
-        <div class="ldesc"><b data-i18n="pos.l2.d">记忆 · 知识 · 成长</b>——把一个人长期使用所有 AI CLI 的轨迹做成产品。</div>
-        <div class="lwho">← AGENT OS</div>
-      </div>
-      <div class="layer">
-        <div class="lname"><span class="idx">01</span><span data-i18n="pos.l1.n">接入层</span></div>
-        <div class="ldesc" data-i18n="pos.l1.d">扫描本机 CLI、适配器统一驱动、BYOK 兜底。</div>
-        <div class="lwho" data-i18n="pos.l1.w">门票 · 所有人都在做</div>
-      </div>
-    </div>
-    <p class="ladder-note rv" data-i18n="pos.note">接入与维护我们做到一流，但不当卖点讲。<b>记忆与成长</b>是空位——没有任何一家，把「一个人长期使用所有 AI CLI 的轨迹」做成产品的灵魂。</p>
-  </div>
-</section>
-
 <!-- ───────────── CLI 矩阵 ───────────── -->
 <section class="sec" id="cli" style="padding-top:0">
   <div class="wrap">
@@ -577,7 +535,6 @@
     <div class="foot-links">
       <a href="#highlights" data-i18n="nav.highlights">亮点</a>
       <a href="#memory" data-i18n="nav.memory">记忆</a>
-      <a href="#stack" data-i18n="nav.stack">定位</a>
       <a href="#cli" data-i18n="nav.cli">CLI</a>
       <a href="#download" data-i18n="nav.download">下载</a>
     </div>
@@ -592,11 +549,11 @@
   /* ════════ i18n ════════ */
   var STRINGS = {
     zh:{
-      "nav.highlights":"亮点","nav.memory":"记忆","nav.stack":"定位","nav.cli":"CLI","nav.download":"免费下载",
+      "nav.highlights":"亮点","nav.memory":"记忆","nav.cli":"CLI","nav.download":"免费下载",
       "hero.kicker":"个人 AI 超级工作台",
       "hero.h1":'统一所有 AI CLI，<span class="l2">沉淀你的工作记忆。</span>',
       "hero.sub":'Agent OS 是桌面端 <b>个人 AI 超级工作台</b>——开箱接入 <b>8 款主流 AI CLI</b>（Claude、Codex、Gemini、Cursor、Pi…），把分散在终端里的协作，收束成一份留在本地的工作记忆。',
-      "hero.cta1":"免费下载 Agent OS","hero.cta2":"为什么是个人层",
+      "hero.cta1":"免费下载 Agent OS",
       "hero.m1":"开源","hero.m2":"本地优先","hero.m2b":"主权数据",
       "fleet.label":"已接入 · 持续扩展",
       "hl.kicker":"亮点能力","hl.h2":"为重度 AI 用户打磨的每一处","hl.sub":"从自由会话到全局搜索，每一个能力都为「同时用很多 AI CLI」的人而生。",
@@ -616,14 +573,6 @@
       "mem.tag1":"本地 SQLite 索引","mem.tag2":"离线可用","mem.tag3":"主权数据",
       "mem.c2.k":"成长层 / GROWTH","mem.c2.t":"让「用 AI 工作」可见","mem.c2.d":"本地记录你与 AI 协作的轨迹，统计与成长系统让无形消耗，变成可见、可回望的积累。",
       "mem.c2.cap":"协作密度示意 · 产品内本地视图","mem.tag4":"活跃统计","mem.tag5":"跨 CLI 归一","mem.tag6":"可回望轨迹",
-      "pos.kicker":"价值链定位","pos.h2":'所有人都在接入层。<br/>我们守个人层。',
-      "pos.sub":"接入 CLI 已经是门票。真正没人做、也最难做的，是把长期使用所有 AI CLI 的轨迹，沉淀成产品。",
-      "pos.l5.n":"输出层","pos.l5.d":"把本机 CLI 变成设计 / 产物引擎。",
-      "pos.l4.n":"运行时层","pos.l4.d":"跑、管、resume 多个 agent 的会话。",
-      "pos.l3.n":"维护层","pos.l3.d":"配置 / 切换 / 安装 / 端点 / 统计。",
-      "pos.l2.n":"个人层","pos.l2.d":'记忆 · 知识 · 成长',
-      "pos.l1.n":"接入层","pos.l1.d":"扫描本机 CLI、适配器统一驱动、BYOK 兜底。","pos.l1.w":"门票 · 所有人都在做",
-      "pos.note":'接入与维护我们做到一流，但不当卖点讲。<b>记忆与成长</b>是空位——没有任何一家，把「一个人长期使用所有 AI CLI 的轨迹」做成产品的灵魂。',
       "cli.kicker":"生态","cli.h2":"8 款主流 AI CLI，开箱即用","cli.sub":"扫描 PATH 与常见安装位置，自动识别版本与健康。持续扩展中。",
       "cli.f1":"适配器协议统一驱动","cli.f2":"BYOK 兜底","cli.f3":"缺失 CLI 一键安装",
       "cta.kicker":"本机即主权","cta.h2":'你的 AI 工作记忆，<span class="acc">只属于你。</span>',
@@ -632,11 +581,11 @@
       "foot.brand":"个人 AI 超级工作台","foot.note":"MIT License · 本地优先 · 主权数据 · 所有会话与索引离线可用"
     },
     en:{
-      "nav.highlights":"Highlights","nav.memory":"Memory","nav.stack":"Position","nav.cli":"CLI","nav.download":"Download",
+      "nav.highlights":"Highlights","nav.memory":"Memory","nav.cli":"CLI","nav.download":"Download",
       "hero.kicker":"Personal AI super workbench",
       "hero.h1":'One workbench for every AI CLI.<span class="l2"> Your memory, kept.</span>',
       "hero.sub":'Agent OS is a desktop <b>personal AI super workbench</b> — connect <b>8 mainstream AI CLIs</b> out of the box (Claude, Codex, Gemini, Cursor, Pi…), and turn scattered terminal sessions into one local-first working memory.',
-      "hero.cta1":"Download Agent OS","hero.cta2":"Why the personal layer",
+      "hero.cta1":"Download Agent OS",
       "hero.m1":"Open source","hero.m2":"Local-first","hero.m2b":"sovereign data",
       "fleet.label":"Connected · expanding",
       "hl.kicker":"Signature capabilities","hl.h2":"Built for people who use many AI CLIs","hl.sub":"From free-form sessions to global search — every capability is made for working across many AI CLIs at once.",
@@ -656,14 +605,6 @@
       "mem.tag1":"Local SQLite index","mem.tag2":"Works offline","mem.tag3":"Sovereign data",
       "mem.c2.k":"GROWTH LAYER","mem.c2.t":"Make “working with AI” visible","mem.c2.d":"Your collaboration trail is recorded locally — stats and growth turn invisible effort into a visible, replayable arc.",
       "mem.c2.cap":"Collaboration density · illustrative, local in-product view","mem.tag4":"Activity stats","mem.tag5":"Cross-CLI normalized","mem.tag6":"Replayable trail",
-      "pos.kicker":"Where we sit","pos.h2":'Everyone&apos;s at the access layer.<br/>We hold the personal layer.',
-      "pos.sub":"Connecting a CLI is now table stakes. What no one else does — and what&apos;s hardest — is turning the trail of using every AI CLI into a product.",
-      "pos.l5.n":"Output layer","pos.l5.d":"Turn local CLIs into a design & artifact engine.",
-      "pos.l4.n":"Runtime layer","pos.l4.d":"Run, manage, resume multi-agent sessions.",
-      "pos.l3.n":"Maintenance layer","pos.l3.d":"Configure / switch / install / endpoint / stats.",
-      "pos.l2.n":"Personal layer","pos.l2.d":'Memory · knowledge · growth',
-      "pos.l1.n":"Access layer","pos.l1.d":"Scan local CLIs, unified adapters, BYOK fallback.","pos.l1.w":"Table stakes · everyone does it",
-      "pos.note":'We do access and maintenance at first-class quality — we just don&apos;t sell it. <b>Memory and growth</b> is the open lane — no one else turns “one person&apos;s long-term trail across every AI CLI” into the soul of a product.',
       "cli.kicker":"Ecosystem","cli.h2":"8 mainstream AI CLIs, out of the box","cli.sub":"Scans PATH and common install locations, detecting version and health automatically. Growing over time.",
       "cli.f1":"Unified adapter protocol","cli.f2":"BYOK fallback","cli.f3":"1-click install for missing CLIs",
       "cta.kicker":"Local-first sovereignty","cta.h2":'Your AI working memory, <span class="acc">yours alone.</span>',
