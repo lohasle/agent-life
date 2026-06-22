@@ -20,7 +20,6 @@
 
 ## 版本检查 API
 | Windows · x64 | `Agent-Os-0.2.2-win-x64-setup.exe` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.2/Agent-Os-0.2.2-win-x64-setup.exe) |
-更新系统通过 GitHub Releases API 获取最新版本信息：
 
 ```
 GET https://api.github.com/repos/lohasle/agent-life/releases/latest
