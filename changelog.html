@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>更新记录 — Agent OS</title>
+<meta name="description" content="Agent OS 版本更新记录。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f5f4ed; --surface:#faf9f5; --surface-warm:#e8e6dc;
+    --fg:#141413; --fg-2:#3d3d3a; --muted:#5e5d59; --meta:#6f6e67;
+    --border:#f0eee6; --border-soft:#e8e6dc;
+    --accent:#c96442; --accent-on:#faf9f5; --accent-hover:color-mix(in oklab,var(--accent),black 8%);
+    --font-display:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --font-ui:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:860px; --gut:clamp(20px,5vw,52px);
+    --elev-ring:0 0 0 1px var(--border);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--fg)}
+  body{font-family:var(--font-ui);line-height:1.65;-webkit-font-smoothing:antialiased;font-size:16px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-hover)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:56px var(--gut) 104px}
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
+  .brand{font-family:var(--font-display);font-weight:600;font-size:22px;letter-spacing:-.01em}
+  .brand a{color:var(--fg)}
+  .back{font-size:14px;color:var(--muted)}
+  .back:hover{color:var(--accent)}
+  .kicker{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--meta);margin-bottom:12px}
+  h1{font-family:var(--font-display);font-weight:600;font-size:clamp(30px,5vw,42px);letter-spacing:-.015em;line-height:1.1;margin-bottom:10px}
+  .sub{color:var(--muted);font-size:15px;margin-bottom:56px;max-width:60ch}
+  .ver{border-top:1px solid var(--border-soft);padding:30px 0}
+  .ver:first-of-type{border-top:none;padding-top:8px}
+  .ver__head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+  .ver__tag{font-family:var(--font-mono);font-weight:500;font-size:18px;color:var(--accent)}
+  .ver__date{color:var(--meta);font-size:13px;font-family:var(--font-mono)}
+  .ver__list{list-style:none}
+  .ver__list li{position:relative;padding:7px 0 7px 22px;color:var(--fg-2);font-size:15.5px}
+  .ver__list li::before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.65}
+  .ver__list li b{color:var(--fg);font-weight:600}
+  .foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border-soft);color:var(--meta);font-size:13px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <div class="brand"><a href="https://lohasle.github.io/agent-life/">Agent OS</a></div>
+    <a class="back" href="https://lohasle.github.io/agent-life/">← 返回首页</a>
+  </div>
+  <div class="kicker">Changelog</div>
+  <h1>版本更新记录</h1>
+  <p class="sub">Agent OS 的每一次迭代。最新安装包见 <a href="https://github.com/lohasle/agent-life/releases">Releases</a>，下载与平台对照见 <a href="https://github.com/lohasle/agent-life#最新版本">README</a>。</p>
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.6</span><span class="ver__date">2026-07-03</span></div>
+    <ul class="ver__list">
+      <li><b>会话内 Ctrl/Cmd+F 搜索</b> — 活跃会话与历史详情中原地高亮所有匹配、当前匹配深色聚焦；Enter 下一个、Shift+Enter 上一个、Esc 关闭，带 N/M 计数。</li>
+      <li><b>思考 / 工具过程交互重构</b> — 运行中默认展开、流式内容自动撑高度，整个回合彻底完成后才折叠；过程步骤（thinking / tool）运行中展开；消息头像与顶部状态旁增加运行三点指示。</li>
+      <li><b>历史 / 记忆会话接力</b> — 存储中的历史会话详情页接入「接力给…」，复用同一份目标 Agent 选择菜单（本机 / 远程分组 + 模型选择）。</li>
+      <li><b>多 CLI 附件支持</b> — Claude / Codex 等支持附件的 CLI 可在对话里粘贴、拖拽上传文件（SPEC-038）。</li>
+      <li><b>浮层窄窗自适应</b> — Agent 选择等下拉浮层在窗口过窄时自动避让视口边界，不再被右侧裁切。</li>
+    </ul>
+  </section>
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.5</span><span class="ver__date">2026-06-30</span></div>
+    <ul class="ver__list">
+      <li>远程工作区选择与节点引导流程优化（SPEC-032）。</li>
+      <li>恢复 Windows / Linux 安装包的交叉打包与发布。</li>
+    </ul>
+  </section>
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.4</span><span class="ver__date">2026-06-29</span></div>
+    <ul class="ver__list">
+      <li>跨 Agent 接力（Relay）关系链路与标准上下文包生成（SPEC-017）。</li>
+      <li>会话消息顺序与标题改名的修复。</li>
+    </ul>
+  </section>
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.3</span><span class="ver__date">2026-06-22</span></div>
+    <ul class="ver__list">
+      <li>Pi 角色解析与索引版本门控修复。</li>
+      <li>会话真实标题（SPEC-035）。</li>
+    </ul>
+  </section>
+
+  <div class="foot">Agent OS · 个人 AI 超级工作台 · 本地优先 · 主权数据</div>
+</main>
+</body>
+</html>
