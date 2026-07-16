@@ -45,7 +45,7 @@
     --cli-openclaw:#6e6248; --cli-pi:#6a4f5e;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
   body{
     background:var(--bg);color:var(--fg);
     font-family:var(--font-ui);font-size:var(--text-base);
@@ -79,8 +79,8 @@
     box-shadow:0 1px 0 var(--border);
   }
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--fg)}
-  .brand .mark{width:28px;height:28px;border-radius:var(--radius-sm);display:grid;place-items:center;background:var(--surface);box-shadow:var(--elev-ring)}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--fg);white-space:nowrap}
+  .brand .mark{width:28px;height:28px;border-radius:var(--radius-sm);display:grid;place-items:center;background:var(--surface);box-shadow:var(--elev-ring);flex-shrink:0}
   .brand .mark svg{width:17px;height:17px}
   .brand .ver{font-family:var(--font-mono);font-size:11px;color:var(--meta);border:1px solid var(--border-soft);padding:2px 7px;border-radius:6px;letter-spacing:.02em;font-weight:500}
   .nav-mid{display:flex;align-items:center;gap:28px}
@@ -107,6 +107,7 @@
   .btn-primary:hover{background:var(--accent-hover);box-shadow:0 10px 26px -10px rgba(201,100,66,.6)}
   .btn svg{width:15px;height:15px}
   @media(max-width:840px){.nav-mid{display:none}}
+  @media(max-width:520px){.nav-end .btn{display:none}.nav-end{gap:8px}.brand{gap:8px}}
 
   .hero{padding:132px 0 64px;position:relative}
   .hero-grid{display:grid;grid-template-columns:1.06fr 1fr;gap:clamp(36px,5vw,60px);align-items:center}
