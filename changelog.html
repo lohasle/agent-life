@@ -57,6 +57,17 @@
   <p class="sub">Agent OS 的每一次迭代。最新安装包见 <a href="https://github.com/lohasle/agent-life/releases">Releases</a>，下载与平台对照见 <a href="https://github.com/lohasle/agent-life#最新版本">README</a>。</p>
 
   <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.7</span><span class="ver__date">2026-07-16</span></div>
+    <ul class="ver__list">
+      <li><b>连续输入不丢失</b> — 活动回合运行期间新增持久 FIFO 队列，支持附件、取消和 daemon 重启恢复，回合结束后按顺序自动发送。</li>
+      <li><b>会话滚动稳定</b> — 用户上滚阅读历史时不再被流式输出强制拉回底部；新增“跳到最新”，切换会话后恢复正确跟随状态。</li>
+      <li><b>Claude 输出可靠性</b> — 兼容 assistant 消息快照，重试过程不再被误判为空闲，并保留最终失败的真实原因。</li>
+      <li><b>Claude 附件修正</b> — 本地附件不再误用远端资源 <code>--file</code>，改由路径引用配合 Read 工具读取。</li>
+      <li><b>远程节点协议升级</b> — runtime protocol 升级到 5，节点重连时同步刷新宿主版本与协议版本。</li>
+    </ul>
+  </section>
+
+  <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.2.6</span><span class="ver__date">2026-07-03</span></div>
     <ul class="ver__list">
       <li><b>会话内 Ctrl/Cmd+F 搜索</b> — 活跃会话与历史详情中原地高亮所有匹配、当前匹配深色聚焦；Enter 下一个、Shift+Enter 上一个、Esc 关闭，带 N/M 计数。</li>

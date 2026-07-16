@@ -10,17 +10,17 @@
 
 ## 最新版本
 
-当前最新版本：**v0.2.6** · 2026-07-03
+当前最新版本：**v0.2.7** · 2026-07-16
 
 | 平台 | 安装包 | 下载 |
 |---|---|---|
-| macOS · Apple Silicon | `Agent-Os-0.2.6-mac-arm64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-mac-arm64.dmg) |
-| macOS · Intel | `Agent-Os-0.2.6-mac-x64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-mac-x64.dmg) |
-| Windows · x64 | `Agent-Os-0.2.6-win-x64-setup.exe` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-win-x64-setup.exe) |
-| Linux · x64 (deb) | `Agent-Os-0.2.6-linux-amd64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-linux-amd64.deb) |
-| Linux · x64 (AppImage) | `Agent-Os-0.2.6-linux-x86_64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-linux-x86_64.AppImage) |
-| Linux · arm64 (deb) | `Agent-Os-0.2.6-linux-arm64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-linux-arm64.deb) |
-| Linux · arm64 (AppImage) | `Agent-Os-0.2.6-linux-arm64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-linux-arm64.AppImage) |
+| macOS · Apple Silicon | `Agent-Os-0.2.7-mac-arm64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-mac-arm64.dmg) |
+| macOS · Intel | `Agent-Os-0.2.7-mac-x64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-mac-x64.dmg) |
+| Windows · x64 | `Agent-Os-0.2.7-win-x64-setup.exe` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-win-x64-setup.exe) |
+| Linux · x64 (deb) | `Agent-Os-0.2.7-linux-amd64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-linux-amd64.deb) |
+| Linux · x64 (AppImage) | `Agent-Os-0.2.7-linux-x86_64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-linux-x86_64.AppImage) |
+| Linux · arm64 (deb) | `Agent-Os-0.2.7-linux-arm64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-linux-arm64.deb) |
+| Linux · arm64 (AppImage) | `Agent-Os-0.2.7-linux-arm64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-linux-arm64.AppImage) |
 
 > macOS 安装包未做开发者签名（无 Developer ID），首次启动需右键 → 打开。
 > Windows / Linux 为 mac 交叉打包产出。
@@ -35,10 +35,10 @@ GET https://api.github.com/repos/lohasle/agent-life/releases/latest
 
 ```json
 {
-  "tag_name": "v0.2.6",
-  "name": "v0.2.6 — Agent OS",
+  "tag_name": "v0.2.7",
+  "name": "v0.2.7 — Agent OS",
   "assets": [
-    { "name": "Agent-Os-0.2.6-mac-arm64.dmg", "browser_download_url": "https://github.com/lohasle/agent-life/releases/download/v0.2.6/Agent-Os-0.2.6-mac-arm64.dmg" }
+    { "name": "Agent-Os-0.2.7-mac-arm64.dmg", "browser_download_url": "https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-mac-arm64.dmg" }
   ]
 }
 ```
