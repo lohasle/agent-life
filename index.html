@@ -367,7 +367,7 @@
     <a class="brand" href="#top">
       <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="#c96442" stroke-width="2.4" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" fill="#c96442"/></svg></span>
       Agent OS
-      <span class="ver">v0.2.8</span>
+      <span class="ver">v0.2.9</span>
     </a>
     <div class="nav-mid">
       <a href="#highlights" data-i18n="nav.highlights">产品能力</a>
@@ -414,10 +414,10 @@
 
   <div class="wrap">
     <div class="release-note rv" role="status">
-      <span class="release-note-badge" data-i18n="release.badge">v0.2.8 最终构建</span>
-      <span data-i18n="release.desc">19 个制品已于 2026-07-18 重新构建发布；包含任务看板、定时执行、重度历史库启动修复与 macOS 节点 PTY 修复。源码 0368955。</span>
+      <span class="release-note-badge" data-i18n="release.badge">v0.2.9 调度可靠性修复</span>
+      <span data-i18n="release.desc">任务创建和 Cron 周期调度现已覆盖 daemon 降级与重连；单实例运行避免多版本争抢 Runtime。19 个制品已完成真机与 SHA-256 核验。源码 4a51dc8。</span>
       <span class="release-note-links">
-        <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8" data-i18n="release.assets">查看 19 个制品</a>
+        <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9" data-i18n="release.assets">查看 19 个制品</a>
         <a href="changelog.html" data-i18n="release.changelog">完整更新日志</a>
       </span>
     </div>
@@ -437,7 +437,7 @@
   <div class="wrap">
     <div class="sec-head rv">
       <span class="kicker" data-i18n="hl.kicker">当前产品能力</span>
-      <h2 data-i18n="hl.h2">与 v0.2.8 软件界面逐项对应</h2>
+      <h2 data-i18n="hl.h2">与 v0.2.9 软件界面逐项对应</h2>
       <p data-i18n="hl.sub">左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。</p>
     </div>
 
@@ -448,7 +448,7 @@
           <div><h3 data-i18n="hl.task.t">Agent 任务看板与定时执行</h3><span class="fk" data-i18n="hl.task.k">派单 · Cron · Runtime daemon · 人工验收</span></div>
         </div>
         <p data-i18n="hl.task.d">创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。</p>
-          <div class="demo"><img src="task-board-v0.2.8.png" alt="Agent OS v0.2.8 task board / 任务看板实机界面" loading="lazy" /></div>
+          <div class="demo"><img src="task-board-v0.2.8.png" alt="Agent OS v0.2.9 task board / 任务看板实机界面" loading="lazy" /></div>
       </div>
 
       <div class="feat rv">
@@ -616,50 +616,50 @@
     <div class="cta-wrap rv">
       <div class="cta-in">
         <div>
-          <span class="kicker" data-i18n="cta.kicker">下载 v0.2.8</span>
+          <span class="kicker" data-i18n="cta.kicker">下载 v0.2.9</span>
           <h2 data-i18n-html="cta.h2">选择你的平台，<span class="acc">开始工作。</span></h2>
           <p data-i18n="cta.p">桌面应用提供 macOS、Windows 与 Linux 制品。会话、任务、索引和统计默认保存在本机；调用模型产生的费用与数据策略由所使用的 CLI 和模型服务商决定。</p>
           <div class="download-notes">
             <p data-i18n-html="cta.note1">macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。</p>
-            <p data-i18n-html="cta.note2">需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8">Release</a> 下载节点包与 <code>install-node.sh</code>。</p>
+            <p data-i18n-html="cta.note2">需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9">Release</a> 下载节点包与 <code>install-node.sh</code>。</p>
             <p><a href="guide.html" data-i18n="cta.guide">查看安装与首次使用指南 →</a></p>
           </div>
         </div>
         <div class="dl">
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-arm64.dmg" data-platform="mac-arm64">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-arm64.dmg" data-platform="mac-arm64">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
             <span class="pt"><b>macOS · Apple Silicon</b><span data-i18n="cta.macArm">M1 / M2 / M3 / M4 · DMG</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-mac-arm64.dmg</span>
+            <span class="ar">↓ Agent-Os-0.2.9-mac-arm64.dmg</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-x64.dmg" data-platform="mac-x64">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-x64.dmg" data-platform="mac-x64">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
             <span class="pt"><b>macOS · Intel</b><span data-i18n="cta.macIntel">Intel x64 · DMG</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-mac-x64.dmg</span>
+            <span class="ar">↓ Agent-Os-0.2.9-mac-x64.dmg</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-win-x64-setup.exe" data-platform="win">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-win-x64-setup.exe" data-platform="win">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M7 13h4" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>Windows</b><span data-i18n="cta.d2">x64 安装包 · v0.2.8</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-win-x64-setup.exe</span>
+            <span class="pt"><b>Windows</b><span data-i18n="cta.d2">x64 安装包 · v0.2.9</span></span>
+            <span class="ar">↓ Agent-Os-0.2.9-win-x64-setup.exe</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-amd64.deb" data-platform="linux">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-amd64.deb" data-platform="linux">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
             <span class="pt"><b>Linux · x64</b><span>x64 · deb</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-linux-amd64.deb</span>
+            <span class="ar">↓ Agent-Os-0.2.9-linux-amd64.deb</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-x86_64.AppImage" data-platform="linux">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-x86_64.AppImage" data-platform="linux">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
             <span class="pt"><b>Linux · x64</b><span>AppImage</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-linux-x86_64.AppImage</span>
+            <span class="ar">↓ Agent-Os-0.2.9-linux-x86_64.AppImage</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-arm64.deb" data-platform="linux">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.deb" data-platform="linux">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
             <span class="pt"><b>Linux · arm64</b><span>deb</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-linux-arm64.deb</span>
+            <span class="ar">↓ Agent-Os-0.2.9-linux-arm64.deb</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-arm64.AppImage" data-platform="linux">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.AppImage" data-platform="linux">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
             <span class="pt"><b>Linux · arm64</b><span>AppImage</span></span>
-            <span class="ar">↓ Agent-Os-0.2.8-linux-arm64.AppImage</span>
+            <span class="ar">↓ Agent-Os-0.2.9-linux-arm64.AppImage</span>
           </a>
         </div>
       </div>
@@ -670,7 +670,7 @@
 
 <footer>
   <div class="wrap foot-in">
-    <div class="foot-brand"><b>Agent OS</b> &nbsp;·&nbsp; <span data-i18n="foot.brand">个人 AI 超级工作台</span> &nbsp;·&nbsp; v0.2.8</div>
+    <div class="foot-brand"><b>Agent OS</b> &nbsp;·&nbsp; <span data-i18n="foot.brand">个人 AI 超级工作台</span> &nbsp;·&nbsp; v0.2.9</div>
     <div class="foot-links">
       <a href="#highlights" data-i18n="nav.highlights">产品能力</a>
       <a href="#quickstart" data-i18n="nav.quickstart">快速开始</a>
@@ -694,9 +694,9 @@
       "hero.sub":'Agent OS 把 <b>AI CLI 会话、原生终端、任务看板、定时执行、对比、记忆搜索和统计</b>放进同一个桌面应用。选择本机或远程 Runtime Host，在真实工作目录里持续推进工作。',
       "hero.cta1":"免费下载 Agent OS",
       "hero.m1":"开源","hero.m2":"本地优先","hero.m2b":"主权数据",
-      "release.badge":"v0.2.8 最终构建","release.desc":"19 个制品已于 2026-07-18 重新构建发布；包含任务看板、定时执行、重度历史库启动修复与 macOS 节点 PTY 修复。源码 0368955。","release.assets":"查看 19 个制品","release.changelog":"完整更新日志",
+      "release.badge":"v0.2.9 调度可靠性修复","release.desc":"任务创建和 Cron 周期调度现已覆盖 daemon 降级与重连；单实例运行避免多版本争抢 Runtime。19 个制品已完成真机与 SHA-256 核验。源码 4a51dc8。","release.assets":"查看 19 个制品","release.changelog":"完整更新日志",
       "fleet.label":"支持的 CLI 适配器 · 可用性取决于本机安装与登录",
-      "hl.kicker":"当前产品能力","hl.h2":"与 v0.2.8 软件界面逐项对应","hl.sub":"左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。",
+      "hl.kicker":"当前产品能力","hl.h2":"与 v0.2.9 软件界面逐项对应","hl.sub":"左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。",
       "hl.task.t":"Agent 任务看板与定时执行","hl.task.k":"派单 · Cron · Runtime daemon · 人工验收","hl.task.d":"创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。",
       "hl.f1.t":"会话与原生 CLI","hl.f1.k":"结构化对话 · 原生 PTY · 持久队列","hl.f1.d":"可选择结构化对话或原生 CLI，指定 Runtime Host、Agent、模型、工作目录与权限模式。运行中的连续输入进入持久队列，终端由原生 PTY 驱动。",
       "hl.f1.r1a":"你","hl.f1.r1b":'重构 <code>runtimeHost</code> 的会话编排',"hl.f1.r2b":"已读取契约，开始拆分 IPC 与 PTY 宿主…",
@@ -717,9 +717,9 @@
       "mem.c2.cap":"协作密度示意 · 产品内本地视图","mem.tag4":"活跃统计","mem.tag5":"跨 CLI 归一","mem.tag6":"可回望轨迹",
       "cli.kicker":"生态","cli.h2":"8 个 CLI 适配器，按本机环境启用","cli.sub":"Agent OS 扫描 PATH 与常见安装位置，识别版本和健康状态。实际可用工具取决于你安装并登录的 CLI。",
       "cli.f1":"统一适配器协议","cli.f2":"安装 / 升级 / 诊断 / BYOK","cli.f3":"账号订阅与登录由各 CLI 厂商负责","gal.kicker":"软件实景","gal.h2":"这不是概念图，是真实运行的桌面端","gal.sub":"以下均为当前桌面应用的真实界面：任务看板、会话/CLI、对比、Web、统计、成长与设置。","gal.note":"▸ 以下均为 Agent OS 桌面端实机界面，点击可放大查看。","gal.hint":"向下滚动浏览界面 ↓ · 点击图片可放大 · 点右侧进度条可跳转",
-      "cta.kicker":"下载 v0.2.8","cta.h2":'选择你的平台，<span class="acc">开始工作。</span>',
+      "cta.kicker":"下载 v0.2.9","cta.h2":'选择你的平台，<span class="acc">开始工作。</span>',
       "cta.p":"桌面应用提供 macOS、Windows 与 Linux 制品。会话、任务、索引和统计默认保存在本机；调用模型产生的费用与数据策略由所使用的 CLI 和模型服务商决定。",
-      "cta.note1":"macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。","cta.note2":'需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8">Release</a> 下载节点包与 <code>install-node.sh</code>。',"cta.guide":"查看安装与首次使用指南 →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 安装包 · v0.2.8",
+      "cta.note1":"macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。","cta.note2":'需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9">Release</a> 下载节点包与 <code>install-node.sh</code>。',"cta.guide":"查看安装与首次使用指南 →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 安装包 · v0.2.9",
       "foot.brand":"桌面 Agent 工作台","foot.note":"MIT License · 会话、任务和索引默认本地保存 · 模型请求遵循所选 CLI 与服务商策略"
     },
     en:{
@@ -729,9 +729,9 @@
       "hero.sub":'Agent OS brings <b>AI CLI sessions, native terminals, task boards, scheduling, comparison, memory search, and stats</b> into one desktop app. Choose a local or remote Runtime Host and keep working in a real project directory.',
       "hero.cta1":"Download Agent OS",
       "hero.m1":"Open source","hero.m2":"Local-first","hero.m2b":"sovereign data",
-      "release.badge":"v0.2.8 final build","release.desc":"All 19 artifacts were rebuilt and published on 2026-07-18, including the task board, scheduling, heavy-history startup fix, and macOS node PTY fix. Source 0368955.","release.assets":"View all 19 artifacts","release.changelog":"Full changelog",
+      "release.badge":"v0.2.9 scheduling reliability fix","release.desc":"Task creation and Cron scheduling now survive daemon fallback and reconnection; single-instance startup prevents multiple app versions from competing for one Runtime. All 19 artifacts passed packaged-app and SHA-256 verification. Source 4a51dc8.","release.assets":"View all 19 artifacts","release.changelog":"Full changelog",
       "fleet.label":"Supported CLI adapters · availability depends on local installation and sign-in",
-      "hl.kicker":"Current product","hl.h2":"Matched to the v0.2.8 desktop app","hl.sub":"Sessions, Board, Schedule, Compare, Memory, Web, and Stats in the left rail map directly to the capabilities and real screens below.",
+      "hl.kicker":"Current product","hl.h2":"Matched to the v0.2.9 desktop app","hl.sub":"Sessions, Board, Schedule, Compare, Memory, Web, and Stats in the left rail map directly to the capabilities and real screens below.",
       "hl.task.t":"Agent task board & scheduling","hl.task.k":"Assign · Cron · Runtime daemon · human review","hl.task.d":"Create tasks with a Runtime Host, Agent CLI, model, and workspace, then track them through Todo, In Progress, Review, and Done. One-off and Cron schedules live in the Runtime daemon and keep running after the desktop window closes.",
       "hl.f1.t":"Sessions & native CLI","hl.f1.k":"Structured chat · native PTY · persistent queue","hl.f1.d":"Choose structured chat or native CLI, then select the Runtime Host, agent, model, workspace, and permission mode. Follow-up input is queued persistently while a run is active.",
       "hl.f1.r1a":"you","hl.f1.r1b":'refactor the <code>runtimeHost</code> session orchestration',"hl.f1.r2b":"read the contract, splitting IPC and PTY host…",
@@ -752,9 +752,9 @@
       "mem.c2.cap":"Collaboration density · illustrative, local in-product view","mem.tag4":"Activity stats","mem.tag5":"Cross-CLI normalized","mem.tag6":"Replayable trail",
       "cli.kicker":"Ecosystem","cli.h2":"8 CLI adapters, enabled by your local setup","cli.sub":"Agent OS scans PATH and common install locations for versions and health. Available tools depend on the CLIs you install and sign in to.",
       "cli.f1":"Unified adapter protocol","cli.f2":"Install / upgrade / diagnose / BYOK","cli.f3":"Accounts, subscriptions, and sign-in are handled by each CLI vendor","gal.kicker":"In the app","gal.h2":"Not mockups — the actual desktop app","gal.sub":"Real screens from the current desktop app: task board, sessions/CLI, compare, Web, stats, growth, and settings.","gal.note":"▸ Every shot below is a live capture of the Agent OS desktop. Click to enlarge.","gal.hint":"Scroll to browse ↓ · click to enlarge · tap the rail to jump",
-      "cta.kicker":"Download v0.2.8","cta.h2":'Choose your platform. <span class="acc">Start working.</span>',
+      "cta.kicker":"Download v0.2.9","cta.h2":'Choose your platform. <span class="acc">Start working.</span>',
       "cta.p":"Desktop builds are available for macOS, Windows, and Linux. Sessions, tasks, indexes, and stats stay local by default; model costs and data policies are determined by the CLI and model provider you use.",
-      "cta.note1":"The macOS build is not notarized with an Apple Developer ID. Right-click the app and choose Open on first launch.","cta.note2":'Need remote execution? Open the <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8">Release</a> for node packages and <code>install-node.sh</code>.',"cta.guide":"Read the install and first-use guide →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 installer · v0.2.8",
+      "cta.note1":"The macOS build is not notarized with an Apple Developer ID. Right-click the app and choose Open on first launch.","cta.note2":'Need remote execution? Open the <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9">Release</a> for node packages and <code>install-node.sh</code>.',"cta.guide":"Read the install and first-use guide →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 installer · v0.2.9",
       "foot.brand":"Desktop agent workbench","foot.note":"MIT License · sessions, tasks, and indexes stay local by default · model traffic follows the selected CLI and provider"
     }
   };
@@ -867,7 +867,7 @@
 
   /* ---- product-shot gallery: scroll-pinned scrub (dify-style) ---- */
   var SHOTS=[
-    {src:'task-board-v0.2.8.png',alt:{zh:'Agent OS v0.2.8 任务看板与定时执行',en:'Agent OS v0.2.8 task board and scheduling'}},
+    {src:'task-board-v0.2.8.png',alt:{zh:'Agent OS v0.2.9 任务看板与定时执行',en:'Agent OS v0.2.9 task board and scheduling'}},
     {src:'mqoj247o-image.png',alt:{zh:'会话与原生 CLI 工作台',en:'Session and native CLI workbench'}},
     {src:'mqoj247r-image.png',alt:{zh:'Web、结构化会话与 CLI 多面板对比',en:'Web, structured chat, and CLI comparison panels'}},
     {src:'mqoj247u-image.png',alt:{zh:'内置 Web 与书签管理',en:'Built-in Web surface and bookmarks'}},

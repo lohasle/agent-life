@@ -57,6 +57,16 @@
   <p class="sub">Agent OS 的每一次迭代。最新安装包见 <a href="https://github.com/lohasle/agent-life/releases">Releases</a>，下载与平台对照见 <a href="https://github.com/lohasle/agent-life#最新版本">README</a>。</p>
 
   <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.9</span><span class="ver__date">2026-07-18</span></div>
+    <ul class="ver__list">
+      <li><b>任务 fallback 可用</b> — daemon 暂时不可用时，进程内 Runtime 仍可创建、编辑、删除和运行任务，不再提示“当前 Runtime Host 不支持任务调度”。</li>
+      <li><b>周期调度互斥</b> — daemon 与 fallback 共用同一任务仓储，并在切换时严格交接调度器，避免丢任务或重复触发。</li>
+      <li><b>桌面单实例</b> — 重复启动只聚焦已有窗口，不再让不同版本争抢同一个 daemon。</li>
+      <li><b>完整发布验收</b> — 全量 350 项测试、41 项任务专项测试及安装包真机任务/Cron/单实例验证通过；19 个资产按源码 <code>4a51dc8</code> 重建并完成 SHA-256 核验。</li>
+    </ul>
+  </section>
+
+  <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.2.8</span><span class="ver__date">2026-07-18</span></div>
     <ul class="ver__list">
       <li><b>Agent 任务看板</b> — 新增 Todo、In Progress、Review、Done 四列工作流，可创建任务、指定 Runtime Host / Agent CLI / 模型 / 工作区并跟踪执行状态。</li>
