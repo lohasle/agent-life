@@ -14,6 +14,8 @@
 
 本版本新增完整的 Agent 任务系统：可在四列看板中派发、跟踪和人工验收任务，也可为指定 Runtime Host 与 Agent CLI 创建一次性或 Cron 定时计划。任务由 Runtime daemon 持有，关闭桌面窗口后仍可按计划运行；重度历史库的旧会话回填改为后台限流执行，不再阻塞桌面窗口启动。
 
+最终构建已基于源码提交 `0368955` 完成发布：19 个 Release 资产均已重新构建或复核，并由 GitHub 提供 SHA-256 digest。
+
 | 平台 | 安装包 | 下载 |
 |---|---|---|
 | macOS · Apple Silicon | `Agent-Os-0.2.8-mac-arm64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-arm64.dmg) |

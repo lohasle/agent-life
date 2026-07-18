@@ -122,6 +122,20 @@
   .hero-meta .m{font-family:var(--font-mono);font-size:12px;color:var(--meta);letter-spacing:.01em;display:flex;align-items:center;gap:7px}
   .hero-meta .m b{color:var(--fg-2);font-weight:600}
   .hero-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .release-note{
+    margin-top:32px;padding:15px 18px;border:1px solid rgba(201,100,66,.28);
+    border-radius:var(--radius-md);background:rgba(201,100,66,.07);
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    color:var(--fg-2);font-size:13.5px;
+  }
+  .release-note-badge{
+    font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;
+    color:var(--accent);background:var(--surface);border:1px solid rgba(201,100,66,.24);
+    border-radius:999px;padding:4px 9px;white-space:nowrap;
+  }
+  .release-note-links{display:flex;gap:14px;margin-left:auto;font-size:13px;font-weight:600}
+  .release-note-links a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:700px){.release-note-links{width:100%;margin-left:0}}
 
   .term{
     background:linear-gradient(180deg,var(--dark-2),var(--dark));
@@ -381,6 +395,17 @@
   </div>
 
   <div class="wrap">
+    <div class="release-note rv" role="status">
+      <span class="release-note-badge" data-i18n="release.badge">v0.2.8 最终构建</span>
+      <span data-i18n="release.desc">19 个制品已于 2026-07-18 重新构建发布；包含任务看板、定时执行、重度历史库启动修复与 macOS 节点 PTY 修复。源码 0368955。</span>
+      <span class="release-note-links">
+        <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8" data-i18n="release.assets">查看 19 个制品</a>
+        <a href="changelog.html" data-i18n="release.changelog">完整更新日志</a>
+      </span>
+    </div>
+  </div>
+
+  <div class="wrap">
     <div class="fleet rv">
       <div class="fleet-label" data-i18n="fleet.label">已接入 · 持续扩展</div>
       <div class="fleet-track" id="fleet"></div>
@@ -611,6 +636,7 @@
       "hero.sub":'Agent OS 是桌面端 <b>个人 AI 超级工作台</b>——开箱接入 <b>8 款主流 AI CLI</b>（Claude、Codex、Gemini、Cursor、Pi…），把分散在终端里的协作，收束成一份留在本地的工作记忆。',
       "hero.cta1":"免费下载 Agent OS",
       "hero.m1":"开源","hero.m2":"本地优先","hero.m2b":"主权数据",
+      "release.badge":"v0.2.8 最终构建","release.desc":"19 个制品已于 2026-07-18 重新构建发布；包含任务看板、定时执行、重度历史库启动修复与 macOS 节点 PTY 修复。源码 0368955。","release.assets":"查看 19 个制品","release.changelog":"完整更新日志",
       "fleet.label":"已接入 · 持续扩展",
       "hl.kicker":"亮点能力","hl.h2":"为重度 AI 用户打磨的每一处","hl.sub":"从自由会话到全局搜索，每一个能力都为「同时用很多 AI CLI」的人而生。",
       "hl.task.t":"Agent 任务看板与定时执行","hl.task.k":"派单 · Cron · Runtime daemon · 人工验收","hl.task.d":"创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。",
@@ -644,6 +670,7 @@
       "hero.sub":'Agent OS is a desktop <b>personal AI super workbench</b> — connect <b>8 mainstream AI CLIs</b> out of the box (Claude, Codex, Gemini, Cursor, Pi…), and turn scattered terminal sessions into one local-first working memory.',
       "hero.cta1":"Download Agent OS",
       "hero.m1":"Open source","hero.m2":"Local-first","hero.m2b":"sovereign data",
+      "release.badge":"v0.2.8 final build","release.desc":"All 19 artifacts were rebuilt and published on 2026-07-18, including the task board, scheduling, heavy-history startup fix, and macOS node PTY fix. Source 0368955.","release.assets":"View all 19 artifacts","release.changelog":"Full changelog",
       "fleet.label":"Connected · expanding",
       "hl.kicker":"Signature capabilities","hl.h2":"Built for people who use many AI CLIs","hl.sub":"From free-form sessions to global search — every capability is made for working across many AI CLIs at once.",
       "hl.task.t":"Agent task board & scheduling","hl.task.k":"Assign · Cron · Runtime daemon · human review","hl.task.d":"Create tasks with a Runtime Host, Agent CLI, model, and workspace, then track them through Todo, In Progress, Review, and Done. One-off and Cron schedules live in the Runtime daemon and keep running after the desktop window closes.",
