@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agent OS 使用指南</title>
+<meta name="description" content="Agent OS v0.2.8 安装、首次使用、会话、任务看板、定时执行、远程节点与常见问题指南。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c96442'/%3E%3Cpath d='M8 10h16M8 16h10M8 22h16' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#f5f4ed;--surface:#faf9f5;--surface-2:#e8e6dc;--fg:#141413;--fg-2:#3d3d3a;
+    --muted:#5e5d59;--meta:#6f6e67;--border:#e8e6dc;--accent:#c96442;--dark:#141413;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --ui:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    --max:1120px;--gut:clamp(20px,5vw,52px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--fg);font-family:var(--ui);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid #3898ec;outline-offset:3px}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+  .nav{position:sticky;top:0;z-index:20;background:rgba(245,244,237,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .nav-in{height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:19px;font-weight:600}
+  .mark{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--accent)}
+  .nav-links{display:flex;align-items:center;gap:22px;color:var(--muted);font-size:13px}
+  .nav-links a:hover{color:var(--fg)}
+  .lang{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 12px;cursor:pointer;font-family:var(--mono);font-size:12px}
+  .hero{padding:76px 0 52px;border-bottom:1px solid var(--border)}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+  h1,h2,h3{font-family:var(--serif);line-height:1.16;letter-spacing:-.018em}
+  h1{font-size:clamp(40px,6vw,66px);max-width:820px;margin-top:18px}
+  .hero p{font-size:18px;color:var(--muted);max-width:720px;margin-top:20px}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--surface);border-radius:11px;padding:10px 17px;font-size:14px;font-weight:600}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;padding:56px var(--gut) 100px;max-width:var(--max);margin:0 auto}
+  .toc{position:sticky;top:92px;align-self:start;display:flex;flex-direction:column;gap:5px}
+  .toc .label{font-family:var(--mono);font-size:10px;color:var(--meta);letter-spacing:.14em;margin-bottom:8px}
+  .toc a{padding:8px 10px;border-radius:8px;color:var(--muted);font-size:13px}
+  .toc a:hover{background:var(--surface);color:var(--fg)}
+  .content{min-width:0}
+  .section{padding:14px 0 64px;scroll-margin-top:82px;border-bottom:1px solid var(--border)}
+  .section:last-child{border-bottom:0}
+  .section h2{font-size:clamp(28px,4vw,40px);margin-bottom:12px}
+  .lead{color:var(--muted);font-size:16px;max-width:720px;margin-bottom:28px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:23px}
+  .card h3{font-size:21px;margin-bottom:9px}
+  .card p,.card li{color:var(--muted);font-size:14px}
+  .card ul{padding-left:18px;display:grid;gap:6px}
+  .tag{display:inline-flex;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.08em;margin-bottom:12px}
+  .downloads{display:grid;gap:9px;margin-top:14px}
+  .download{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg)}
+  .download:hover{border-color:rgba(201,100,66,.45)}
+  .download b{font-size:13px}.download span{margin-left:auto;color:var(--meta);font-family:var(--mono);font-size:10px;text-align:right;overflow-wrap:anywhere}
+  .steps{display:grid;gap:12px}
+  .step{display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
+  .step-num{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-family:var(--mono);font-size:12px;color:var(--accent)}
+  .step h3{font-size:20px;margin:2px 0 7px}.step p{color:var(--muted);font-size:14px}
+  .notice{margin-top:18px;border-left:3px solid var(--accent);background:rgba(201,100,66,.07);padding:15px 18px;color:var(--fg-2);font-size:14px;border-radius:0 10px 10px 0}
+  code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border-radius:5px;padding:2px 5px}
+  .faq{display:grid;gap:10px}
+  details{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  summary{cursor:pointer;font-weight:650}
+  details p{color:var(--muted);font-size:14px;margin-top:10px}
+  footer{border-top:1px solid var(--border);padding:34px 0;color:var(--meta);font-size:12px}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  @media(max-width:820px){.nav-links{display:none}.layout{grid-template-columns:1fr;padding-top:36px}.toc{position:static;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.toc .label{grid-column:1/-1}.toc a{background:var(--surface);text-align:center}.grid{grid-template-columns:1fr}}
+  @media(max-width:520px){.toc{grid-template-columns:repeat(2,1fr)}.step{grid-template-columns:1fr}.download{align-items:flex-start}.download span{max-width:52%}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="index.html"><span class="mark">≡</span>Agent OS <small>v0.2.8</small></a>
+    <div class="nav-links"><a href="index.html" data-i18n="nav.product">产品展示</a><a href="#install" data-i18n="nav.install">安装</a><a href="#tasks" data-i18n="nav.tasks">任务</a><a href="#faq" data-i18n="nav.faq">常见问题</a><a href="index.html#download" data-i18n="nav.download">下载</a></div>
+    <button class="lang" id="langToggle" type="button">EN</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="hero.eyebrow">USER GUIDE · v0.2.8</span>
+    <h1 data-i18n="hero.title">从安装到第一次 Agent 任务</h1>
+    <p data-i18n="hero.desc">本指南只描述当前版本已经提供的界面和流程，帮助你完成 CLI 准备、创建会话、派发任务、配置定时执行，并按需接入远程节点。</p>
+    <div class="hero-actions"><a class="btn primary" href="index.html#download" data-i18n="hero.download">下载 Agent OS</a><a class="btn" href="index.html" data-i18n="hero.back">返回产品页</a></div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="toc" aria-label="Guide navigation">
+    <span class="label" data-i18n="toc.label">本页导航</span>
+    <a href="#prepare" data-i18n="toc.prepare">使用前准备</a><a href="#install" data-i18n="toc.install">安装</a><a href="#first-run" data-i18n="toc.first">首次启动</a><a href="#sessions" data-i18n="toc.sessions">会话与 CLI</a><a href="#tasks" data-i18n="toc.tasks">任务与定时</a><a href="#features" data-i18n="toc.features">其他功能</a><a href="#remote" data-i18n="toc.remote">远程节点</a><a href="#faq" data-i18n="toc.faq">常见问题</a>
+  </aside>
+
+  <main class="content">
+    <section class="section" id="prepare">
+      <h2 data-i18n="prepare.title">使用前准备</h2>
+      <p class="lead" data-i18n="prepare.lead">Agent OS 是工作流和运行时管理器，不提供 Claude、Codex 等模型服务本身。开始前请准备至少一个可正常运行的 Agent CLI。</p>
+      <div class="grid">
+        <article class="card"><span class="tag">AGENT CLI</span><h3 data-i18n="prepare.cli.title">安装并登录 CLI</h3><p data-i18n="prepare.cli.desc">可在 Agent OS 设置中查看、安装、升级和诊断受支持的 CLI；厂商账号授权、订阅与登录仍由对应 CLI 完成。</p></article>
+        <article class="card"><span class="tag">WORKSPACE</span><h3 data-i18n="prepare.workspace.title">准备工作目录</h3><p data-i18n="prepare.workspace.desc">会话和任务会在你选择的真实目录中运行。代码项目建议先确认 Git 状态，并明确 Agent 的权限模式。</p></article>
+      </div>
+      <div class="notice" data-i18n="prepare.notice">本地优先不等于模型请求永不出机：会话、任务和索引默认保存在本机，但提示词和文件是否发送到外部服务取决于你使用的 CLI、模型和权限配置。</div>
+    </section>
+
+    <section class="section" id="install">
+      <h2 data-i18n="install.title">选择并安装桌面应用</h2>
+      <p class="lead" data-i18n="install.lead">根据操作系统与 CPU 架构选择对应制品。所有链接都指向 v0.2.8 GitHub Release。</p>
+      <div class="grid">
+        <article class="card"><span class="tag">macOS</span><h3 data-i18n="install.mac.title">DMG 安装</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-arm64.dmg"><b>Apple Silicon</b><span>mac-arm64.dmg</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-x64.dmg"><b>Intel</b><span>mac-x64.dmg</span></a></div><p style="margin-top:12px" data-i18n="install.mac.note">当前制品未做 Apple Developer ID 公证。首次启动请在 Finder 中右键应用并选择“打开”。</p></article>
+        <article class="card"><span class="tag">Windows</span><h3 data-i18n="install.win.title">x64 安装器</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-win-x64-setup.exe"><b>Windows x64</b><span>setup.exe</span></a></div><p style="margin-top:12px" data-i18n="install.win.note">运行安装器后按向导安装。当前 Windows 制品由 macOS 主机交叉构建。</p></article>
+        <article class="card"><span class="tag">Linux x64</span><h3>deb / AppImage</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-amd64.deb"><b>deb</b><span>linux-amd64.deb</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-x86_64.AppImage"><b>AppImage</b><span>linux-x86_64.AppImage</span></a></div></article>
+        <article class="card"><span class="tag">Linux arm64</span><h3>deb / AppImage</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-arm64.deb"><b>deb</b><span>linux-arm64.deb</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-arm64.AppImage"><b>AppImage</b><span>linux-arm64.AppImage</span></a></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="first-run">
+      <h2 data-i18n="first.title">首次启动</h2>
+      <div class="steps">
+        <article class="step"><span class="step-num">01</span><div><h3 data-i18n="first.s1.title">自动发现 CLI</h3><p data-i18n="first.s1.desc">引导页扫描 PATH 与常见安装位置，显示已安装、缺失和异常状态。完成引导后进入工作台。</p></div></article>
+        <article class="step"><span class="step-num">02</span><div><h3 data-i18n="first.s2.title">检查设置</h3><p data-i18n="first.s2.desc">打开设置 → CLI 管理，按需执行重新扫描、安装、升级或诊断；远程节点、语言、主题和诊断也在设置中管理。</p></div></article>
+        <article class="step"><span class="step-num">03</span><div><h3 data-i18n="first.s3.title">确认 CLI 可用</h3><p data-i18n="first.s3.desc">在终端运行对应 CLI 并完成厂商登录。Agent OS 能启动和管理 CLI，但不会绕过工具本身的授权流程。</p></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="sessions">
+      <h2 data-i18n="sessions.title">创建会话或原生 CLI</h2>
+      <p class="lead" data-i18n="sessions.lead">左侧第一个入口支持“会话”和“CLI”两种模式，共用 Runtime Host、Agent、模型和工作目录选择。</p>
+      <div class="grid">
+        <article class="card"><span class="tag">SESSION</span><h3 data-i18n="sessions.chat.title">结构化会话</h3><ul><li data-i18n="sessions.chat.1">消息与工具事件以对话形式展示。</li><li data-i18n="sessions.chat.2">运行中继续输入会进入持久队列，不覆盖当前回合。</li><li data-i18n="sessions.chat.3">可从历史、搜索结果或任务运行记录重新打开。</li></ul></article>
+        <article class="card"><span class="tag">CLI / PTY</span><h3 data-i18n="sessions.cli.title">原生终端</h3><ul><li data-i18n="sessions.cli.1">使用原生 PTY 与 xterm 交互。</li><li data-i18n="sessions.cli.2">适合需要完整 ANSI 输出和直接键盘控制的场景。</li><li data-i18n="sessions.cli.3">关闭窗口后，受 Runtime daemon 管理的后台能力不依赖渲染窗口。</li></ul></article>
+      </div>
+    </section>
+
+    <section class="section" id="tasks">
+      <h2 data-i18n="tasks.title">任务看板与定时执行</h2>
+      <p class="lead" data-i18n="tasks.lead">任务保存工作意图、执行者、运行位置、工作目录、计划和审阅状态；每次运行关联一个真实会话。</p>
+      <div class="steps">
+        <article class="step"><span class="step-num">01</span><div><h3 data-i18n="tasks.s1.title">创建任务</h3><p data-i18n="tasks.s1.desc">在看板点击“新建任务”，填写标题与提示词，并选择 Runtime Host、Agent CLI、模型、工作目录、权限和会话策略。</p></div></article>
+        <article class="step"><span class="step-num">02</span><div><h3 data-i18n="tasks.s2.title">运行或计划</h3><p data-i18n="tasks.s2.desc">可仅创建、创建并运行，或配置一次性时间点/Cron、IANA 时区和错过执行策略。暂停、恢复和立即运行都在定时页完成。</p></div></article>
+        <article class="step"><span class="step-num">03</span><div><h3 data-i18n="tasks.s3.title">审阅结果</h3><p data-i18n="tasks.s3.desc">任务执行时进入 In Progress，成功或失败后进入 Review。打开关联会话检查结果，再由人工确认 Done。</p></div></article>
+      </div>
+      <div class="notice" data-i18n="tasks.notice">同一工作目录的计划任务会串行执行。计划由目标 Runtime daemon 持有；关闭桌面窗口后，本机或远程节点仍可按计划触发。</div>
+    </section>
+
+    <section class="section" id="features">
+      <h2 data-i18n="features.title">对比、记忆、Web 与统计</h2>
+      <div class="grid">
+        <article class="card"><span class="tag">COMPARE</span><h3 data-i18n="features.compare.title">多面板对比</h3><p data-i18n="features.compare.desc">并排添加 Web、结构化会话或 CLI 面板，单独发送或批量发送同一问题。</p></article>
+        <article class="card"><span class="tag">MEMORY</span><h3 data-i18n="features.memory.title">历史与记忆</h3><p data-i18n="features.memory.desc">搜索支持来源的会话并跳回上下文；分别管理会话、经验、候选和记忆策略。</p></article>
+        <article class="card"><span class="tag">WEB</span><h3 data-i18n="features.web.title">内置 Web</h3><p data-i18n="features.web.desc">通过书签打开常用站点并保留站点会话，可把 Web 页面加入对比工作流。</p></article>
+        <article class="card"><span class="tag">STATS</span><h3 data-i18n="features.stats.title">统计与成长</h3><p data-i18n="features.stats.desc">查看会话、消息、Token、活跃趋势、项目与模型使用情况，并浏览成长 Cardex。</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="remote">
+      <h2 data-i18n="remote.title">接入远程 Runtime 节点</h2>
+      <p class="lead" data-i18n="remote.lead">远程节点适合把 Agent 运行在局域网中的另一台机器。节点主动连接主控，接入后可成为会话和任务的 Runtime Host。</p>
+      <div class="steps">
+        <article class="step"><span class="step-num">01</span><div><h3 data-i18n="remote.s1.title">生成接入信息</h3><p data-i18n="remote.s1.desc">在设置 → 远程节点中创建接入信息。接入凭据为敏感信息，不要发布到聊天、日志或代码仓库。</p></div></article>
+        <article class="step"><span class="step-num">02</span><div><h3 data-i18n="remote.s2.title">安装节点包</h3><p data-i18n="remote.s2.desc">从 v0.2.8 Release 选择 macOS arm64、Linux arm64/x64 或 Windows x64 bootstrap 节点包，也可使用 install-node.sh。</p></div></article>
+        <article class="step"><span class="step-num">03</span><div><h3 data-i18n="remote.s3.title">检查并使用</h3><p data-i18n="remote.s3.desc">节点上线后检查 Agent 发现状态和目录访问，再在新建会话或任务时选择该 Runtime Host。</p></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <h2 data-i18n="faq.title">常见问题</h2>
+      <div class="faq">
+        <details><summary data-i18n="faq.q1">为什么 Agent OS 没有自动登录 Claude/Codex？</summary><p data-i18n="faq.a1">Agent OS 只负责发现、启动和管理 CLI。厂商账号、订阅、OAuth 或 API Key 授权必须按对应 CLI 的官方流程完成。</p></details>
+        <details><summary data-i18n="faq.q2">macOS 提示无法验证开发者怎么办？</summary><p data-i18n="faq.a2">当前 DMG 未做 Apple Developer ID 公证。请在 Finder 中右键 Agent OS 选择“打开”，确认后系统会记住选择。</p></details>
+        <details><summary data-i18n="faq.q3">数据是不是完全不会离开电脑？</summary><p data-i18n="faq.a3">会话元数据、任务、索引和统计默认保存在本机；但模型请求是否发送到外部服务由所选 CLI、模型服务商和权限配置决定。</p></details>
+        <details><summary data-i18n="faq.q4">在哪里查看版本更新？</summary><p data-i18n-html="faq.a4">应用会检查 agent-life GitHub Release。也可查看 <a href="changelog.html">更新日志</a> 或直接下载最新制品。</p></details>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer><div class="wrap foot"><span>Agent OS v0.2.8 · MIT License</span><span><a href="index.html" data-i18n="foot.product">产品页</a> · <a href="changelog.html" data-i18n="foot.changelog">更新日志</a> · <a href="https://github.com/lohasle/Agent-OS">GitHub</a></span></div></footer>
+
+<script>
+(function(){
+  var ZH={
+    "nav.product":"产品展示","nav.install":"安装","nav.tasks":"任务","nav.faq":"常见问题","nav.download":"下载",
+    "hero.eyebrow":"使用指南 · v0.2.8","hero.title":"从安装到第一次 Agent 任务","hero.desc":"本指南只描述当前版本已经提供的界面和流程，帮助你完成 CLI 准备、创建会话、派发任务、配置定时执行，并按需接入远程节点。","hero.download":"下载 Agent OS","hero.back":"返回产品页",
+    "toc.label":"本页导航","toc.prepare":"使用前准备","toc.install":"安装","toc.first":"首次启动","toc.sessions":"会话与 CLI","toc.tasks":"任务与定时","toc.features":"其他功能","toc.remote":"远程节点","toc.faq":"常见问题",
+    "prepare.title":"使用前准备","prepare.lead":"Agent OS 是工作流和运行时管理器，不提供 Claude、Codex 等模型服务本身。开始前请准备至少一个可正常运行的 Agent CLI。","prepare.cli.title":"安装并登录 CLI","prepare.cli.desc":"可在 Agent OS 设置中查看、安装、升级和诊断受支持的 CLI；厂商账号授权、订阅与登录仍由对应 CLI 完成。","prepare.workspace.title":"准备工作目录","prepare.workspace.desc":"会话和任务会在你选择的真实目录中运行。代码项目建议先确认 Git 状态，并明确 Agent 的权限模式。","prepare.notice":"本地优先不等于模型请求永不出机：会话、任务和索引默认保存在本机，但提示词和文件是否发送到外部服务取决于你使用的 CLI、模型和权限配置。",
+    "install.title":"选择并安装桌面应用","install.lead":"根据操作系统与 CPU 架构选择对应制品。所有链接都指向 v0.2.8 GitHub Release。","install.mac.title":"DMG 安装","install.mac.note":"当前制品未做 Apple Developer ID 公证。首次启动请在 Finder 中右键应用并选择“打开”。","install.win.title":"x64 安装器","install.win.note":"运行安装器后按向导安装。当前 Windows 制品由 macOS 主机交叉构建。",
+    "first.title":"首次启动","first.s1.title":"自动发现 CLI","first.s1.desc":"引导页扫描 PATH 与常见安装位置，显示已安装、缺失和异常状态。完成引导后进入工作台。","first.s2.title":"检查设置","first.s2.desc":"打开设置 → CLI 管理，按需执行重新扫描、安装、升级或诊断；远程节点、语言、主题和诊断也在设置中管理。","first.s3.title":"确认 CLI 可用","first.s3.desc":"在终端运行对应 CLI 并完成厂商登录。Agent OS 能启动和管理 CLI，但不会绕过工具本身的授权流程。",
+    "sessions.title":"创建会话或原生 CLI","sessions.lead":"左侧第一个入口支持“会话”和“CLI”两种模式，共用 Runtime Host、Agent、模型和工作目录选择。","sessions.chat.title":"结构化会话","sessions.chat.1":"消息与工具事件以对话形式展示。","sessions.chat.2":"运行中继续输入会进入持久队列，不覆盖当前回合。","sessions.chat.3":"可从历史、搜索结果或任务运行记录重新打开。","sessions.cli.title":"原生终端","sessions.cli.1":"使用原生 PTY 与 xterm 交互。","sessions.cli.2":"适合需要完整 ANSI 输出和直接键盘控制的场景。","sessions.cli.3":"关闭窗口后，受 Runtime daemon 管理的后台能力不依赖渲染窗口。",
+    "tasks.title":"任务看板与定时执行","tasks.lead":"任务保存工作意图、执行者、运行位置、工作目录、计划和审阅状态；每次运行关联一个真实会话。","tasks.s1.title":"创建任务","tasks.s1.desc":"在看板点击“新建任务”，填写标题与提示词，并选择 Runtime Host、Agent CLI、模型、工作目录、权限和会话策略。","tasks.s2.title":"运行或计划","tasks.s2.desc":"可仅创建、创建并运行，或配置一次性时间点/Cron、IANA 时区和错过执行策略。暂停、恢复和立即运行都在定时页完成。","tasks.s3.title":"审阅结果","tasks.s3.desc":"任务执行时进入 In Progress，成功或失败后进入 Review。打开关联会话检查结果，再由人工确认 Done。","tasks.notice":"同一工作目录的计划任务会串行执行。计划由目标 Runtime daemon 持有；关闭桌面窗口后，本机或远程节点仍可按计划触发。",
+    "features.title":"对比、记忆、Web 与统计","features.compare.title":"多面板对比","features.compare.desc":"并排添加 Web、结构化会话或 CLI 面板，单独发送或批量发送同一问题。","features.memory.title":"历史与记忆","features.memory.desc":"搜索支持来源的会话并跳回上下文；分别管理会话、经验、候选和记忆策略。","features.web.title":"内置 Web","features.web.desc":"通过书签打开常用站点并保留站点会话，可把 Web 页面加入对比工作流。","features.stats.title":"统计与成长","features.stats.desc":"查看会话、消息、Token、活跃趋势、项目与模型使用情况，并浏览成长 Cardex。",
+    "remote.title":"接入远程 Runtime 节点","remote.lead":"远程节点适合把 Agent 运行在局域网中的另一台机器。节点主动连接主控，接入后可成为会话和任务的 Runtime Host。","remote.s1.title":"生成接入信息","remote.s1.desc":"在设置 → 远程节点中创建接入信息。接入凭据为敏感信息，不要发布到聊天、日志或代码仓库。","remote.s2.title":"安装节点包","remote.s2.desc":"从 v0.2.8 Release 选择 macOS arm64、Linux arm64/x64 或 Windows x64 bootstrap 节点包，也可使用 install-node.sh。","remote.s3.title":"检查并使用","remote.s3.desc":"节点上线后检查 Agent 发现状态和目录访问，再在新建会话或任务时选择该 Runtime Host。",
+    "faq.title":"常见问题","faq.q1":"为什么 Agent OS 没有自动登录 Claude/Codex？","faq.a1":"Agent OS 只负责发现、启动和管理 CLI。厂商账号、订阅、OAuth 或 API Key 授权必须按对应 CLI 的官方流程完成。","faq.q2":"macOS 提示无法验证开发者怎么办？","faq.a2":"当前 DMG 未做 Apple Developer ID 公证。请在 Finder 中右键 Agent OS 选择“打开”，确认后系统会记住选择。","faq.q3":"数据是不是完全不会离开电脑？","faq.a3":"会话元数据、任务、索引和统计默认保存在本机；但模型请求是否发送到外部服务由所选 CLI、模型服务商和权限配置决定。","faq.q4":"在哪里查看版本更新？","faq.a4":'应用会检查 agent-life GitHub Release。也可查看 <a href="changelog.html">更新日志</a> 或直接下载最新制品。',"foot.product":"产品页","foot.changelog":"更新日志"
+  };
+  var EN={
+    "nav.product":"Product","nav.install":"Install","nav.tasks":"Tasks","nav.faq":"FAQ","nav.download":"Download",
+    "hero.eyebrow":"USER GUIDE · v0.2.8","hero.title":"From installation to your first Agent task","hero.desc":"This guide documents only the flows available in the current release: CLI preparation, sessions, task assignment, scheduling, and optional remote Runtime nodes.","hero.download":"Download Agent OS","hero.back":"Back to product",
+    "toc.label":"ON THIS PAGE","toc.prepare":"Before you start","toc.install":"Install","toc.first":"First launch","toc.sessions":"Sessions & CLI","toc.tasks":"Tasks & schedules","toc.features":"Other features","toc.remote":"Remote nodes","toc.faq":"FAQ",
+    "prepare.title":"Before you start","prepare.lead":"Agent OS manages workflows and runtimes; it does not provide model services such as Claude or Codex. Prepare at least one working Agent CLI first.","prepare.cli.title":"Install and sign in to a CLI","prepare.cli.desc":"Settings can inspect, install, upgrade, and diagnose supported CLIs. Vendor authorization, subscriptions, and sign-in still happen in the corresponding CLI.","prepare.workspace.title":"Prepare a workspace","prepare.workspace.desc":"Sessions and tasks run in the real directory you choose. For code projects, check Git status and choose an appropriate permission mode first.","prepare.notice":"Local-first does not mean model requests never leave your machine. Sessions, tasks, and indexes stay local by default; whether prompts and files reach external services depends on your CLI, model, and permissions.",
+    "install.title":"Choose and install the desktop app","install.lead":"Select the artifact for your operating system and CPU architecture. Every link points to the v0.2.8 GitHub Release.","install.mac.title":"Install from DMG","install.mac.note":"The current build is not notarized with an Apple Developer ID. On first launch, right-click the app in Finder and choose Open.","install.win.title":"x64 installer","install.win.note":"Run the setup wizard to install. The current Windows artifact is cross-built on macOS.",
+    "first.title":"First launch","first.s1.title":"Discover local CLIs","first.s1.desc":"Onboarding scans PATH and common install locations, then shows installed, missing, and unhealthy tools.","first.s2.title":"Check Settings","first.s2.desc":"Open Settings → CLI management to rescan, install, upgrade, or diagnose. Remote nodes, language, theme, and diagnostics are also managed in Settings.","first.s3.title":"Verify sign-in","first.s3.desc":"Run the CLI in a terminal and complete vendor sign-in. Agent OS can launch and manage the CLI, but it does not bypass its authorization flow.",
+    "sessions.title":"Create a session or native CLI","sessions.lead":"The first rail entry offers Session and CLI modes with the same Runtime Host, agent, model, and workspace selectors.","sessions.chat.title":"Structured session","sessions.chat.1":"Messages and tool events appear as a conversation.","sessions.chat.2":"Follow-up input is persisted in a queue while a run is active.","sessions.chat.3":"Reopen work from history, search, or task run records.","sessions.cli.title":"Native terminal","sessions.cli.1":"Interact through a native PTY and xterm.","sessions.cli.2":"Use it when you need full ANSI output and direct keyboard control.","sessions.cli.3":"Runtime-daemon background capabilities do not depend on the renderer window.",
+    "tasks.title":"Task board and scheduling","tasks.lead":"A task stores intent, assignee, runtime, workspace, schedule, and review state. Every run links to a real session.","tasks.s1.title":"Create a task","tasks.s1.desc":"From Board, enter a title and prompt, then choose Runtime Host, Agent CLI, model, workspace, permissions, and session policy.","tasks.s2.title":"Run or schedule","tasks.s2.desc":"Create only, create and run, or configure a one-off/Cron schedule with IANA timezone and misfire policy. Pause, resume, and run now are available in Schedule.","tasks.s3.title":"Review the result","tasks.s3.desc":"Runs enter In Progress, then Review after success or failure. Open the linked session, inspect the result, and confirm Done manually.","tasks.notice":"Scheduled tasks sharing a workspace are serialized. The target Runtime daemon owns the schedule, so local or remote tasks can trigger after the desktop window closes.",
+    "features.title":"Compare, Memory, Web, and Stats","features.compare.title":"Multi-panel compare","features.compare.desc":"Place Web, structured chat, or CLI panels side by side and send prompts individually or in a batch.","features.memory.title":"History and memory","features.memory.desc":"Search supported session sources and jump back to context; manage sessions, experience, candidates, and memory policy separately.","features.web.title":"Built-in Web","features.web.desc":"Open saved sites with persistent sessions and add Web pages to comparison workflows.","features.stats.title":"Stats and growth","features.stats.desc":"Review sessions, messages, tokens, activity trends, projects, models, and the growth Cardex.",
+    "remote.title":"Connect a remote Runtime node","remote.lead":"Remote nodes run Agents on another machine in your LAN. A node connects outbound to the controller and becomes a Runtime Host for sessions and tasks.","remote.s1.title":"Create enrollment details","remote.s1.desc":"Create enrollment details in Settings → Remote nodes. Treat enrollment credentials as secrets; never publish them in chats, logs, or repositories.","remote.s2.title":"Install the node package","remote.s2.desc":"Choose macOS arm64, Linux arm64/x64, or the Windows x64 bootstrap package from the v0.2.8 Release, or use install-node.sh.","remote.s3.title":"Verify and use","remote.s3.desc":"After the node is online, check Agent discovery and directory access, then select that Runtime Host in a new session or task.",
+    "faq.title":"Frequently asked questions","faq.q1":"Why does Agent OS not sign in to Claude or Codex automatically?","faq.a1":"Agent OS discovers, launches, and manages CLIs. Vendor accounts, subscriptions, OAuth, and API-key authorization must follow each CLI's official flow.","faq.q2":"What if macOS cannot verify the developer?","faq.a2":"The current DMG is not notarized. In Finder, right-click Agent OS, choose Open, and confirm once.","faq.q3":"Does all data stay on the computer?","faq.a3":"Session metadata, tasks, indexes, and stats stay local by default. Whether model requests reach external services depends on the selected CLI, model provider, and permissions.","faq.q4":"Where can I find updates?","faq.a4":'The app checks the agent-life GitHub Release. You can also read the <a href="changelog.html">changelog</a> or download the latest artifact.',"foot.product":"Product","foot.changelog":"Changelog"
+  };
+  var lang='zh';try{lang=localStorage.getItem('ao-lang')||'zh';}catch(e){}
+  function apply(next){lang=next;document.documentElement.lang=lang==='zh'?'zh-CN':'en';var T=lang==='zh'?ZH:EN;document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(T[k]!=null)el.textContent=T[k];});document.querySelectorAll('[data-i18n-html]').forEach(function(el){var k=el.getAttribute('data-i18n-html');if(T[k]!=null)el.innerHTML=T[k];});document.getElementById('langToggle').textContent=lang==='zh'?'EN':'中';try{localStorage.setItem('ao-lang',lang);}catch(e){}}
+  document.getElementById('langToggle').addEventListener('click',function(){apply(lang==='zh'?'en':'zh');});apply(lang);
+})();
+</script>
+</body>
+</html>

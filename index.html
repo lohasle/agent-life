@@ -5,7 +5,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Agent OS — 个人 AI 超级工作台</title>
-<meta name="description" content="Agent OS 是桌面端个人 AI 超级工作台：开箱接入 Claude、Codex、Gemini、Cursor、Pi 等 8 款主流 AI CLI，沉淀你与 AI 协作的记忆、知识与成长。" />
+<meta name="description" content="Agent OS 是本地优先的桌面 Agent 工作台：统一管理 AI CLI 会话、任务看板、定时执行、对比、记忆搜索、统计与远程节点。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c96442'/%3E%3Cpath d='M8 10h16M8 16h10M8 22h16' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -263,6 +264,16 @@
   .cli-foot{margin-top:24px;font-family:var(--font-mono);font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .cli-foot b{color:var(--fg-2)}
 
+  .guide-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .guide-step{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:25px;min-height:220px}
+  .guide-step .num{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em}
+  .guide-step h3{font-size:21px;margin:18px 0 10px}
+  .guide-step p{color:var(--muted);font-size:14px;line-height:1.68}
+  .guide-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:26px}
+  .guide-note{color:var(--meta);font-family:var(--font-mono);font-size:11px}
+  @media(max-width:920px){.guide-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.guide-grid{grid-template-columns:1fr}.guide-step{min-height:0}}
+
   /* product-shot gallery: scroll-pinned scrub (dify-style) + lightbox */
   .gal-pin{position:relative;height:520vh}
   .gal-pin-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
@@ -310,6 +321,13 @@
   .dl .drow .pt b{font-family:var(--font-mono);font-size:14px;color:#f0ede2;font-weight:500;display:block}
   .dl .drow .pt span{font-family:var(--font-mono);font-size:10.5px;color:#8a877d;letter-spacing:.02em}
   .dl .drow .ar{margin-left:auto;color:#8a877d;font-family:var(--font-mono);font-size:13px}
+  .download-notes{margin-top:22px;display:grid;gap:9px}
+  .download-notes p{margin:0!important;font-size:12.5px!important;line-height:1.55!important;color:#a8a59b!important}
+  .download-notes a{color:#f0ede2;text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:600px){
+    .dl .drow{padding:12px 14px}.dl .drow .ar{display:none}.dl .drow .pt{min-width:0}
+    .dl .drow .pt b,.dl .drow .pt span{overflow-wrap:anywhere}
+  }
 
   footer{border-top:1px solid var(--border);padding:38px 0;margin-top:24px}
   .foot-in{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
@@ -352,9 +370,9 @@
       <span class="ver">v0.2.8</span>
     </a>
     <div class="nav-mid">
-      <a href="#highlights" data-i18n="nav.highlights">亮点</a>
-      <a href="#memory" data-i18n="nav.memory">记忆</a>
-      <a href="#cli" data-i18n="nav.cli">CLI</a>
+      <a href="#highlights" data-i18n="nav.highlights">产品能力</a>
+      <a href="#quickstart" data-i18n="nav.quickstart">快速开始</a>
+      <a href="guide.html" data-i18n="nav.guide">使用指南</a>
     </div>
     <div class="nav-end">
       <button class="lang-toggle" id="langToggle" type="button">EN</button>
@@ -369,9 +387,9 @@
 <header class="hero" id="top">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <span class="kicker" data-i18n="hero.kicker">个人 AI 超级工作台</span>
-      <h1 data-i18n-html="hero.h1">统一所有 AI CLI<span class="l2">沉淀你的工作记忆。</span></h1>
-      <p class="sub" data-i18n-html="hero.sub">Agent OS 是桌面端 <b>个人 AI 超级工作台</b>——开箱接入 <b>8 款主流 AI CLI</b>（Claude、Codex、Gemini、Cursor、Pi…），把分散在终端里的协作，收束成一份留在本地的工作记忆。</p>
+      <span class="kicker" data-i18n="hero.kicker">本地优先的桌面 Agent 工作台</span>
+      <h1 data-i18n-html="hero.h1">管理 AI 会话与任务<span class="l2">从派发到验收，都在一个工作台。</span></h1>
+      <p class="sub" data-i18n-html="hero.sub">Agent OS 把 <b>AI CLI 会话、原生终端、任务看板、定时执行、对比、记忆搜索和统计</b>放进同一个桌面应用。选择本机或远程 Runtime Host，在真实工作目录里持续推进工作。</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#download">
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -381,14 +399,14 @@
       <div class="hero-meta">
         <span class="m"><span class="dot"></span><b data-i18n="hero.m1">开源</b> · MIT</span>
         <span class="m"><b data-i18n="hero.m2">本地优先</b> · <span data-i18n="hero.m2b">主权数据</span></span>
-        <span class="m">macOS · Windows</span>
+        <span class="m">macOS · Windows · Linux</span>
       </div>
     </div>
 
     <div class="term rv" id="term">
       <div class="term-bar">
         <span class="tl"></span><span class="tl"></span><span class="tl"></span>
-        <span class="tt"><b>agent-os</b> &nbsp;— scan &amp; discover</span>
+        <span class="tt"><b>agent-os</b> &nbsp;— workspace ready</span>
       </div>
       <div class="term-body" id="termBody"></div>
     </div>
@@ -407,7 +425,7 @@
 
   <div class="wrap">
     <div class="fleet rv">
-      <div class="fleet-label" data-i18n="fleet.label">已接入 · 持续扩展</div>
+      <div class="fleet-label" data-i18n="fleet.label">支持的 CLI 适配器 · 可用性取决于本机安装与登录</div>
       <div class="fleet-track" id="fleet"></div>
     </div>
   </div>
@@ -418,9 +436,9 @@
 <section class="sec" id="highlights">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="kicker" data-i18n="hl.kicker">亮点能力</span>
-      <h2 data-i18n="hl.h2">为重度 AI 用户打磨的每一处</h2>
-      <p data-i18n="hl.sub">从自由会话到全局搜索，每一个能力都为「同时用很多 AI CLI」的人而生。</p>
+      <span class="kicker" data-i18n="hl.kicker">当前产品能力</span>
+      <h2 data-i18n="hl.h2">与 v0.2.8 软件界面逐项对应</h2>
+      <p data-i18n="hl.sub">左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。</p>
     </div>
 
     <div class="feats">
@@ -430,15 +448,15 @@
           <div><h3 data-i18n="hl.task.t">Agent 任务看板与定时执行</h3><span class="fk" data-i18n="hl.task.k">派单 · Cron · Runtime daemon · 人工验收</span></div>
         </div>
         <p data-i18n="hl.task.d">创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。</p>
-        <div class="demo"><img src="task-board-v0.2.8.png" alt="Agent OS v0.2.8 任务看板实机界面" loading="lazy" /></div>
+          <div class="demo"><img src="task-board-v0.2.8.png" alt="Agent OS v0.2.8 task board / 任务看板实机界面" loading="lazy" /></div>
       </div>
 
       <div class="feat rv">
         <div class="feat-head">
           <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v10H8l-4 4V5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.f1.t">自由会话</h3><span class="fk" data-i18n="hl.f1.k">对话即工作 · 终端内嵌</span></div>
+          <div><h3 data-i18n="hl.f1.t">会话与原生 CLI</h3><span class="fk" data-i18n="hl.f1.k">结构化对话 · 原生 PTY · 持久队列</span></div>
         </div>
-        <p data-i18n="hl.f1.d">以会话流为中心，终端输出内嵌于对话线程——不必盯着 ANSI 滚屏；需要时一键切全屏 PTY，原生 xterm 直驱。</p>
+        <p data-i18n="hl.f1.d">可选择结构化对话或原生 CLI，指定 Runtime Host、Agent、模型、工作目录与权限模式。运行中的连续输入进入持久队列，终端由原生 PTY 驱动。</p>
         <div class="demo">
           <div class="demo-chat">
             <div class="row"><span class="who u" data-i18n="hl.f1.r1a">你</span><span class="what" data-i18n="hl.f1.r1b">重构 <code>runtimeHost</code> 的会话编排</span></div>
@@ -451,9 +469,9 @@
       <div class="feat rv">
         <div class="feat-head">
           <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M7 9l3 3-3 3M13 15h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div><h3 data-i18n="hl.f2.t">CLI 管控</h3><span class="fk" data-i18n="hl.f2.k">接入 · 维护 · BYOK</span></div>
+          <div><h3 data-i18n="hl.f2.t">CLI 与 Runtime 管理</h3><span class="fk" data-i18n="hl.f2.k">发现 · 安装/升级 · 诊断 · 远程节点</span></div>
         </div>
-        <p data-i18n="hl.f2.d">开箱扫描本机所有 CLI，适配器统一驱动协议；BYOK 兜底、安装/升级/诊断一站完成，告别配置切换器。</p>
+        <p data-i18n="hl.f2.d">自动扫描已支持的本机 CLI，并提供安装、升级、诊断和 BYOK 配置；远程节点接入后也可作为会话与任务的运行位置。CLI 厂商账号与登录仍由对应工具管理。</p>
         <div class="demo">
           <div class="demo-cli">
             <div class="r"><span class="cli-dot" style="background:var(--cli-claude)"></span><span class="nm">claude</span><span class="bar"><i style="--w:100%;background:var(--cli-claude)"></i></span><span class="st" data-i18n="hl.f2.s1">就绪</span></div>
@@ -467,9 +485,9 @@
       <div class="feat rv">
         <div class="feat-head">
           <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="8" height="14" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="5" width="8" height="14" rx="1.5" stroke="currentColor" stroke-width="1.7"/><path d="M11 12h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.f3.t">Web ↔ CLI 自由对比</h3><span class="fk" data-i18n="hl.f3.k">多面板广播 · 横向比答案</span></div>
+          <div><h3 data-i18n="hl.f3.t">对比工作台与内置 Web</h3><span class="fk" data-i18n="hl.f3.k">多面板 · 批量发送 · 登录态保留</span></div>
         </div>
-        <p data-i18n="hl.f3.d">同一问题广播给多个 Web Chat 并排作答，登录态持久、不反复扫码；CLI 与 Web，一个窗口自由对比。</p>
+        <p data-i18n="hl.f3.d">在一个对比任务中并排放入 Web、结构化会话或 CLI 面板，单独发送或批量发送同一问题；内置 Web 书签保留站点登录态。</p>
         <div class="demo">
           <div class="demo-web">
             <div class="col"><div class="t"><b data-i18n="hl.f3.c1">豆包</b><span style="color:#3f7a4e">●</span></div><div class="ln s"></div><div class="ln m"></div><div class="ln n"></div></div>
@@ -482,9 +500,9 @@
       <div class="feat rv">
         <div class="feat-head">
           <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.f4.t">全局 CLI &amp; 会话搜索</h3><span class="fk" data-i18n="hl.f4.k">跨 CLI 记忆 · 本地索引</span></div>
+          <div><h3 data-i18n="hl.f4.t">记忆、搜索与统计</h3><span class="fk" data-i18n="hl.f4.k">会话历史 · 本地索引 · 成长视图</span></div>
         </div>
-        <p data-i18n="hl.f4.d">跨所有 CLI 的会话被归一为统一记忆，全文搜索秒级召回；本地 SQLite 索引，离线可用，你的工作历史只属于你。</p>
+        <p data-i18n="hl.f4.d">已支持来源的会话历史进入本地索引，可全文搜索并跳回上下文；记忆页管理经验、候选与策略，统计页展示使用趋势和成长图鉴。</p>
         <div class="demo">
           <div class="demo-search">
             <div class="box"><span style="color:var(--meta)">$</span><span class="q">RuntimeHost</span><div class="scope"><span class="on">global</span><span>session</span><span>deep</span></div></div>
@@ -497,12 +515,32 @@
   </div>
 </section>
 
+<section class="sec" id="quickstart" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="kicker" data-i18n="guide.kicker">快速开始</span>
+      <h2 data-i18n="guide.h2">从下载安装到第一次任务</h2>
+      <p data-i18n="guide.sub">Agent OS 管理工作流，不替代 Claude、Codex 等工具本身的账号、订阅和登录。先准备至少一个可用的 Agent CLI。</p>
+    </div>
+    <div class="guide-grid">
+      <article class="guide-step rv"><span class="num">01 / DOWNLOAD</span><h3 data-i18n="guide.s1.t">下载并安装</h3><p data-i18n="guide.s1.d">根据 CPU 与系统选择 DMG、Windows 安装器、deb 或 AppImage。macOS 未公证版本首次启动需右键“打开”。</p></article>
+      <article class="guide-step rv"><span class="num">02 / DISCOVER</span><h3 data-i18n="guide.s2.t">完成 CLI 登录</h3><p data-i18n="guide.s2.d">首次启动会扫描本机 CLI。在设置中查看状态、安装、升级或诊断；账号授权仍在对应 CLI 中完成。</p></article>
+      <article class="guide-step rv"><span class="num">03 / WORK</span><h3 data-i18n="guide.s3.t">创建会话</h3><p data-i18n="guide.s3.d">选择“会话”或“CLI”，再指定 Runtime Host、Agent、模型、工作目录与权限模式，开始真实工作。</p></article>
+      <article class="guide-step rv"><span class="num">04 / DELIVER</span><h3 data-i18n="guide.s4.t">派发和验收</h3><p data-i18n="guide.s4.d">在看板新建任务并立即运行，或配置一次性/Cron 计划；Agent 完成后进入 Review，由你确认 Done。</p></article>
+    </div>
+    <div class="guide-actions rv">
+      <a class="btn btn-primary" href="guide.html" data-i18n="guide.open">打开完整使用指南</a>
+      <span class="guide-note" data-i18n="guide.note">包含远程节点、任务调度、记忆搜索与常见问题</span>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="gallery">
   <div class="wrap">
     <div class="sec-head rv">
       <span class="kicker" data-i18n="gal.kicker">软件实景</span>
       <h2 data-i18n="gal.h2">这不是概念图，是真实运行的桌面端</h2>
-      <p data-i18n="gal.sub">Agent OS 的实际界面——会话、终端、CLI 管控、Web 对比、全局搜索、记忆与成长，都在这一个工作台里。</p>
+      <p data-i18n="gal.sub">以下均为当前桌面应用的真实界面：任务看板、会话/CLI、对比、Web、统计、成长与设置。</p>
     </div>
   </div>
   <div class="gal-pin" id="galPin">
@@ -524,14 +562,14 @@
     <div class="sec-head rv">
       <span class="kicker" data-i18n="mem.kicker">记忆与成长</span>
       <h2 data-i18n="mem.h2">把协作沉淀成你的资产</h2>
-      <p data-i18n="mem.sub">接入人人会做。把一个人长期与所有 AI 协作的轨迹沉淀下来、可搜索、可回望——这才是 Agent OS 的重心。</p>
+      <p data-i18n="mem.sub">会话记录、全文索引、经验候选与使用统计保存在本机；你可以搜索、回到原会话，并决定哪些内容进入长期记忆。</p>
     </div>
 
     <div class="moat">
       <div class="moat-card rv">
         <div class="mk" data-i18n="mem.c1.k">记忆层 / MEMORY</div>
         <h3 data-i18n="mem.c1.t">跨 CLI 的工作记忆</h3>
-        <p data-i18n="mem.c1.d">无论你切换多少个 CLI，会话都被归一为同一个人的记忆——全文搜索、知识沉淀，全部留在本地。</p>
+        <p data-i18n="mem.c1.d">会话历史按来源统一展示并建立本地全文索引；经验、候选和策略分栏管理，不会把每段对话自动当作长期记忆。</p>
         <div class="demo-search">
           <div class="box"><span style="color:var(--meta)">$</span><span class="q">memory.search</span><div class="scope"><span class="on">global</span><span>deep</span></div></div>
           <div class="res"><div class="ttl" data-i18n="mem.c1.r1a">QoS 降级与断网重连的异常场景</div><div class="pth">gemini</div><div class="snip" data-i18n="mem.c1.r1b">…压测脚本由 agent 在测试中自动生成…</div></div>
@@ -565,11 +603,11 @@
   <div class="wrap">
     <div class="sec-head rv">
       <span class="kicker" data-i18n="cli.kicker">生态</span>
-      <h2 data-i18n="cli.h2">8 款主流 AI CLI，开箱即用</h2>
-      <p data-i18n="cli.sub">扫描 PATH 与常见安装位置，自动识别版本与健康。持续扩展中。</p>
+      <h2 data-i18n="cli.h2">8 个 CLI 适配器，按本机环境启用</h2>
+      <p data-i18n="cli.sub">Agent OS 扫描 PATH 与常见安装位置，识别版本和健康状态。实际可用工具取决于你安装并登录的 CLI。</p>
     </div>
     <div class="cli-grid rv" id="cliGrid"></div>
-    <div class="cli-foot rv">▸ <span data-i18n="cli.f1">适配器协议统一驱动</span> · <b data-i18n="cli.f2">BYOK 兜底</b> · <span data-i18n="cli.f3">缺失 CLI 一键安装</span></div>
+    <div class="cli-foot rv">▸ <span data-i18n="cli.f1">统一适配器协议</span> · <b data-i18n="cli.f2">安装 / 升级 / 诊断 / BYOK</b> · <span data-i18n="cli.f3">账号订阅与登录由各 CLI 厂商负责</span></div>
   </div>
 </section>
 
@@ -578,19 +616,24 @@
     <div class="cta-wrap rv">
       <div class="cta-in">
         <div>
-          <span class="kicker" data-i18n="cta.kicker">本机即主权</span>
-          <h2 data-i18n-html="cta.h2">你的 AI 工作记忆，<span class="acc">只属于你。</span></h2>
-          <p data-i18n="cta.p">所有会话、搜索索引、协作统计全部留在本地，离线可用。没有云端账单，没有数据外流——这就是个人工作台该有的样子。</p>
+          <span class="kicker" data-i18n="cta.kicker">下载 v0.2.8</span>
+          <h2 data-i18n-html="cta.h2">选择你的平台，<span class="acc">开始工作。</span></h2>
+          <p data-i18n="cta.p">桌面应用提供 macOS、Windows 与 Linux 制品。会话、任务、索引和统计默认保存在本机；调用模型产生的费用与数据策略由所使用的 CLI 和模型服务商决定。</p>
+          <div class="download-notes">
+            <p data-i18n-html="cta.note1">macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。</p>
+            <p data-i18n-html="cta.note2">需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8">Release</a> 下载节点包与 <code>install-node.sh</code>。</p>
+            <p><a href="guide.html" data-i18n="cta.guide">查看安装与首次使用指南 →</a></p>
+          </div>
         </div>
         <div class="dl">
           <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-arm64.dmg" data-platform="mac-arm64">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>macOS · Apple Silicon</b><span data-i18n="cta.d1">Apple Silicon · Intel</span></span>
+            <span class="pt"><b>macOS · Apple Silicon</b><span data-i18n="cta.macArm">M1 / M2 / M3 / M4 · DMG</span></span>
             <span class="ar">↓ Agent-Os-0.2.8-mac-arm64.dmg</span>
           </a>
           <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-x64.dmg" data-platform="mac-x64">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>macOS · Intel</b><span data-i18n="cta.d1">Apple Silicon · Intel</span></span>
+            <span class="pt"><b>macOS · Intel</b><span data-i18n="cta.macIntel">Intel x64 · DMG</span></span>
             <span class="ar">↓ Agent-Os-0.2.8-mac-x64.dmg</span>
           </a>
           <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-win-x64-setup.exe" data-platform="win">
@@ -600,8 +643,23 @@
           </a>
           <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-amd64.deb" data-platform="linux">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <span class="pt"><b>Linux · x64</b><span>deb · AppImage · arm64</span></span>
+            <span class="pt"><b>Linux · x64</b><span>x64 · deb</span></span>
             <span class="ar">↓ Agent-Os-0.2.8-linux-amd64.deb</span>
+          </a>
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-x86_64.AppImage" data-platform="linux">
+            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <span class="pt"><b>Linux · x64</b><span>AppImage</span></span>
+            <span class="ar">↓ Agent-Os-0.2.8-linux-x86_64.AppImage</span>
+          </a>
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-arm64.deb" data-platform="linux">
+            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <span class="pt"><b>Linux · arm64</b><span>deb</span></span>
+            <span class="ar">↓ Agent-Os-0.2.8-linux-arm64.deb</span>
+          </a>
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-arm64.AppImage" data-platform="linux">
+            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <span class="pt"><b>Linux · arm64</b><span>AppImage</span></span>
+            <span class="ar">↓ Agent-Os-0.2.8-linux-arm64.AppImage</span>
           </a>
         </div>
       </div>
@@ -614,11 +672,11 @@
   <div class="wrap foot-in">
     <div class="foot-brand"><b>Agent OS</b> &nbsp;·&nbsp; <span data-i18n="foot.brand">个人 AI 超级工作台</span> &nbsp;·&nbsp; v0.2.8</div>
     <div class="foot-links">
-      <a href="#highlights" data-i18n="nav.highlights">亮点</a>
-      <a href="#memory" data-i18n="nav.memory">记忆</a>
-      <a href="#cli" data-i18n="nav.cli">CLI</a>
+      <a href="#highlights" data-i18n="nav.highlights">产品能力</a>
+      <a href="#quickstart" data-i18n="nav.quickstart">快速开始</a>
+      <a href="guide.html" data-i18n="nav.guide">使用指南</a>
       <a href="#download" data-i18n="nav.download">下载</a>
-      <a href="changelog.html">更新记录</a>
+      <a href="changelog.html" data-i18n="nav.changelog">更新记录</a>
     </div>
     <div class="foot-note" data-i18n="foot.note">MIT License · 本地优先 · 主权数据 · 所有会话与索引离线可用</div>
   </div>
@@ -630,72 +688,74 @@
 
   var STRINGS = {
     zh:{
-      "nav.highlights":"亮点","nav.memory":"记忆","nav.cli":"CLI","nav.download":"免费下载","skip":"跳到主要内容",
-      "hero.kicker":"个人 AI 超级工作台",
-      "hero.h1":'统一所有 AI CLI<span class="l2">沉淀你的工作记忆。</span>',
-      "hero.sub":'Agent OS 是桌面端 <b>个人 AI 超级工作台</b>——开箱接入 <b>8 款主流 AI CLI</b>（Claude、Codex、Gemini、Cursor、Pi…），把分散在终端里的协作，收束成一份留在本地的工作记忆。',
+      "nav.highlights":"产品能力","nav.quickstart":"快速开始","nav.guide":"使用指南","nav.download":"免费下载","nav.changelog":"更新记录","skip":"跳到主要内容",
+      "hero.kicker":"本地优先的桌面 Agent 工作台",
+      "hero.h1":'管理 AI 会话与任务<span class="l2">从派发到验收，都在一个工作台。</span>',
+      "hero.sub":'Agent OS 把 <b>AI CLI 会话、原生终端、任务看板、定时执行、对比、记忆搜索和统计</b>放进同一个桌面应用。选择本机或远程 Runtime Host，在真实工作目录里持续推进工作。',
       "hero.cta1":"免费下载 Agent OS",
       "hero.m1":"开源","hero.m2":"本地优先","hero.m2b":"主权数据",
       "release.badge":"v0.2.8 最终构建","release.desc":"19 个制品已于 2026-07-18 重新构建发布；包含任务看板、定时执行、重度历史库启动修复与 macOS 节点 PTY 修复。源码 0368955。","release.assets":"查看 19 个制品","release.changelog":"完整更新日志",
-      "fleet.label":"已接入 · 持续扩展",
-      "hl.kicker":"亮点能力","hl.h2":"为重度 AI 用户打磨的每一处","hl.sub":"从自由会话到全局搜索，每一个能力都为「同时用很多 AI CLI」的人而生。",
+      "fleet.label":"支持的 CLI 适配器 · 可用性取决于本机安装与登录",
+      "hl.kicker":"当前产品能力","hl.h2":"与 v0.2.8 软件界面逐项对应","hl.sub":"左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。",
       "hl.task.t":"Agent 任务看板与定时执行","hl.task.k":"派单 · Cron · Runtime daemon · 人工验收","hl.task.d":"创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。",
-      "hl.f1.t":"自由会话","hl.f1.k":"对话即工作 · 终端内嵌","hl.f1.d":"以会话流为中心，终端输出内嵌于对话线程——不必盯着 ANSI 滚屏；需要时一键切全屏 PTY，原生 xterm 直驱。",
+      "hl.f1.t":"会话与原生 CLI","hl.f1.k":"结构化对话 · 原生 PTY · 持久队列","hl.f1.d":"可选择结构化对话或原生 CLI，指定 Runtime Host、Agent、模型、工作目录与权限模式。运行中的连续输入进入持久队列，终端由原生 PTY 驱动。",
       "hl.f1.r1a":"你","hl.f1.r1b":'重构 <code>runtimeHost</code> 的会话编排',"hl.f1.r2b":"已读取契约，开始拆分 IPC 与 PTY 宿主…",
-      "hl.f2.t":"CLI 管控","hl.f2.k":"接入 · 维护 · BYOK","hl.f2.d":"开箱扫描本机所有 CLI，适配器统一驱动协议；BYOK 兜底、安装/升级/诊断一站完成，告别配置切换器。",
+      "hl.f2.t":"CLI 与 Runtime 管理","hl.f2.k":"发现 · 安装/升级 · 诊断 · 远程节点","hl.f2.d":"自动扫描已支持的本机 CLI，并提供安装、升级、诊断和 BYOK 配置；远程节点接入后也可作为会话与任务的运行位置。CLI 厂商账号与登录仍由对应工具管理。",
       "hl.f2.s1":"就绪","hl.f2.s2":"可升级","hl.f2.s3":"未安装 · 一键装",
-      "hl.f3.t":"Web ↔ CLI 自由对比","hl.f3.k":"多面板广播 · 横向比答案","hl.f3.d":"同一问题广播给多个 Web Chat 并排作答，登录态持久、不反复扫码；CLI 与 Web，一个窗口自由对比。",
+      "hl.f3.t":"对比工作台与内置 Web","hl.f3.k":"多面板 · 批量发送 · 登录态保留","hl.f3.d":"在一个对比任务中并排放入 Web、结构化会话或 CLI 面板，单独发送或批量发送同一问题；内置 Web 书签保留站点登录态。",
       "hl.f3.c1":"豆包","hl.f3.c2":"元宝","hl.f3.bc":'↳ broadcast · “解释 RSC 的 hydration 不匹配”',
-      "hl.f4.t":"全局 CLI &amp; 会话搜索","hl.f4.k":"跨 CLI 记忆 · 本地索引","hl.f4.d":"跨所有 CLI 的会话被归一为统一记忆，全文搜索秒级召回；本地 SQLite 索引，离线可用，你的工作历史只属于你。",
+      "hl.f4.t":"记忆、搜索与统计","hl.f4.k":"会话历史 · 本地索引 · 成长视图","hl.f4.d":"已支持来源的会话历史进入本地索引，可全文搜索并跳回上下文；记忆页管理经验、候选与策略，统计页展示使用趋势和成长图鉴。",
       "hl.f4.r1a":"拆分 IPC 与 PTY 宿主协议","hl.f4.r1b":'…将 <mark>RuntimeHost</mark> 抽象为接口，Step B 替换为 daemon…',
       "hl.f4.r2a":"会话生命周期经 RuntimeHost","hl.f4.r2b":'终端操作统一经 <mark>RuntimeHost</mark>，IPC handler 保持薄…',
-      "mem.kicker":"记忆与成长","mem.h2":"把协作沉淀成你的资产","mem.sub":"接入人人会做。把一个人长期与所有 AI 协作的轨迹沉淀下来、可搜索、可回望——这才是 Agent OS 的重心。",
-      "mem.c1.k":"记忆层 / MEMORY","mem.c1.t":"跨 CLI 的工作记忆","mem.c1.d":"无论你切换多少个 CLI，会话都被归一为同一个人的记忆——全文搜索、知识沉淀，全部留在本地。",
+      "guide.kicker":"快速开始","guide.h2":"从下载安装到第一次任务","guide.sub":"Agent OS 管理工作流，不替代 Claude、Codex 等工具本身的账号、订阅和登录。先准备至少一个可用的 Agent CLI。","guide.s1.t":"下载并安装","guide.s1.d":"根据 CPU 与系统选择 DMG、Windows 安装器、deb 或 AppImage。macOS 未公证版本首次启动需右键“打开”。","guide.s2.t":"完成 CLI 登录","guide.s2.d":"首次启动会扫描本机 CLI。在设置中查看状态、安装、升级或诊断；账号授权仍在对应 CLI 中完成。","guide.s3.t":"创建会话","guide.s3.d":"选择“会话”或“CLI”，再指定 Runtime Host、Agent、模型、工作目录与权限模式，开始真实工作。","guide.s4.t":"派发和验收","guide.s4.d":"在看板新建任务并立即运行，或配置一次性/Cron 计划；Agent 完成后进入 Review，由你确认 Done。","guide.open":"打开完整使用指南","guide.note":"包含远程节点、任务调度、记忆搜索与常见问题",
+      "mem.kicker":"记忆与成长","mem.h2":"把协作沉淀成你的资产","mem.sub":"会话记录、全文索引、经验候选与使用统计保存在本机；你可以搜索、回到原会话，并决定哪些内容进入长期记忆。",
+      "mem.c1.k":"记忆层 / MEMORY","mem.c1.t":"跨 CLI 的工作记忆","mem.c1.d":"会话历史按来源统一展示并建立本地全文索引；经验、候选和策略分栏管理，不会把每段对话自动当作长期记忆。",
       "mem.c1.r1a":"QoS 降级与断网重连的异常场景","mem.c1.r1b":"…压测脚本由 agent 在测试中自动生成…",
       "mem.c1.r2a":"BYOK 兜底与端点测速策略","mem.c1.r2b":"…端点 / APIKey / 延迟测速…",
       "mem.tag1":"本地 SQLite 索引","mem.tag2":"离线可用","mem.tag3":"主权数据",
       "mem.c2.k":"成长层 / GROWTH","mem.c2.t":"让「用 AI 工作」可见","mem.c2.d":"本地记录你与 AI 协作的轨迹，统计与成长系统让无形消耗，变成可见、可回望的积累。",
       "mem.c2.cap":"协作密度示意 · 产品内本地视图","mem.tag4":"活跃统计","mem.tag5":"跨 CLI 归一","mem.tag6":"可回望轨迹",
-      "cli.kicker":"生态","cli.h2":"8 款主流 AI CLI，开箱即用","cli.sub":"扫描 PATH 与常见安装位置，自动识别版本与健康。持续扩展中。",
-      "cli.f1":"适配器协议统一驱动","cli.f2":"BYOK 兜底","cli.f3":"缺失 CLI 一键安装","gal.kicker":"软件实景","gal.h2":"这不是概念图，是真实运行的桌面端","gal.sub":"Agent OS 的实际界面——会话、终端、CLI 管控、Web 对比、全局搜索、记忆与成长，都在这一个工作台里。","gal.note":"▸ 以下均为 Agent OS 桌面端实机界面，点击可放大查看。","gal.hint":"向下滚动浏览界面 ↓ · 点击图片可放大 · 点右侧进度条可跳转",
-      "cta.kicker":"本机即主权","cta.h2":'你的 AI 工作记忆，<span class="acc">只属于你。</span>',
-      "cta.p":"所有会话、搜索索引、协作统计全部留在本地，离线可用。没有云端账单，没有数据外流——这就是个人工作台该有的样子。",
-      "cta.d1":"Apple Silicon · Intel","cta.d2":"x64 安装包",
-      "foot.brand":"个人 AI 超级工作台","foot.note":"MIT License · 本地优先 · 主权数据 · 所有会话与索引离线可用"
+      "cli.kicker":"生态","cli.h2":"8 个 CLI 适配器，按本机环境启用","cli.sub":"Agent OS 扫描 PATH 与常见安装位置，识别版本和健康状态。实际可用工具取决于你安装并登录的 CLI。",
+      "cli.f1":"统一适配器协议","cli.f2":"安装 / 升级 / 诊断 / BYOK","cli.f3":"账号订阅与登录由各 CLI 厂商负责","gal.kicker":"软件实景","gal.h2":"这不是概念图，是真实运行的桌面端","gal.sub":"以下均为当前桌面应用的真实界面：任务看板、会话/CLI、对比、Web、统计、成长与设置。","gal.note":"▸ 以下均为 Agent OS 桌面端实机界面，点击可放大查看。","gal.hint":"向下滚动浏览界面 ↓ · 点击图片可放大 · 点右侧进度条可跳转",
+      "cta.kicker":"下载 v0.2.8","cta.h2":'选择你的平台，<span class="acc">开始工作。</span>',
+      "cta.p":"桌面应用提供 macOS、Windows 与 Linux 制品。会话、任务、索引和统计默认保存在本机；调用模型产生的费用与数据策略由所使用的 CLI 和模型服务商决定。",
+      "cta.note1":"macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。","cta.note2":'需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8">Release</a> 下载节点包与 <code>install-node.sh</code>。',"cta.guide":"查看安装与首次使用指南 →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 安装包 · v0.2.8",
+      "foot.brand":"桌面 Agent 工作台","foot.note":"MIT License · 会话、任务和索引默认本地保存 · 模型请求遵循所选 CLI 与服务商策略"
     },
     en:{
-      "nav.highlights":"Highlights","nav.memory":"Memory","nav.cli":"CLI","nav.download":"Download","skip":"Skip to content",
-      "hero.kicker":"Personal AI super workbench",
-      "hero.h1":'One workbench for every AI CLI.<span class="l2"> Your memory, kept.</span>',
-      "hero.sub":'Agent OS is a desktop <b>personal AI super workbench</b> — connect <b>8 mainstream AI CLIs</b> out of the box (Claude, Codex, Gemini, Cursor, Pi…), and turn scattered terminal sessions into one local-first working memory.',
+      "nav.highlights":"Product","nav.quickstart":"Quick start","nav.guide":"User guide","nav.download":"Download","nav.changelog":"Changelog","skip":"Skip to content",
+      "hero.kicker":"Local-first desktop agent workbench",
+      "hero.h1":'Manage AI sessions and tasks.<span class="l2">From assignment to review, in one workbench.</span>',
+      "hero.sub":'Agent OS brings <b>AI CLI sessions, native terminals, task boards, scheduling, comparison, memory search, and stats</b> into one desktop app. Choose a local or remote Runtime Host and keep working in a real project directory.',
       "hero.cta1":"Download Agent OS",
       "hero.m1":"Open source","hero.m2":"Local-first","hero.m2b":"sovereign data",
       "release.badge":"v0.2.8 final build","release.desc":"All 19 artifacts were rebuilt and published on 2026-07-18, including the task board, scheduling, heavy-history startup fix, and macOS node PTY fix. Source 0368955.","release.assets":"View all 19 artifacts","release.changelog":"Full changelog",
-      "fleet.label":"Connected · expanding",
-      "hl.kicker":"Signature capabilities","hl.h2":"Built for people who use many AI CLIs","hl.sub":"From free-form sessions to global search — every capability is made for working across many AI CLIs at once.",
+      "fleet.label":"Supported CLI adapters · availability depends on local installation and sign-in",
+      "hl.kicker":"Current product","hl.h2":"Matched to the v0.2.8 desktop app","hl.sub":"Sessions, Board, Schedule, Compare, Memory, Web, and Stats in the left rail map directly to the capabilities and real screens below.",
       "hl.task.t":"Agent task board & scheduling","hl.task.k":"Assign · Cron · Runtime daemon · human review","hl.task.d":"Create tasks with a Runtime Host, Agent CLI, model, and workspace, then track them through Todo, In Progress, Review, and Done. One-off and Cron schedules live in the Runtime daemon and keep running after the desktop window closes.",
-      "hl.f1.t":"Free-form sessions","hl.f1.k":"Conversation-first · embedded terminal","hl.f1.d":"A conversation-centric flow where terminal output lives inside the chat thread — no more staring at ANSI scroll. Switch to a full-screen PTY on demand, driven by native xterm.",
+      "hl.f1.t":"Sessions & native CLI","hl.f1.k":"Structured chat · native PTY · persistent queue","hl.f1.d":"Choose structured chat or native CLI, then select the Runtime Host, agent, model, workspace, and permission mode. Follow-up input is queued persistently while a run is active.",
       "hl.f1.r1a":"you","hl.f1.r1b":'refactor the <code>runtimeHost</code> session orchestration',"hl.f1.r2b":"read the contract, splitting IPC and PTY host…",
-      "hl.f2.t":"CLI management","hl.f2.k":"Connect · maintain · BYOK","hl.f2.d":"Scan every local CLI out of the box via one unified adapter protocol — BYOK fallback, install / upgrade / diagnose in one place. No more config switchers.",
+      "hl.f2.t":"CLI & Runtime management","hl.f2.k":"Discover · install/upgrade · diagnose · remote nodes","hl.f2.d":"Scan supported local CLIs and manage installation, upgrades, diagnostics, and BYOK settings. Connected remote nodes can run sessions and tasks. Vendor accounts and sign-in remain managed by each CLI.",
       "hl.f2.s1":"ready","hl.f2.s2":"update →","hl.f2.s3":"missing · 1-click install",
-      "hl.f3.t":"Web ↔ CLI compare","hl.f3.k":"Multi-panel broadcast · compare answers","hl.f3.d":"Broadcast one prompt to multiple web chats side by side with persistent logins — no re-scanning QR. Compare CLI and web answers in a single window.",
+      "hl.f3.t":"Compare workbench & built-in Web","hl.f3.k":"Multi-panel · batch send · persistent sign-in","hl.f3.d":"Place Web, structured chat, or CLI panels side by side in one comparison task, then send individually or in a batch. Built-in Web bookmarks retain site sessions.",
       "hl.f3.c1":"Doubao","hl.f3.c2":"Yuanbao","hl.f3.bc":'↳ broadcast · “explain RSC hydration mismatch”',
-      "hl.f4.t":"Global CLI &amp; session search","hl.f4.k":"Cross-CLI memory · local index","hl.f4.d":"Sessions across every CLI normalize into one memory store with instant full-text recall — local SQLite index, works offline. Your work history belongs to you.",
+      "hl.f4.t":"Memory, search & stats","hl.f4.k":"Session history · local index · growth views","hl.f4.d":"Supported session sources are indexed locally for full-text search and context jumps. Memory manages experience, candidates, and policy; Stats shows usage trends and the growth Cardex.",
       "hl.f4.r1a":"Split IPC and PTY host protocol","hl.f4.r1b":'…abstract <mark>RuntimeHost</mark> as an interface, Step B swaps in the daemon…',
       "hl.f4.r2a":"Session lifecycle via RuntimeHost","hl.f4.r2b":'terminal ops all go through <mark>RuntimeHost</mark>, IPC handlers stay thin…',
-      "mem.kicker":"Memory & growth","mem.h2":"Turn collaboration into your own asset","mem.sub":"Connecting CLIs is table stakes. Turning your long-term collaboration across every AI into something searchable and replayable — that's where Agent OS focuses.",
-      "mem.c1.k":"MEMORY LAYER","mem.c1.t":"One working memory across CLIs","mem.c1.d":"However many CLIs you switch between, sessions normalize into one person's memory — full-text search, knowledge, all kept locally.",
+      "guide.kicker":"Quick start","guide.h2":"From download to your first task","guide.sub":"Agent OS manages the workflow; it does not replace the accounts, subscriptions, or sign-in of tools such as Claude or Codex. Prepare at least one working Agent CLI first.","guide.s1.t":"Download & install","guide.s1.d":"Choose a DMG, Windows installer, deb, or AppImage for your OS and CPU. On macOS, right-click Open for the unsigned build.","guide.s2.t":"Sign in to a CLI","guide.s2.d":"First launch scans local CLIs. Check status, install, upgrade, or diagnose in Settings; authorize accounts in the corresponding CLI.","guide.s3.t":"Create a session","guide.s3.d":"Choose Session or CLI, then select a Runtime Host, agent, model, workspace, and permission mode to start real work.","guide.s4.t":"Assign & review","guide.s4.d":"Create and run a board task immediately, or set a one-off/Cron schedule. Agent completion enters Review for you to confirm Done.","guide.open":"Open the full user guide","guide.note":"Remote nodes, scheduling, memory search, and troubleshooting included",
+      "mem.kicker":"Memory & growth","mem.h2":"Turn collaboration into your own asset","mem.sub":"Sessions, full-text indexes, memory candidates, and usage statistics stay on this machine. Search, return to the original session, and decide what becomes durable memory.",
+      "mem.c1.k":"MEMORY LAYER","mem.c1.t":"Working memory across CLIs","mem.c1.d":"Session history is normalized by source and indexed locally. Experience, candidates, and policy are managed separately; not every conversation becomes durable memory automatically.",
       "mem.c1.r1a":"QoS downgrade and reconnect edge cases","mem.c1.r1b":"…stress-test scripts auto-generated by the agent in-test…",
       "mem.c1.r2a":"BYOK fallback and endpoint probing","mem.c1.r2b":"…endpoint / API key / latency probing…",
       "mem.tag1":"Local SQLite index","mem.tag2":"Works offline","mem.tag3":"Sovereign data",
       "mem.c2.k":"GROWTH LAYER","mem.c2.t":"Make “working with AI” visible","mem.c2.d":"Your collaboration trail is recorded locally — stats and growth turn invisible effort into a visible, replayable arc.",
       "mem.c2.cap":"Collaboration density · illustrative, local in-product view","mem.tag4":"Activity stats","mem.tag5":"Cross-CLI normalized","mem.tag6":"Replayable trail",
-      "cli.kicker":"Ecosystem","cli.h2":"8 mainstream AI CLIs, out of the box","cli.sub":"Scans PATH and common install locations, detecting version and health automatically. Growing over time.",
-      "cli.f1":"Unified adapter protocol","cli.f2":"BYOK fallback","cli.f3":"1-click install for missing CLIs","gal.kicker":"In the app","gal.h2":"Not mockups — the actual desktop app","gal.sub":"Real screens from Agent OS — sessions, terminal, CLI management, web compare, global search, memory and growth, all in one workbench.","gal.note":"▸ Every shot below is a live capture of the Agent OS desktop. Click to enlarge.","gal.hint":"Scroll to browse ↓ · click to enlarge · tap the rail to jump",
-      "cta.kicker":"Local-first sovereignty","cta.h2":'Your AI working memory, <span class="acc">yours alone.</span>',
-      "cta.p":"Every session, search index, and collaboration stat stays local and works offline. No cloud bill, no data leaving your machine — that&apos;s what a personal workbench should be.",
-      "cta.d1":"Apple Silicon · Intel","cta.d2":"x64 installer",
-      "foot.brand":"Personal AI super workbench","foot.note":"MIT License · local-first · sovereign data · all sessions & indexes work offline"
+      "cli.kicker":"Ecosystem","cli.h2":"8 CLI adapters, enabled by your local setup","cli.sub":"Agent OS scans PATH and common install locations for versions and health. Available tools depend on the CLIs you install and sign in to.",
+      "cli.f1":"Unified adapter protocol","cli.f2":"Install / upgrade / diagnose / BYOK","cli.f3":"Accounts, subscriptions, and sign-in are handled by each CLI vendor","gal.kicker":"In the app","gal.h2":"Not mockups — the actual desktop app","gal.sub":"Real screens from the current desktop app: task board, sessions/CLI, compare, Web, stats, growth, and settings.","gal.note":"▸ Every shot below is a live capture of the Agent OS desktop. Click to enlarge.","gal.hint":"Scroll to browse ↓ · click to enlarge · tap the rail to jump",
+      "cta.kicker":"Download v0.2.8","cta.h2":'Choose your platform. <span class="acc">Start working.</span>',
+      "cta.p":"Desktop builds are available for macOS, Windows, and Linux. Sessions, tasks, indexes, and stats stay local by default; model costs and data policies are determined by the CLI and model provider you use.",
+      "cta.note1":"The macOS build is not notarized with an Apple Developer ID. Right-click the app and choose Open on first launch.","cta.note2":'Need remote execution? Open the <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.8">Release</a> for node packages and <code>install-node.sh</code>.',"cta.guide":"Read the install and first-use guide →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 installer · v0.2.8",
+      "foot.brand":"Desktop agent workbench","foot.note":"MIT License · sessions, tasks, and indexes stay local by default · model traffic follows the selected CLI and provider"
     }
   };
   var LANG = (function(){ try{ return localStorage.getItem('ao-lang') || 'zh'; }catch(e){ return 'zh'; } })();
@@ -727,25 +787,18 @@
     {n:'hermes',   label:{zh:'Hermes',         en:'Hermes'},         c:'var(--cli-hermes)'},
     {n:'openclaw', label:{zh:'OpenClaw',       en:'OpenClaw'},       c:'var(--cli-openclaw)'}
   ];
-  var PATHS = {
-    claude:'/usr/local/bin/claude', codex:'~/.npm/bin/codex',
-    gemini:'/opt/homebrew/bin/gemini', cursor:'/usr/local/bin/cursor-agent',
-    opencode:'~/go/bin/opencode', pi:'npm: @earendil-works/pi',
-    hermes:'~/.local/bin/hermes', openclaw:'~/bin/openclaw'
-  };
-
   var body = document.getElementById('termBody');
   function el(cls,html){var d=document.createElement('div');d.className='ln '+cls;d.innerHTML=html;return d;}
   function buildTerminal(){
     body.innerHTML='';
-    var T = STRINGS[LANG];
     var L=[];
-    L.push(el('','<span class="p">$</span> <span class="cmd">agent-os scan --path</span>'));
-    L.push(el('dim','<span class="dim">◇ scanning PATH &amp; known install locations …</span>'));
-    CLI.forEach(function(f){
-      L.push(el('','<span class="ok">✓</span> <span class="cli-dot" style="background:'+f.c+'"></span><span class="cmd">'+f.label[LANG]+'</span>  <span class="path">'+PATHS[f.n]+'</span>  <span class="ok">ready</span>'));
-    });
-    L.push(el('','<span class="dim">→ discovered 8 / 8 CLIs · 0 missing</span>'));
+    L.push(el('','<span class="p">$</span> <span class="cmd">agent-os open ~/project</span>'));
+    L.push(el('dim','<span class="dim">◇ preparing local workspace …</span>'));
+    L.push(el('','<span class="ok">✓</span> <span class="cmd">Runtime Host</span>  <span class="path">local</span>  <span class="ok">online</span>'));
+    L.push(el('','<span class="ok">✓</span> <span class="cmd">Agent CLI</span>  <span class="path">claude · codex · cursor</span>  <span class="ok">ready</span>'));
+    L.push(el('','<span class="ok">✓</span> <span class="cmd">Task Core</span>  <span class="path">board · cron · review</span>  <span class="ok">ready</span>'));
+    L.push(el('','<span class="ok">✓</span> <span class="cmd">Memory Index</span>  <span class="path">local SQLite</span>  <span class="ok">ready</span>'));
+    L.push(el('','<span class="dim">→ sessions and tasks stay attached to the workspace</span>'));
     L.push(el('','<span class="p">$</span> <span class="cur"></span>'));
     L.forEach(function(l){body.appendChild(l);});
     if(reduce){Array.prototype.forEach.call(body.querySelectorAll('.ln'),function(l){l.classList.add('show')});return;}
@@ -809,17 +862,18 @@
 
   if(tg) tg.addEventListener('click', function(){
     if(termStarted) buildTerminal();
-    renderFleet(); renderGrid();
+    renderFleet(); renderGrid(); buildGallery();
   });
 
   /* ---- product-shot gallery: scroll-pinned scrub (dify-style) ---- */
   var SHOTS=[
-    {src:'mqoj247o-image.png',alt:{zh:'Agent OS 桌面端界面实景 01',en:'Agent OS desktop — screen 01'}},
-    {src:'mqoj247r-image.png',alt:{zh:'Agent OS 桌面端界面实景 02',en:'Agent OS desktop — screen 02'}},
-    {src:'mqoj247u-image.png',alt:{zh:'Agent OS 桌面端界面实景 03',en:'Agent OS desktop — screen 03'}},
-    {src:'mqoj247v-image.png',alt:{zh:'Agent OS 桌面端界面实景 04',en:'Agent OS desktop — screen 04'}},
-    {src:'mqoj247w-image.png',alt:{zh:'Agent OS 桌面端界面实景 05',en:'Agent OS desktop — screen 05'}},
-    {src:'mqoj247x-image.png',alt:{zh:'Agent OS 桌面端界面实景 06',en:'Agent OS desktop — screen 06'}}
+    {src:'task-board-v0.2.8.png',alt:{zh:'Agent OS v0.2.8 任务看板与定时执行',en:'Agent OS v0.2.8 task board and scheduling'}},
+    {src:'mqoj247o-image.png',alt:{zh:'会话与原生 CLI 工作台',en:'Session and native CLI workbench'}},
+    {src:'mqoj247r-image.png',alt:{zh:'Web、结构化会话与 CLI 多面板对比',en:'Web, structured chat, and CLI comparison panels'}},
+    {src:'mqoj247u-image.png',alt:{zh:'内置 Web 与书签管理',en:'Built-in Web surface and bookmarks'}},
+    {src:'mqoj247v-image.png',alt:{zh:'本地使用统计与活跃趋势',en:'Local usage statistics and activity trends'}},
+    {src:'mqoj247w-image.png',alt:{zh:'成长 Cardex 图鉴',en:'Growth Cardex'}},
+    {src:'mqoj247x-image.png',alt:{zh:'CLI 管理、远程节点、诊断与设置',en:'CLI management, remote nodes, diagnostics, and settings'}}
   ];
   var gPin=document.getElementById('galPin'),
       gStage=document.getElementById('galStage'),
