@@ -163,6 +163,8 @@
     transition:box-shadow .25s,transform .25s;
   }
   .feat:hover{box-shadow:var(--elev-raised);transform:translateY(-2px)}
+  .feat-task{grid-column:1/-1}
+  .feat-task img{display:block;width:100%;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg)}
   .feat-head{display:flex;align-items:center;gap:13px}
   .feat-ico{width:40px;height:40px;border-radius:var(--radius-sm);box-shadow:var(--elev-ring);display:grid;place-items:center;background:var(--bg);color:var(--fg-2);flex-shrink:0}
   .feat-ico svg{width:19px;height:19px}
@@ -333,7 +335,7 @@
     <a class="brand" href="#top">
       <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="#c96442" stroke-width="2.4" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" fill="#c96442"/></svg></span>
       Agent OS
-      <span class="ver">v0.2.7</span>
+      <span class="ver">v0.2.8</span>
     </a>
     <div class="nav-mid">
       <a href="#highlights" data-i18n="nav.highlights">亮点</a>
@@ -397,6 +399,15 @@
     </div>
 
     <div class="feats">
+      <div class="feat feat-task rv">
+        <div class="feat-head">
+          <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 3v4M16 3v4M3 10h18M8 14h3M14 14h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <div><h3 data-i18n="hl.task.t">Agent 任务看板与定时执行</h3><span class="fk" data-i18n="hl.task.k">派单 · Cron · Runtime daemon · 人工验收</span></div>
+        </div>
+        <p data-i18n="hl.task.d">创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。</p>
+        <div class="demo"><img src="task-board-v0.2.8.png" alt="Agent OS v0.2.8 任务看板实机界面" loading="lazy" /></div>
+      </div>
+
       <div class="feat rv">
         <div class="feat-head">
           <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v10H8l-4 4V5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
@@ -547,25 +558,25 @@
           <p data-i18n="cta.p">所有会话、搜索索引、协作统计全部留在本地，离线可用。没有云端账单，没有数据外流——这就是个人工作台该有的样子。</p>
         </div>
         <div class="dl">
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-mac-arm64.dmg" data-platform="mac-arm64">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-arm64.dmg" data-platform="mac-arm64">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
             <span class="pt"><b>macOS · Apple Silicon</b><span data-i18n="cta.d1">Apple Silicon · Intel</span></span>
-            <span class="ar">↓ Agent-Os-0.2.7-mac-arm64.dmg</span>
+            <span class="ar">↓ Agent-Os-0.2.8-mac-arm64.dmg</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-mac-x64.dmg" data-platform="mac-x64">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-mac-x64.dmg" data-platform="mac-x64">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
             <span class="pt"><b>macOS · Intel</b><span data-i18n="cta.d1">Apple Silicon · Intel</span></span>
-            <span class="ar">↓ Agent-Os-0.2.7-mac-x64.dmg</span>
+            <span class="ar">↓ Agent-Os-0.2.8-mac-x64.dmg</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-win-x64-setup.exe" data-platform="win">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-win-x64-setup.exe" data-platform="win">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M7 13h4" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>Windows</b><span data-i18n="cta.d2">x64 安装包 · v0.2.7</span></span>
-            <span class="ar">↓ Agent-Os-0.2.7-win-x64-setup.exe</span>
+            <span class="pt"><b>Windows</b><span data-i18n="cta.d2">x64 安装包 · v0.2.8</span></span>
+            <span class="ar">↓ Agent-Os-0.2.8-win-x64-setup.exe</span>
           </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.7/Agent-Os-0.2.7-linux-amd64.deb" data-platform="linux">
+          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.8/Agent-Os-0.2.8-linux-amd64.deb" data-platform="linux">
             <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
             <span class="pt"><b>Linux · x64</b><span>deb · AppImage · arm64</span></span>
-            <span class="ar">↓ Agent-Os-0.2.7-linux-amd64.deb</span>
+            <span class="ar">↓ Agent-Os-0.2.8-linux-amd64.deb</span>
           </a>
         </div>
       </div>
@@ -576,7 +587,7 @@
 
 <footer>
   <div class="wrap foot-in">
-    <div class="foot-brand"><b>Agent OS</b> &nbsp;·&nbsp; <span data-i18n="foot.brand">个人 AI 超级工作台</span> &nbsp;·&nbsp; v0.2.7</div>
+    <div class="foot-brand"><b>Agent OS</b> &nbsp;·&nbsp; <span data-i18n="foot.brand">个人 AI 超级工作台</span> &nbsp;·&nbsp; v0.2.8</div>
     <div class="foot-links">
       <a href="#highlights" data-i18n="nav.highlights">亮点</a>
       <a href="#memory" data-i18n="nav.memory">记忆</a>
@@ -602,6 +613,7 @@
       "hero.m1":"开源","hero.m2":"本地优先","hero.m2b":"主权数据",
       "fleet.label":"已接入 · 持续扩展",
       "hl.kicker":"亮点能力","hl.h2":"为重度 AI 用户打磨的每一处","hl.sub":"从自由会话到全局搜索，每一个能力都为「同时用很多 AI CLI」的人而生。",
+      "hl.task.t":"Agent 任务看板与定时执行","hl.task.k":"派单 · Cron · Runtime daemon · 人工验收","hl.task.d":"创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。",
       "hl.f1.t":"自由会话","hl.f1.k":"对话即工作 · 终端内嵌","hl.f1.d":"以会话流为中心，终端输出内嵌于对话线程——不必盯着 ANSI 滚屏；需要时一键切全屏 PTY，原生 xterm 直驱。",
       "hl.f1.r1a":"你","hl.f1.r1b":'重构 <code>runtimeHost</code> 的会话编排',"hl.f1.r2b":"已读取契约，开始拆分 IPC 与 PTY 宿主…",
       "hl.f2.t":"CLI 管控","hl.f2.k":"接入 · 维护 · BYOK","hl.f2.d":"开箱扫描本机所有 CLI，适配器统一驱动协议；BYOK 兜底、安装/升级/诊断一站完成，告别配置切换器。",
@@ -634,6 +646,7 @@
       "hero.m1":"Open source","hero.m2":"Local-first","hero.m2b":"sovereign data",
       "fleet.label":"Connected · expanding",
       "hl.kicker":"Signature capabilities","hl.h2":"Built for people who use many AI CLIs","hl.sub":"From free-form sessions to global search — every capability is made for working across many AI CLIs at once.",
+      "hl.task.t":"Agent task board & scheduling","hl.task.k":"Assign · Cron · Runtime daemon · human review","hl.task.d":"Create tasks with a Runtime Host, Agent CLI, model, and workspace, then track them through Todo, In Progress, Review, and Done. One-off and Cron schedules live in the Runtime daemon and keep running after the desktop window closes.",
       "hl.f1.t":"Free-form sessions","hl.f1.k":"Conversation-first · embedded terminal","hl.f1.d":"A conversation-centric flow where terminal output lives inside the chat thread — no more staring at ANSI scroll. Switch to a full-screen PTY on demand, driven by native xterm.",
       "hl.f1.r1a":"you","hl.f1.r1b":'refactor the <code>runtimeHost</code> session orchestration',"hl.f1.r2b":"read the contract, splitting IPC and PTY host…",
       "hl.f2.t":"CLI management","hl.f2.k":"Connect · maintain · BYOK","hl.f2.d":"Scan every local CLI out of the box via one unified adapter protocol — BYOK fallback, install / upgrade / diagnose in one place. No more config switchers.",

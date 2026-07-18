@@ -57,6 +57,17 @@
   <p class="sub">Agent OS 的每一次迭代。最新安装包见 <a href="https://github.com/lohasle/agent-life/releases">Releases</a>，下载与平台对照见 <a href="https://github.com/lohasle/agent-life#最新版本">README</a>。</p>
 
   <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.2.8</span><span class="ver__date">2026-07-18</span></div>
+    <ul class="ver__list">
+      <li><b>Agent 任务看板</b> — 新增 Todo、In Progress、Review、Done 四列工作流，可创建任务、指定 Runtime Host / Agent CLI / 模型 / 工作区并跟踪执行状态。</li>
+      <li><b>完整定时任务系统</b> — 支持一次性计划与 Cron、时区、错过执行策略、暂停 / 恢复 / 立即运行，并保留独立运行记录。</li>
+      <li><b>后台可靠执行</b> — 计划由 Runtime daemon 持有；关闭桌面窗口后仍可运行，同一工作区自动串行，异常退出任务可恢复为中断状态。</li>
+      <li><b>真实会话联动</b> — 任务执行创建真实 Agent 会话，成功后自动进入 Review，由用户人工确认 Done，也可从任务记录直接打开会话。</li>
+      <li><b>远程节点制品修复</b> — 修复 macOS 节点包中 <code>node-pty</code> 辅助程序缺少执行权限导致的 <code>posix_spawnp failed</code>。</li>
+    </ul>
+  </section>
+
+  <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.2.7</span><span class="ver__date">2026-07-16</span></div>
     <ul class="ver__list">
       <li><b>连续输入不丢失</b> — 活动回合运行期间新增持久 FIFO 队列，支持附件、取消和 daemon 重启恢复，回合结束后按顺序自动发送。</li>
