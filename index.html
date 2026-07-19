@@ -97,8 +97,8 @@
   .shot-card-head{height:38px;display:flex;align-items:center;gap:8px;padding:0 11px;border-bottom:1px solid var(--line);font-size:12px;font-weight:680;min-width:0}
   .shot-index{font:10px/1 var(--mono);color:var(--blue)}
   .shot-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .shot-media{display:grid;place-items:center;aspect-ratio:2752/1702;background:#f3f4f7;overflow:hidden}
-  .shot-media img{display:block;width:100%;height:100%;object-fit:contain}
+  .shot-media{position:relative;display:block;aspect-ratio:2752/1702;min-height:0;background:#f3f4f7;overflow:hidden}
+  .shot-media img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
   .overview-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:15px;color:var(--muted);font-size:12px}
   .module-list{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .module-list span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 8px}
@@ -262,35 +262,35 @@
         <div class="shot-grid">
           <button class="shot-card" type="button" data-src="task-board-review-v0.2.9.png" data-title-key="shot.board" aria-label="查看任务看板与验收完整截图">
             <span class="shot-card-head"><span class="shot-index">01</span><span class="shot-title" data-i18n="shot.board">任务看板与验收</span></span>
-            <span class="shot-media"><img src="task-board-review-v0.2.9.png" alt="Agent OS 任务看板与人工验收完整界面" width="2560" height="1664" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="task-board-review-v0.2.9.png" alt="Agent OS 任务看板与人工验收完整界面" width="2560" height="1664" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="task-run-timeline-v0.2.9.png" data-title-key="shot.timeline" aria-label="查看任务运行过程完整截图">
             <span class="shot-card-head"><span class="shot-index">02</span><span class="shot-title" data-i18n="shot.timeline">任务运行过程</span></span>
-            <span class="shot-media"><img src="task-run-timeline-v0.2.9.png" alt="Agent OS 任务运行过程与运行记录完整界面" width="2082" height="1572" decoding="async" /></span>
+            <span class="shot-media"><img src="task-run-timeline-v0.2.9.png" alt="Agent OS 任务运行过程与运行记录完整界面" width="2082" height="1572" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="task-delivery-v0.2.9.png" data-title-key="shot.delivery" aria-label="查看结构化交付物完整截图">
             <span class="shot-card-head"><span class="shot-index">03</span><span class="shot-title" data-i18n="shot.delivery">结构化交付物</span></span>
-            <span class="shot-media"><img src="task-delivery-v0.2.9.png" alt="Agent OS 任务结构化交付物完整界面" width="2096" height="1560" decoding="async" /></span>
+            <span class="shot-media"><img src="task-delivery-v0.2.9.png" alt="Agent OS 任务结构化交付物完整界面" width="2096" height="1560" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="schedule-create-v0.2.9.png" data-title-key="shot.schedule" aria-label="查看计划与 Cron 完整截图">
             <span class="shot-card-head"><span class="shot-index">04</span><span class="shot-title" data-i18n="shot.schedule">计划与 Cron</span></span>
-            <span class="shot-media"><img src="schedule-create-v0.2.9.png" alt="Agent OS 一次性计划与 Cron 创建完整界面" width="1420" height="1574" decoding="async" /></span>
+            <span class="shot-media"><img src="schedule-create-v0.2.9.png" alt="Agent OS 一次性计划与 Cron 创建完整界面" width="1420" height="1574" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="message-channels-feishu-v0.2.9.png" data-title-key="shot.channels" aria-label="查看消息渠道完整截图">
             <span class="shot-card-head"><span class="shot-index">05</span><span class="shot-title" data-i18n="shot.channels">消息渠道</span></span>
-            <span class="shot-media"><img src="message-channels-feishu-v0.2.9.png" alt="Agent OS 飞书消息渠道完整界面" width="1796" height="1266" decoding="async" /></span>
+            <span class="shot-media"><img src="message-channels-feishu-v0.2.9.png" alt="Agent OS 飞书消息渠道完整界面" width="1796" height="1266" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="remote-hosting-v0.2.9.png" data-title-key="shot.remote" aria-label="查看远程托管完整截图">
             <span class="shot-card-head"><span class="shot-index">06</span><span class="shot-title" data-i18n="shot.remote">远程托管</span></span>
-            <span class="shot-media"><img src="remote-hosting-v0.2.9.png" alt="Agent OS 远程托管与节点接入完整界面" width="1764" height="1294" decoding="async" /></span>
+            <span class="shot-media"><img src="remote-hosting-v0.2.9.png" alt="Agent OS 远程托管与节点接入完整界面" width="1764" height="1294" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="mqoj247o-image.png" data-title-key="shot.session" aria-label="查看会话与 CLI 完整截图">
             <span class="shot-card-head"><span class="shot-index">07</span><span class="shot-title" data-i18n="shot.session">会话与 CLI</span></span>
-            <span class="shot-media"><img src="mqoj247o-image.png" alt="Agent OS 会话与原生 CLI 完整界面" width="2752" height="1702" decoding="async" /></span>
+            <span class="shot-media"><img src="mqoj247o-image.png" alt="Agent OS 会话与原生 CLI 完整界面" width="2752" height="1702" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="mqoj247r-image.png" data-title-key="shot.compare" aria-label="查看多面板对比完整截图">
             <span class="shot-card-head"><span class="shot-index">08</span><span class="shot-title" data-i18n="shot.compare">多面板对比</span></span>
-            <span class="shot-media"><img src="mqoj247r-image.png" alt="Agent OS Web、会话与 CLI 多面板对比完整界面" width="2752" height="1702" decoding="async" /></span>
+            <span class="shot-media"><img src="mqoj247r-image.png" alt="Agent OS Web、会话与 CLI 多面板对比完整界面" width="2752" height="1702" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
         </div>
         <div class="overview-foot">
