@@ -90,7 +90,6 @@
   .section-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:14px}
   .section-heading h2{font-size:clamp(28px,3.4vw,42px);letter-spacing:-.035em;line-height:1.1;margin-bottom:7px}
   .section-heading p{color:var(--muted);font-size:14px;margin-bottom:0;max-width:660px}
-  .section-note{flex:0 0 auto;color:var(--blue);font:12px/1.4 var(--mono);background:var(--blue-soft);border-radius:999px;padding:8px 11px}
   .shot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
   .shot-card{min-width:0;padding:0;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);text-align:left;cursor:zoom-in;box-shadow:0 1px 2px rgba(16,24,40,.04);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
   .shot-card:hover{transform:translateY(-2px);border-color:#b8c7e6;box-shadow:var(--shadow-sm)}
@@ -186,7 +185,7 @@
   }
   @media(max-width:820px){
     .nav-links{display:none}.nav{gap:12px}.nav-actions{margin-left:auto}.version{display:none}
-    .section-heading{align-items:start;flex-direction:column;gap:10px}.section-note{align-self:flex-start}
+    .section-heading{align-items:start;flex-direction:column;gap:10px}
     .section-intro{grid-template-columns:1fr}.scenario-grid,.principle-grid,.cap-grid{grid-template-columns:1fr}.footer{align-items:flex-start;flex-direction:column}
   }
   @media(max-width:620px){
@@ -255,46 +254,45 @@
         <div class="section-heading">
           <div>
             <h2 data-i18n="product.title">产品界面总览</h2>
-            <p data-i18n="product.body">8 个当前版本实机界面同时展开。所有截图按完整比例显示，点击任一界面可查看原图。</p>
+            <p data-i18n="product.body">从任务派发、持续运行到结果验收，浏览 Agent OS 当前版本的核心工作界面。</p>
           </div>
-          <span class="section-note" data-i18n="product.note">无切换 · 无裁切</span>
         </div>
         <div class="shot-grid">
-          <button class="shot-card" type="button" data-src="task-board-review-v0.2.9.png" data-title-key="shot.board" aria-label="查看任务看板与验收完整截图">
+          <button class="shot-card" type="button" data-src="task-board-review-v0.2.9.png" data-title-key="shot.board" aria-label="查看任务看板与验收界面">
             <span class="shot-card-head"><span class="shot-index">01</span><span class="shot-title" data-i18n="shot.board">任务看板与验收</span></span>
-            <span class="shot-media"><img src="task-board-review-v0.2.9.png" alt="Agent OS 任务看板与人工验收完整界面" width="2560" height="1664" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="task-board-review-v0.2.9.png" alt="Agent OS 任务看板与人工验收界面" width="2560" height="1664" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="task-run-timeline-v0.2.9.png" data-title-key="shot.timeline" aria-label="查看任务运行过程完整截图">
+          <button class="shot-card" type="button" data-src="task-run-timeline-v0.2.9.png" data-title-key="shot.timeline" aria-label="查看任务运行过程界面">
             <span class="shot-card-head"><span class="shot-index">02</span><span class="shot-title" data-i18n="shot.timeline">任务运行过程</span></span>
-            <span class="shot-media"><img src="task-run-timeline-v0.2.9.png" alt="Agent OS 任务运行过程与运行记录完整界面" width="2082" height="1572" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="task-run-timeline-v0.2.9.png" alt="Agent OS 任务运行过程与运行记录界面" width="2082" height="1572" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="task-delivery-v0.2.9.png" data-title-key="shot.delivery" aria-label="查看结构化交付物完整截图">
+          <button class="shot-card" type="button" data-src="task-delivery-v0.2.9.png" data-title-key="shot.delivery" aria-label="查看结构化交付物界面">
             <span class="shot-card-head"><span class="shot-index">03</span><span class="shot-title" data-i18n="shot.delivery">结构化交付物</span></span>
-            <span class="shot-media"><img src="task-delivery-v0.2.9.png" alt="Agent OS 任务结构化交付物完整界面" width="2096" height="1560" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="task-delivery-v0.2.9.png" alt="Agent OS 任务结构化交付物界面" width="2096" height="1560" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="schedule-create-v0.2.9.png" data-title-key="shot.schedule" aria-label="查看计划与 Cron 完整截图">
+          <button class="shot-card" type="button" data-src="schedule-create-v0.2.9.png" data-title-key="shot.schedule" aria-label="查看计划与 Cron 界面">
             <span class="shot-card-head"><span class="shot-index">04</span><span class="shot-title" data-i18n="shot.schedule">计划与 Cron</span></span>
-            <span class="shot-media"><img src="schedule-create-v0.2.9.png" alt="Agent OS 一次性计划与 Cron 创建完整界面" width="1420" height="1574" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="schedule-create-v0.2.9.png" alt="Agent OS 一次性计划与 Cron 创建界面" width="1420" height="1574" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="message-channels-feishu-v0.2.9.png" data-title-key="shot.channels" aria-label="查看消息渠道完整截图">
+          <button class="shot-card" type="button" data-src="message-channels-feishu-v0.2.9.png" data-title-key="shot.channels" aria-label="查看消息渠道界面">
             <span class="shot-card-head"><span class="shot-index">05</span><span class="shot-title" data-i18n="shot.channels">消息渠道</span></span>
-            <span class="shot-media"><img src="message-channels-feishu-v0.2.9.png" alt="Agent OS 飞书消息渠道完整界面" width="1796" height="1266" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="message-channels-feishu-v0.2.9.png" alt="Agent OS 飞书消息渠道界面" width="1796" height="1266" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="remote-hosting-v0.2.9.png" data-title-key="shot.remote" aria-label="查看远程托管完整截图">
+          <button class="shot-card" type="button" data-src="remote-hosting-v0.2.9.png" data-title-key="shot.remote" aria-label="查看远程托管界面">
             <span class="shot-card-head"><span class="shot-index">06</span><span class="shot-title" data-i18n="shot.remote">远程托管</span></span>
-            <span class="shot-media"><img src="remote-hosting-v0.2.9.png" alt="Agent OS 远程托管与节点接入完整界面" width="1764" height="1294" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="remote-hosting-v0.2.9.png" alt="Agent OS 远程托管与节点接入界面" width="1764" height="1294" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="mqoj247o-image.png" data-title-key="shot.session" aria-label="查看会话与 CLI 完整截图">
+          <button class="shot-card" type="button" data-src="mqoj247o-image.png" data-title-key="shot.session" aria-label="查看会话与 CLI 界面">
             <span class="shot-card-head"><span class="shot-index">07</span><span class="shot-title" data-i18n="shot.session">会话与 CLI</span></span>
-            <span class="shot-media"><img src="mqoj247o-image.png" alt="Agent OS 会话与原生 CLI 完整界面" width="2752" height="1702" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="mqoj247o-image.png" alt="Agent OS 会话与原生 CLI 界面" width="2752" height="1702" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="mqoj247r-image.png" data-title-key="shot.compare" aria-label="查看多面板对比完整截图">
+          <button class="shot-card" type="button" data-src="mqoj247r-image.png" data-title-key="shot.compare" aria-label="查看多面板对比界面">
             <span class="shot-card-head"><span class="shot-index">08</span><span class="shot-title" data-i18n="shot.compare">多面板对比</span></span>
-            <span class="shot-media"><img src="mqoj247r-image.png" alt="Agent OS Web、会话与 CLI 多面板对比完整界面" width="2752" height="1702" loading="eager" decoding="sync" fetchpriority="high" /></span>
+            <span class="shot-media"><img src="mqoj247r-image.png" alt="Agent OS Web、会话与 CLI 多面板对比界面" width="2752" height="1702" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
         </div>
         <div class="overview-foot">
-          <span data-i18n="product.hint">点击截图查看原始尺寸；按 Esc 关闭。</span>
+          <span data-i18n="product.hint">点击截图查看界面细节；按 Esc 关闭。</span>
           <div class="module-list" aria-label="主要模块" data-aria-key="aria.modules">
             <span data-i18n="module.board">看板</span><span data-i18n="module.run">运行记录</span><span data-i18n="module.delivery">交付物</span><span data-i18n="module.schedule">定时</span><span data-i18n="module.channels">消息渠道</span><span data-i18n="module.remote">远程托管</span><span data-i18n="module.session">会话</span><span data-i18n="module.compare">对比</span>
           </div>
@@ -447,7 +445,7 @@
       "skip":"跳到主要内容","nav.product":"产品界面","nav.scenarios":"使用场景","nav.principles":"设计理念","nav.capabilities":"功能范围","nav.guide":"使用指南","nav.download":"下载","aria.home":"Agent OS 首页","aria.nav":"主导航","aria.release":"当前版本信息","aria.modules":"主要模块","aria.adapters":"支持的 CLI 适配器","aria.close":"关闭截图",
       "hero.eyebrow":"桌面端 Agent 工作台","hero.title":"会话、任务与运行节点，都在 Agent OS。","hero.body":"Agent OS 不只是聊天窗口：它把 Web、CLI 与 Agent 放在同一对比工作台，把跨 Agent 会话搜索和记忆放进同一存储层，再用任务、定时、远程节点与消息渠道承接长期工作。","hero.view":"查看产品界面","hero.download":"下载 v0.2.9","hero.source":"GitHub 源码",
       "release.title":"当前版本 v0.2.9","release.state":"可下载","release.cli":"CLI 适配器","release.platform":"桌面平台","release.local":"本机保存","release.data":"会话、任务与索引",
-      "product.title":"产品界面总览","product.body":"8 个当前版本实机界面同时展开。所有截图按完整比例显示，点击任一界面可查看原图。","product.note":"无切换 · 无裁切","product.hint":"点击截图查看原始尺寸；按 Esc 关闭。",
+      "product.title":"产品界面总览","product.body":"从任务派发、持续运行到结果验收，浏览 Agent OS 当前版本的核心工作界面。","product.hint":"点击截图查看界面细节；按 Esc 关闭。",
       "shot.board":"任务看板与验收","shot.timeline":"任务运行过程","shot.delivery":"结构化交付物","shot.schedule":"计划与 Cron","shot.channels":"消息渠道","shot.remote":"远程托管","shot.session":"会话与 CLI","shot.compare":"多面板对比",
       "module.session":"会话","module.board":"看板","module.run":"运行记录","module.delivery":"交付物","module.schedule":"定时","module.channels":"消息渠道","module.remote":"远程托管","module.compare":"对比",
       "scenarios.title":"四类重度 AI 用户，四种持续工作流","scenarios.body":"Agent OS 不替代模型或 CLI。它解决的是高频使用之后出现的管理问题：上下文分散、任务无法追踪、自动化不可靠，以及不同机器之间缺少统一入口。","scenario.scene":"场景","scenario.pain":"原来的问题","scenario.solve":"Agent OS","scenario.dev.label":"01 · 独立开发者 / 多仓库维护者","scenario.dev.title":"十几个终端，不应该承担项目管理","scenario.dev.scene":"一天内在多个仓库切换，用 Claude、Codex 或 Pi 分别处理开发、排障和文档。","scenario.dev.pain":"终端标题、工作目录和上下文散落；中断后很难找回“这个 Agent 当时做到哪一步”。","scenario.dev.solve":"把 Runtime Host、CLI、模型和工作目录绑定到会话与任务，并通过历史搜索、看板和运行记录继续工作。","scenario.lead.label":"02 · 技术负责人 / 架构与评审","scenario.lead.title":"不只看答案，还要知道它怎么交付","scenario.lead.scene":"把架构分析、重构建议、测试检查交给不同 Agent，再由自己做最终判断。","scenario.lead.pain":"只有一段最终输出时，很难核对运行配置、执行批次和失败重试，也缺少明确的验收关口。","scenario.lead.solve":"每次运行保留过程事件和结构化交付物；结果统一进入 Review，检查关联会话后再确认 Done。","scenario.ops.label":"03 · 自动化维护者 / 本地 DevOps","scenario.ops.title":"重复工作，不应依赖记得点一下","scenario.ops.scene":"每天检查异常、每周生成报告、定期扫描依赖或回顾未完成事项。","scenario.ops.pain":"零散脚本和系统 Cron 缺少 Agent 上下文、执行记录与人工审阅；桌面窗口关闭后也容易担心任务中断。","scenario.ops.solve":"使用单次计划或 Cron、时区与错过策略；Runtime daemon 持有计划，同一工作目录串行执行并保留结果。","scenario.remote.label":"04 · 多设备用户 / 个人工作室","scenario.remote.title":"离开主电脑，也能把工作交给正确机器","scenario.remote.scene":"笔记本负责控制，台式机或家中服务器负责运行；外出时从飞书发起工作。","scenario.remote.pain":"反复远程登录、复制提示词和确认环境；节点版本、CLI 状态与任务结果分散在不同机器。","scenario.remote.solve":"远程托管统一接入节点并选择 Runtime Host；飞书机器人通过长连接把消息转给本机 Agent，再回到任务记录审阅。",
@@ -461,7 +459,7 @@
       "skip":"Skip to main content","nav.product":"Product screens","nav.scenarios":"Use cases","nav.principles":"Design principles","nav.capabilities":"Capabilities","nav.guide":"User guide","nav.download":"Download","aria.home":"Agent OS home","aria.nav":"Main navigation","aria.release":"Current release information","aria.modules":"Main modules","aria.adapters":"Supported CLI adapters","aria.close":"Close screenshot",
       "hero.eyebrow":"Desktop agent workbench","hero.title":"Sessions, tasks, and Runtime Hosts in Agent OS.","hero.body":"Agent OS is more than a chat window: it compares Web, CLI, and Agent side by side, puts cross-Agent session search and memory in one storage layer, and carries long-running work through tasks, schedules, remote nodes, and message channels.","hero.view":"View product screens","hero.download":"Download v0.2.9","hero.source":"GitHub source",
       "release.title":"Current release v0.2.9","release.state":"Available","release.cli":"CLI adapters","release.platform":"desktop platforms","release.local":"Stored locally","release.data":"sessions, tasks, and indexes",
-      "product.title":"Product screen overview","product.body":"8 current desktop screens shown together. Every screenshot keeps its full aspect ratio; select any screen to view the original.","product.note":"No slides · no cropping","product.hint":"Select a screenshot for the original size; press Esc to close.",
+      "product.title":"Product screen overview","product.body":"Explore the core Agent OS workflow, from dispatch and continuous execution to delivery review.","product.hint":"Select a screenshot to inspect the interface; press Esc to close.",
       "shot.board":"Task board & review","shot.timeline":"Task run timeline","shot.delivery":"Structured deliverable","shot.schedule":"Schedules & Cron","shot.channels":"Message channels","shot.remote":"Remote hosting","shot.session":"Sessions & CLI","shot.compare":"Multi-panel compare",
       "module.session":"Sessions","module.board":"Board","module.run":"Run history","module.delivery":"Deliverables","module.schedule":"Schedule","module.channels":"Channels","module.remote":"Remote hosting","module.compare":"Compare",
       "scenarios.title":"Four heavy AI users, four continuous workflows","scenarios.body":"Agent OS does not replace a model or CLI. It addresses the management problems that emerge with frequent use: scattered context, untraceable tasks, fragile automation, and no shared entry point across machines.","scenario.scene":"Scenario","scenario.pain":"Previous pain","scenario.solve":"Agent OS","scenario.dev.label":"01 · Independent developer / multi-repo maintainer","scenario.dev.title":"A dozen terminals should not become project management","scenario.dev.scene":"Switch between several repositories in one day, using Claude, Codex, or Pi for development, debugging, and documentation.","scenario.dev.pain":"Terminal titles, workspaces, and context are scattered. After an interruption, it is hard to find where an Agent stopped.","scenario.dev.solve":"Bind Runtime Host, CLI, model, and workspace to sessions and tasks, then continue through history search, the board, and run records.","scenario.lead.label":"02 · Tech lead / architecture and review","scenario.lead.title":"Review the result and how it was delivered","scenario.lead.scene":"Delegate architecture analysis, refactoring advice, and test checks to different Agents, then make the final decision.","scenario.lead.pain":"A final answer alone does not show run settings, attempts, or retries, and there is no explicit acceptance gate.","scenario.lead.solve":"Keep execution events and a structured deliverable for each run. Results enter Review before the linked session is checked and Done is confirmed.","scenario.ops.label":"03 · Automation maintainer / local DevOps","scenario.ops.title":"Recurring work should not depend on remembering to click","scenario.ops.scene":"Check incidents daily, generate reports weekly, scan dependencies, or revisit unfinished work on a schedule.","scenario.ops.pain":"Loose scripts and system Cron lack Agent context, execution history, and user review. Closing the desktop also creates uncertainty about continuity.","scenario.ops.solve":"Use one-off or Cron schedules, timezone, and misfire policy. The Runtime daemon owns schedules, serializes a workspace, and keeps results.","scenario.remote.label":"04 · Multi-device user / solo studio","scenario.remote.title":"Hand work to the right machine while away from the main computer","scenario.remote.scene":"Use a laptop as controller and a desktop or home server as worker; dispatch work from Feishu while away.","scenario.remote.pain":"Repeated remote login, prompt copying, and environment checks leave node versions, CLI state, and results split across machines.","scenario.remote.solve":"Remote hosting enrolls nodes behind selectable Runtime Hosts. A Feishu bot passes messages to the local Agent over a long connection, with review returning to the task record.",
@@ -495,9 +493,9 @@
     });
     document.querySelectorAll(".shot-card").forEach(function(card){
       var title=table[card.getAttribute("data-title-key")]||"Agent OS";
-      card.setAttribute("aria-label",lang==="zh"?"查看"+title+"完整截图":"View the full "+title+" screenshot");
+      card.setAttribute("aria-label",lang==="zh"?"查看"+title+"界面":"View the "+title+" interface");
       var image=card.querySelector("img");
-      if(image)image.alt=lang==="zh"?"Agent OS "+title+"完整界面":"Agent OS "+title+" full interface";
+      if(image)image.alt=lang==="zh"?"Agent OS "+title+"界面":"Agent OS "+title+" interface";
     });
     document.title=lang==="zh"?"Agent OS — 会话、任务与运行节点":"Agent OS — Sessions, Tasks & Runtime Hosts";
     toggle.textContent=lang==="zh"?"EN":"中";
@@ -510,7 +508,7 @@
     var table=strings[lang]||strings.zh;
     lastFocus=card;
     lightboxImage.src=card.getAttribute("data-src");
-    lightboxImage.alt=(table[key]||"Agent OS")+(lang==="zh"?"完整界面":" full interface");
+    lightboxImage.alt=(table[key]||"Agent OS")+(lang==="zh"?"界面":" interface");
     lightboxTitle.textContent=table[key]||"Agent OS";
     lightbox.hidden=false;
     document.body.classList.add("modal-open");
