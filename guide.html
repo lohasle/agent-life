@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Agent OS 使用指南</title>
 <meta name="description" content="Agent OS v0.2.9 安装、首次使用、会话、任务看板、定时执行、远程节点与常见问题指南。" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c96442'/%3E%3Cpath d='M8 10h16M8 16h10M8 22h16' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="icon" type="image/png" href="./agentos-icon.png" />
+<link rel="apple-touch-icon" href="./agentos-icon.png" />
 <style>
   :root{
     --bg:#f5f4ed;--surface:#faf9f5;--surface-2:#e8e6dc;--fg:#141413;--fg-2:#3d3d3a;
@@ -24,7 +25,7 @@
   .nav{position:sticky;top:0;z-index:20;background:rgba(245,244,237,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
   .nav-in{height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
   .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:19px;font-weight:600}
-  .mark{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--border);color:var(--accent)}
+  .mark{width:32px;height:32px;border-radius:9px;display:block;object-fit:cover;flex-shrink:0}
   .nav-links{display:flex;align-items:center;gap:22px;color:var(--muted);font-size:13px}
   .nav-links a:hover{color:var(--fg)}
   .lang{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:7px 12px;cursor:pointer;font-family:var(--mono);font-size:12px}
@@ -75,7 +76,7 @@
 <body>
 <nav class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="index.html"><span class="mark">≡</span>Agent OS <small>v0.2.9</small></a>
+    <a class="brand" href="index.html"><img class="mark" src="./agentos-icon.png" alt="" width="32" height="32" />Agent OS <small>v0.2.9</small></a>
     <div class="nav-links"><a href="index.html" data-i18n="nav.product">产品展示</a><a href="#install" data-i18n="nav.install">安装</a><a href="#tasks" data-i18n="nav.tasks">任务</a><a href="#faq" data-i18n="nav.faq">常见问题</a><a href="index.html#download" data-i18n="nav.download">下载</a></div>
     <button class="lang" id="langToggle" type="button">EN</button>
   </div>

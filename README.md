@@ -52,9 +52,11 @@ GET https://api.github.com/repos/lohasle/agent-life/releases/latest
 
 ## 网站维护
 
-- `index.html` — 单文件落地页（含内联样式与 i18n）。
+- `index.html` — 单文件产品展示页（含完整实机界面总览、内联样式与 i18n）。
 - `guide.html` — 中英文完整使用指南。
 - `changelog.html` — 版本更新记录页。
+- `agentos-icon.png` — 与桌面应用一致的官网 favicon 与品牌图标。
+- `task-board-v0.2.9.png` / `task-schedule-v0.2.9.png` — 完整比例的任务看板与定时任务实机截图。
 - `mqoj247*.png` — 落地页配图资源。
 - `DESIGN-HANDOFF.md` / `DESIGN-MANIFEST.json` — 设计交付件。
 

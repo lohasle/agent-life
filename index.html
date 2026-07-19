@@ -1,975 +1,445 @@
-
 <!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent OS — 个人 AI 超级工作台</title>
-<meta name="description" content="Agent OS 是本地优先的桌面 Agent 工作台：统一管理 AI CLI 会话、任务看板、定时执行、对比、记忆搜索、统计与远程节点。" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c96442'/%3E%3Cpath d='M8 10h16M8 16h10M8 22h16' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<title>Agent OS — 会话、任务与运行节点</title>
+<meta name="description" content="Agent OS 是桌面端 Agent 工作台，集中管理 CLI 会话、任务看板、定时执行、对比、Web、记忆搜索、统计和远程运行节点。" />
+<meta name="theme-color" content="#f6f8fc" />
+<link rel="icon" type="image/png" href="./agentos-icon.png" />
+<link rel="apple-touch-icon" href="./agentos-icon.png" />
 <style>
-  /* ───────────────────────────────────────────────────────────────
-     Active design system tokens — Claude (Anthropic)
-     Parchment canvas · terracotta accent · warm neutrals only
-     Serif display + sans body · ring-based depth · editorial pacing
-     ─────────────────────────────────────────────────────────────── */
   :root{
-    --bg:#f5f4ed; --surface:#faf9f5; --surface-warm:#e8e6dc;
-    --fg:#141413; --fg-2:#3d3d3a; --muted:#5e5d59; --meta:#6f6e67;
-    --border:#f0eee6; --border-soft:#e8e6dc;
-    --accent:#c96442; --accent-on:#faf9f5;
-    --accent-hover:color-mix(in oklab,var(--accent),black 8%);
-    --accent-active:color-mix(in oklab,var(--accent),black 14%);
-    --danger:#b53333;
-    --font-display:"Source Serif 4",Georgia,"Times New Roman",serif;
-    --font-body:"Source Serif 4",Georgia,system-ui,-apple-system,"Segoe UI",sans-serif;
-    --font-ui:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
-    --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-    --text-xs:11px; --text-sm:14px; --text-base:16px; --text-lg:19px;
-    --text-xl:24px; --text-2xl:32px; --text-3xl:46px; --text-4xl:60px;
-    --leading-body:1.6; --leading-tight:1.12;
-    --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;
-    --space-6:24px;--space-8:32px;--space-12:48px;--space-16:64px;
-    --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:22px;
-    --elev-ring:0 0 0 1px var(--border);
-    --elev-raised:rgba(20,20,19,.06) 0 6px 28px;
-    --elev-lift:rgba(20,20,19,.10) 0 18px 48px;
-    --focus-ring:0 0 0 3px rgba(56,152,236,.32);
-    --maxw:1160px; --gut:clamp(20px,5vw,52px);
-    --dark:#141413; --dark-2:#1c1b1a; --dark-3:#30302e;
-    --warm-silver:#b0aea5;
-    --cli-claude:#c96442; --cli-codex:#3d3d3a; --cli-gemini:#6b7a3f;
-    --cli-opencode:#6e5a72; --cli-cursor:#5e6258; --cli-hermes:#8a6a3f;
-    --cli-openclaw:#6e6248; --cli-pi:#6a4f5e;
+    --bg:#f6f8fc;
+    --surface:#ffffff;
+    --surface-soft:#f0f3f9;
+    --text:#101828;
+    --text-2:#344054;
+    --muted:#667085;
+    --line:#e4e7ec;
+    --line-strong:#d0d5dd;
+    --blue:#2563eb;
+    --blue-dark:#1d4ed8;
+    --blue-soft:#eaf1ff;
+    --green:#18794e;
+    --dark:#111827;
+    --radius-sm:10px;
+    --radius-md:16px;
+    --radius-lg:24px;
+    --shadow-sm:0 1px 2px rgba(16,24,40,.05),0 10px 28px rgba(16,24,40,.06);
+    --shadow-lg:0 24px 80px rgba(15,23,42,.22);
+    --max:1240px;
+    --gutter:clamp(18px,4vw,48px);
+    --font:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
-  body{
-    background:var(--bg);color:var(--fg);
-    font-family:var(--font-ui);font-size:var(--text-base);
-    line-height:var(--leading-body);
-    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-    overflow-x:hidden;
-  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body.modal-open{overflow:hidden}
+  button,a{font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:rgba(37,99,235,.14)}
+  button{color:inherit}
   a{color:inherit;text-decoration:none}
-  ::selection{background:rgba(201,100,66,.22);color:var(--fg)}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);position:relative}
-  .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+  img{max-width:100%}
+  h1,h2,h3,p{margin-top:0}
+  h1,h2,h3{text-wrap:balance}
+  p{text-wrap:pretty}
+  section[id]{scroll-margin-top:82px}
+  :focus-visible{outline:3px solid rgba(37,99,235,.38);outline-offset:3px}
+  .skip{position:fixed;left:16px;top:12px;z-index:300;transform:translateY(-160%);background:var(--dark);color:#fff;padding:10px 14px;border-radius:8px;font-size:14px}
+  .skip:focus{transform:none}
+  .wrap{width:min(100%,var(--max));margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
 
-  h1,h2,h3,h4{font-family:var(--font-display);font-weight:500;letter-spacing:-.015em;line-height:var(--leading-tight);color:var(--fg)}
-  .kicker{
-    font-family:var(--font-mono);font-size:var(--text-xs);font-weight:500;
-    letter-spacing:.18em;text-transform:uppercase;color:var(--meta);
-    display:inline-flex;align-items:center;gap:10px;
+  .site-header{position:sticky;top:0;z-index:80;border-bottom:1px solid rgba(228,231,236,.88);background:rgba(246,248,252,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .nav{height:68px;display:flex;align-items:center;gap:28px}
+  .brand{display:inline-flex;align-items:center;gap:11px;font-weight:720;letter-spacing:-.01em;white-space:nowrap}
+  .brand img{width:34px;height:34px;border-radius:10px;display:block}
+  .version{font:11px/1 var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 8px;background:var(--surface)}
+  .nav-links{display:flex;align-items:center;gap:24px;margin-left:auto;font-size:14px;color:var(--text-2)}
+  .nav-links a{padding:8px 0}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-actions{display:flex;align-items:center;gap:9px}
+  .lang{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 12px;font:12px/1 var(--mono);cursor:pointer}
+  .lang:hover{border-color:var(--line-strong);background:var(--surface-soft)}
+  .nav-download{border-radius:10px;background:var(--dark);color:#fff;padding:9px 14px;font-size:13px;font-weight:650}
+  .nav-download:hover{background:#273244}
+
+  .hero{padding:clamp(30px,4vw,48px) 0 38px}
+  .hero-top{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.45fr);gap:clamp(30px,4vw,56px);align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;margin-bottom:18px;color:var(--blue);font:650 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--blue);border-radius:2px}
+  h1{font-size:clamp(40px,4.6vw,60px);line-height:1.03;letter-spacing:-.048em;margin-bottom:18px;max-width:900px}
+  .hero-copy>p{max-width:800px;color:var(--text-2);font-size:clamp(15px,1.45vw,18px);line-height:1.62;margin-bottom:20px}
+  .hero-actions{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line-strong);border-radius:11px;padding:11px 17px;background:var(--surface);font-size:14px;font-weight:680;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background-color .18s ease}
+  .btn:hover{transform:translateY(-1px);border-color:#98a2b3;background:#fbfcfe}
+  .btn-primary{background:var(--blue);border-color:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
+  .release-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden}
+  .release-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line)}
+  .release-head strong{font-size:14px}
+  .release-head span{font:11px/1 var(--mono);color:var(--green);background:#ecfdf3;border-radius:999px;padding:6px 8px}
+  .release-list{display:grid;grid-template-columns:1fr 1fr}
+  .release-fact{padding:15px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+  .release-fact:nth-child(2n){border-right:0}
+  .release-fact:nth-last-child(-n+2){border-bottom:0}
+  .release-fact b{display:block;font-size:15px;margin-bottom:3px}
+  .release-fact span{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+
+  .overview{margin-top:clamp(30px,4vw,44px)}
+  .section-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:14px}
+  .section-heading h2{font-size:clamp(28px,3.4vw,42px);letter-spacing:-.035em;line-height:1.1;margin-bottom:7px}
+  .section-heading p{color:var(--muted);font-size:14px;margin-bottom:0;max-width:660px}
+  .section-note{flex:0 0 auto;color:var(--blue);font:12px/1.4 var(--mono);background:var(--blue-soft);border-radius:999px;padding:8px 11px}
+  .shot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .shot-card{min-width:0;padding:0;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);text-align:left;cursor:zoom-in;box-shadow:0 1px 2px rgba(16,24,40,.04);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+  .shot-card:hover{transform:translateY(-2px);border-color:#b8c7e6;box-shadow:var(--shadow-sm)}
+  .shot-card-head{height:38px;display:flex;align-items:center;gap:8px;padding:0 11px;border-bottom:1px solid var(--line);font-size:12px;font-weight:680;min-width:0}
+  .shot-index{font:10px/1 var(--mono);color:var(--blue)}
+  .shot-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .shot-media{display:grid;place-items:center;aspect-ratio:2752/1702;background:#f3f4f7;overflow:hidden}
+  .shot-media img{display:block;width:100%;height:100%;object-fit:contain}
+  .overview-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:15px;color:var(--muted);font-size:12px}
+  .module-list{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .module-list span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 8px}
+
+  .section{padding:clamp(72px,9vw,112px) 0}
+  .section.alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .section-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(32px,7vw,100px);align-items:start;margin-bottom:42px}
+  .section-intro h2{font-size:clamp(32px,4.2vw,52px);letter-spacing:-.04em;line-height:1.06;margin-bottom:0}
+  .section-intro p{font-size:17px;color:var(--text-2);line-height:1.7;margin-bottom:0;max-width:680px}
+  .workflow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden;background:var(--surface)}
+  .workflow-step{position:relative;padding:26px 24px;min-height:210px;border-right:1px solid var(--line)}
+  .workflow-step:last-child{border-right:0}
+  .workflow-step::after{content:"→";position:absolute;right:-13px;top:28px;z-index:2;width:26px;height:26px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--blue);font:13px/1 var(--mono)}
+  .workflow-step:last-child::after{display:none}
+  .step-num{display:block;color:var(--blue);font:11px/1 var(--mono);letter-spacing:.08em;margin-bottom:26px}
+  .workflow-step h3{font-size:19px;letter-spacing:-.02em;margin-bottom:10px}
+  .workflow-step p{color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:0}
+
+  .cap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .cap{padding:28px;border:1px solid var(--line);background:var(--bg);border-radius:var(--radius-md)}
+  .cap-label{display:inline-block;color:var(--blue);font:11px/1 var(--mono);letter-spacing:.08em;margin-bottom:16px}
+  .cap h3{font-size:22px;letter-spacing:-.025em;margin-bottom:12px}
+  .cap p{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tags span{font-size:12px;color:var(--text-2);border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:6px 9px}
+  .adapters{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+  .adapter{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font:12px/1 var(--mono)}
+  .adapter::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue)}
+
+  .download-shell{background:var(--dark);color:#fff;border-radius:var(--radius-lg);padding:clamp(32px,5vw,58px);box-shadow:var(--shadow-lg)}
+  .download-top{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(34px,7vw,90px);margin-bottom:36px}
+  .download-top h2{font-size:clamp(32px,4.5vw,54px);letter-spacing:-.04em;line-height:1.05;margin-bottom:16px}
+  .download-top p{color:#b8c0cf;font-size:15px;line-height:1.7;margin-bottom:0}
+  .download-notes{display:grid;gap:10px;align-content:start}
+  .download-note{display:flex;gap:10px;color:#c9d1df;font-size:13px;line-height:1.55}
+  .download-note::before{content:"✓";color:#7dd3a9;font-weight:750}
+  .download-note a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+  .downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .download-row{display:flex;align-items:center;gap:14px;min-width:0;padding:14px 15px;border:1px solid #344054;border-radius:11px;background:#182132;transition:background-color .18s ease,border-color .18s ease,transform .18s ease}
+  .download-row:hover{background:#202b3d;border-color:#526078;transform:translateY(-1px)}
+  .platform{min-width:0}
+  .platform b{display:block;font-size:14px;margin-bottom:2px}
+  .platform span{display:block;color:#98a2b3;font:11px/1.4 var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .download-arrow{margin-left:auto;color:#9db9ff;font-size:16px}
+
+  footer{padding:34px 0 46px}
+  .footer{display:flex;align-items:center;justify-content:space-between;gap:28px;color:var(--muted);font-size:12px}
+  .footer-brand{display:flex;align-items:center;gap:9px;color:var(--text-2);font-weight:650}
+  .footer-brand img{width:25px;height:25px;border-radius:7px}
+  .footer-links{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .footer-links a:hover{color:var(--blue)}
+
+  .lightbox[hidden]{display:none}
+  .lightbox{position:fixed;inset:0;z-index:200;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;background:rgba(8,15,28,.94);padding:clamp(16px,3vw,34px);overscroll-behavior:contain}
+  .lightbox-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;color:#fff}
+  .lightbox-title{font-size:14px;font-weight:680}
+  .lightbox-close{width:42px;height:42px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:22px;line-height:1;cursor:pointer}
+  .lightbox-close:hover{background:rgba(255,255,255,.16)}
+  .lightbox-media{min-height:0;display:grid;place-items:center}
+  .lightbox-media img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border:1px solid rgba(255,255,255,.14);border-radius:10px;box-shadow:var(--shadow-lg)}
+  .lightbox-hint{margin:0;text-align:center;color:#98a2b3;font-size:12px}
+
+  @media(max-width:1020px){
+    .hero-top{grid-template-columns:1fr}.release-card{max-width:720px}.shot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .workflow{grid-template-columns:repeat(2,minmax(0,1fr))}.workflow-step:nth-child(2){border-right:0}.workflow-step:nth-child(-n+2){border-bottom:1px solid var(--line)}.workflow-step:nth-child(2)::after{display:none}
+    .download-top{grid-template-columns:1fr}
   }
-  .kicker::before{content:"";width:22px;height:1px;background:var(--accent)}
-  .sec{padding:clamp(72px,10vh,116px) 0}
-  .sec-head{max-width:720px;margin-bottom:clamp(36px,5vh,60px)}
-  .sec-head h2{font-size:clamp(28px,3.8vw,44px);margin:16px 0 0}
-  .sec-head p{color:var(--muted);font-size:var(--text-lg);margin-top:16px;max-width:58ch;line-height:1.55}
-
-  .nav{position:fixed;top:0;left:0;right:0;z-index:60;
-    transition:background .3s ease,box-shadow .3s ease;background:transparent;
+  @media(max-width:820px){
+    .nav-links{display:none}.nav{gap:12px}.nav-actions{margin-left:auto}.version{display:none}
+    .section-heading{align-items:start;flex-direction:column;gap:10px}.section-note{align-self:flex-start}
+    .section-intro{grid-template-columns:1fr}.cap-grid{grid-template-columns:1fr}.footer{align-items:flex-start;flex-direction:column}
   }
-  .nav.on{
-    background:rgba(245,244,237,.82);
-    backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);
-    box-shadow:0 1px 0 var(--border);
-  }
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--fg);white-space:nowrap}
-  .brand .mark{width:28px;height:28px;border-radius:var(--radius-sm);display:grid;place-items:center;background:var(--surface);box-shadow:var(--elev-ring);flex-shrink:0}
-  .brand .mark svg{width:17px;height:17px}
-  .brand .ver{font-family:var(--font-mono);font-size:11px;color:var(--meta);border:1px solid var(--border-soft);padding:2px 7px;border-radius:6px;letter-spacing:.02em;font-weight:500}
-  .nav-mid{display:flex;align-items:center;gap:28px}
-  .nav-mid a{font-size:14px;color:var(--muted);transition:color .2s}
-  .nav-mid a:hover{color:var(--fg)}
-  .nav-end{display:flex;align-items:center;gap:12px}
-  .lang-toggle{
-    font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.06em;
-    color:var(--fg-2);background:var(--surface);box-shadow:var(--elev-ring);
-    border:0;border-radius:999px;padding:7px 13px;cursor:pointer;
-    transition:box-shadow .2s,background .2s;
-  }
-  .lang-toggle:hover{box-shadow:0 0 0 1px var(--border-soft)}
-  .btn{
-    display:inline-flex;align-items:center;gap:9px;cursor:pointer;
-    font-family:var(--font-ui);font-size:14.5px;font-weight:500;letter-spacing:.005em;
-    padding:10px 18px;border-radius:var(--radius-md);
-    border:1px solid var(--border-soft);background:var(--surface);color:var(--fg);
-    transition:transform .15s,box-shadow .2s,background .2s;
-  }
-  .btn:hover{box-shadow:0 0 0 1px var(--border-soft);background:var(--surface-warm)}
-  .btn:active{transform:translateY(1px)}
-  .btn-primary{background:var(--accent);border-color:transparent;color:var(--accent-on);box-shadow:0 8px 22px -10px rgba(201,100,66,.55)}
-  .btn-primary:hover{background:var(--accent-hover);box-shadow:0 10px 26px -10px rgba(201,100,66,.6)}
-  .btn svg{width:15px;height:15px}
-  @media(max-width:840px){.nav-mid{display:none}}
-  @media(max-width:520px){.nav-end .btn{display:none}.nav-end{gap:8px}.brand{gap:8px}}
-
-  .hero{padding:132px 0 64px;position:relative}
-  .hero-grid{display:grid;grid-template-columns:1.06fr 1fr;gap:clamp(36px,5vw,60px);align-items:center}
-  @media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:40px}}
-  .hero h1{font-size:clamp(38px,5.4vw,68px);font-weight:600;margin:20px 0 0;letter-spacing:-.025em}
-  .hero h1 .l2{display:block;color:var(--muted);font-weight:500}
-  .hero h1 .acc{color:var(--accent)}
-  .hero .sub{color:var(--muted);font-size:var(--text-lg);line-height:1.6;margin-top:22px;max-width:52ch}
-  .hero .sub b{color:var(--fg);font-weight:600}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center}
-  .hero-meta{display:flex;gap:24px;margin-top:28px;flex-wrap:wrap}
-  .hero-meta .m{font-family:var(--font-mono);font-size:12px;color:var(--meta);letter-spacing:.01em;display:flex;align-items:center;gap:7px}
-  .hero-meta .m b{color:var(--fg-2);font-weight:600}
-  .hero-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
-  .release-note{
-    margin-top:32px;padding:15px 18px;border:1px solid rgba(201,100,66,.28);
-    border-radius:var(--radius-md);background:rgba(201,100,66,.07);
-    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-    color:var(--fg-2);font-size:13.5px;
-  }
-  .release-note-badge{
-    font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;
-    color:var(--accent);background:var(--surface);border:1px solid rgba(201,100,66,.24);
-    border-radius:999px;padding:4px 9px;white-space:nowrap;
-  }
-  .release-note-links{display:flex;gap:14px;margin-left:auto;font-size:13px;font-weight:600}
-  .release-note-links a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
-  @media(max-width:700px){.release-note-links{width:100%;margin-left:0}}
-
-  .term{
-    background:linear-gradient(180deg,var(--dark-2),var(--dark));
-    border:1px solid var(--dark-3);border-radius:var(--radius-lg);overflow:hidden;
-    box-shadow:var(--elev-lift);
-    font-family:var(--font-mono);font-size:12.5px;line-height:1.85;
-  }
-  .term-bar{display:flex;align-items:center;gap:8px;padding:12px 15px;border-bottom:1px solid var(--dark-3)}
-  .term-bar .tl{width:11px;height:11px;border-radius:50%;background:#3a3a37}
-  .term-bar .tt{margin-left:8px;font-size:11px;color:var(--warm-silver);letter-spacing:.04em;opacity:.8}
-  .term-bar .tt b{color:#e7e4d8;font-weight:500}
-  .term-body{padding:16px 18px;min-height:340px;color:#cbc7bb}
-  .term-body .ln{white-space:pre;opacity:0}
-  .term-body .ln.show{opacity:1}
-  .term-body .p{color:#f0ede2}
-  .term-body .ok{color:#8fb98a}
-  .term-body .cmd{color:#e7e4d8}
-  .term-body .path{color:#7d7a70}
-  .term-body .dim{color:#6f6c63}
-  .term-body .cur{display:inline-block;width:8px;height:15px;background:#e7e4d8;vertical-align:-2px;margin-left:2px;animation:blink 1.06s linear infinite}
-  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
-  .cli-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
-
-  .fleet{margin-top:56px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 0;overflow:hidden;position:relative}
-  .fleet::before,.fleet::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
-  .fleet::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
-  .fleet::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
-  .fleet-label{font-family:var(--font-mono);font-size:11px;color:var(--meta);letter-spacing:.16em;text-transform:uppercase;text-align:center;margin-bottom:14px}
-  .fleet-track{display:flex;gap:38px;width:max-content;animation:slide 42s linear infinite}
-  .fleet:hover .fleet-track{animation-play-state:paused}
-  .fleet-track span{font-family:var(--font-mono);font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
-  @keyframes slide{to{transform:translateX(-50%)}}
-
-  .feats{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-  @media(max-width:880px){.feats{grid-template-columns:1fr}}
-  .feat{
-    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
-    padding:30px;display:flex;flex-direction:column;gap:14px;
-    transition:box-shadow .25s,transform .25s;
-  }
-  .feat:hover{box-shadow:var(--elev-raised);transform:translateY(-2px)}
-  .feat-task{grid-column:1/-1}
-  .feat-task img{display:block;width:100%;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg)}
-  .feat-head{display:flex;align-items:center;gap:13px}
-  .feat-ico{width:40px;height:40px;border-radius:var(--radius-sm);box-shadow:var(--elev-ring);display:grid;place-items:center;background:var(--bg);color:var(--fg-2);flex-shrink:0}
-  .feat-ico svg{width:19px;height:19px}
-  .feat h3{font-size:21px}
-  .feat .fk{font-family:var(--font-mono);font-size:11px;color:var(--meta);letter-spacing:.04em;display:block;margin-top:3px}
-  .feat p{color:var(--muted);font-size:14.5px;line-height:1.62}
-  .feat .demo{margin-top:auto;padding-top:16px}
-
-  .demo-chat{font-family:var(--font-mono);font-size:11.5px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg)}
-  .demo-chat .row{display:flex;gap:10px;padding:9px 12px;border-top:1px solid var(--border)}
-  .demo-chat .row:first-child{border-top:0}
-  .demo-chat .who{width:60px;flex-shrink:0;font-weight:600}
-  .demo-chat .who.u{color:var(--fg-2)} .demo-chat .who.a{color:var(--cli-claude)}
-  .demo-chat .what{color:var(--muted)} .demo-chat .what code{color:#3f7a4e}
-  .demo-chat .termrow{background:var(--dark);color:#8fb98a;font-size:11px}
-  .demo-chat .termrow .who{color:#8fb98a}
-  .demo-cli{font-family:var(--font-mono);font-size:11.5px;display:flex;flex-direction:column;gap:7px}
-  .demo-cli .r{display:flex;align-items:center;gap:10px;color:var(--muted)}
-  .demo-cli .nm{width:92px}
-  .demo-cli .bar{flex:1;height:5px;border-radius:3px;background:var(--border-soft);position:relative;overflow:hidden}
-  .demo-cli .bar i{position:absolute;inset:0;width:var(--w);border-radius:3px}
-  .demo-cli .st{font-size:10px;color:#3f7a4e}
-  .demo-cli .st.dim{color:var(--meta)}
-  .demo-web{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:var(--font-mono);font-size:11px}
-  .demo-web .col{border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;background:var(--bg)}
-  .demo-web .col .t{color:var(--meta);font-size:10px;margin-bottom:6px;display:flex;justify-content:space-between}
-  .demo-web .col .t b{color:var(--fg-2);font-weight:600}
-  .demo-web .col .ln{height:5px;border-radius:3px;background:var(--border-soft);margin-bottom:5px}
-  .demo-web .col .ln.s{width:90%} .demo-web .col .ln.m{width:64%} .demo-web .col .ln.n{width:40%}
-  .demo-web .bar-broadcast{grid-column:1/-1;font-size:10.5px;color:var(--muted);border:1px dashed var(--border-soft);border-radius:var(--radius-sm);padding:7px 10px;margin-top:2px;display:flex;align-items:center;gap:8px}
-  .demo-search{font-family:var(--font-mono);font-size:11.5px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg)}
-  .demo-search .box{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;color:var(--fg)}
-  .demo-search .box .q{color:var(--fg)}
-  .demo-search .scope{display:flex;gap:5px;margin-left:auto}
-  .demo-search .scope span{font-size:9.5px;padding:2px 6px;border:1px solid var(--border-soft);border-radius:4px;color:var(--meta)}
-  .demo-search .scope span.on{color:#3f7a4e;border-color:rgba(63,122,78,.35)}
-  .demo-search .res{padding:9px 12px;border-top:1px solid var(--border)}
-  .demo-search .res .ttl{color:var(--fg-2)} .demo-search .res .pth{color:var(--meta);font-size:10px;margin:2px 0}
-  .demo-search .res .snip{color:var(--muted);font-size:10.5px}
-  .demo-search .res .snip mark{background:rgba(201,100,66,.18);color:var(--accent);padding:0 2px;border-radius:2px}
-
-  .moat{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media(max-width:880px){.moat{grid-template-columns:1fr}}
-  .moat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:34px;transition:box-shadow .25s}
-  .moat-card:hover{box-shadow:var(--elev-raised)}
-  .moat-card .mk{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;font-weight:500}
-  .moat-card h3{font-size:26px;margin:12px 0 10px}
-  .moat-card > p{color:var(--muted);font-size:15px;line-height:1.62;margin-bottom:20px}
-  .grow-cap{font-family:var(--font-mono);font-size:11.5px;color:var(--meta);margin-top:16px}
-  .grow-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
-  .grow-tags span{font-family:var(--font-mono);font-size:11px;color:var(--fg-2);background:var(--surface-warm);padding:6px 11px;border-radius:999px;letter-spacing:.01em}
-  .heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:5px;width:max-content;max-width:100%}
-  .heat i{width:13px;height:13px;border-radius:3px;background:var(--border-soft)}
-  .heat-cap{font-family:var(--font-mono);font-size:10.5px;color:var(--meta);margin-top:14px;letter-spacing:.01em}
-
-  .sec-dark{background:var(--dark);color:#e7e4d8}
-  .sec-dark h2{color:#f5f2e8}
-  .sec-dark .kicker{color:var(--warm-silver)}
-  .sec-dark .kicker::before{background:var(--accent)}
-  .sec-dark .sec-head p{color:#a8a59b}
-  .ladder{display:flex;flex-direction:column;gap:8px}
-  .layer{display:grid;grid-template-columns:200px 1fr auto;align-items:center;gap:24px;padding:20px 24px;border:1px solid var(--dark-3);border-radius:var(--radius-md);background:rgba(255,255,255,.015);transition:border-color .25s,background .25s,transform .25s}
-  .layer:hover{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
-  .layer .lname{font-family:var(--font-mono);font-size:13px;font-weight:600;color:#cbc7bb;letter-spacing:.03em;display:flex;align-items:center;gap:11px}
-  .layer .lname .idx{color:#6f6c63;font-weight:400}
-  .layer .ldesc{font-size:15px;color:#a8a59b}
-  .layer .ldesc b{color:#e7e4d8;font-weight:600}
-  .layer .lwho{font-family:var(--font-mono);font-size:11px;color:#8a877d;letter-spacing:.03em;border:1px solid var(--dark-3);padding:5px 10px;border-radius:6px;white-space:nowrap}
-  .layer.us{border-color:rgba(201,100,66,.5);background:linear-gradient(100deg,rgba(201,100,66,.14),rgba(201,100,66,.03) 60%,transparent);box-shadow:0 0 0 1px rgba(201,100,66,.18),0 20px 48px -26px rgba(201,100,66,.45);transform:scale(1.015)}
-  .layer.us .lname{color:var(--accent)}
-  .layer.us .lwho{background:var(--accent);color:var(--accent-on);border-color:transparent;font-weight:600}
-  .layer.us .star{color:var(--accent);margin-right:2px}
-  @media(max-width:760px){.layer,.layer.us{grid-template-columns:1fr;gap:8px}.layer .lwho{justify-self:start}}
-  .ladder-note{margin-top:26px;font-size:14.5px;color:#a8a59b;max-width:68ch;line-height:1.7}
-  .ladder-note b{color:#e7e4d8}
-
-  .cli-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:10px}
-  .cli{display:flex;align-items:center;gap:11px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:13px;transition:box-shadow .2s,transform .2s}
-  .cli:hover{box-shadow:var(--elev-raised);transform:translateY(-2px)}
-  .cli .d{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-  .cli .n{color:var(--fg)}
-  .cli-foot{margin-top:24px;font-family:var(--font-mono);font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .cli-foot b{color:var(--fg-2)}
-
-  .guide-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-  .guide-step{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:25px;min-height:220px}
-  .guide-step .num{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em}
-  .guide-step h3{font-size:21px;margin:18px 0 10px}
-  .guide-step p{color:var(--muted);font-size:14px;line-height:1.68}
-  .guide-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:26px}
-  .guide-note{color:var(--meta);font-family:var(--font-mono);font-size:11px}
-  @media(max-width:920px){.guide-grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:560px){.guide-grid{grid-template-columns:1fr}.guide-step{min-height:0}}
-
-  /* product-shot gallery: scroll-pinned scrub (dify-style) + lightbox */
-  .gal-pin{position:relative;height:520vh}
-  .gal-pin-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
-  .gal-pin-inner{position:relative;width:100%}
-  .gal-stage{position:relative;width:min(1040px,calc((100vh - 130px) * 1.617));max-width:100%;margin:0 auto;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--elev-raised);overflow:hidden;aspect-ratio:2752/1702;cursor:zoom-in}
-  .gal-frames{position:absolute;inset:0}
-  .gal-frame{position:absolute;inset:0;opacity:0;transform:translateY(5%) scale(1.012);transition:opacity .45s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.16,1,.3,1);pointer-events:none}
-  .gal-frame.on{opacity:1;transform:none;pointer-events:auto}
-  .frame{display:flex;align-items:center;gap:7px;padding:10px 13px;border-bottom:1px solid var(--border);background:var(--bg)}
-  .frame .tl{width:10px;height:10px;border-radius:50%;background:#c2c0b6;flex-shrink:0}
-  .frame .tt{margin-left:6px;font-family:var(--font-mono);font-size:11.5px;color:var(--fg-2);letter-spacing:.01em;font-weight:500}
-  .frame .tn{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--meta);letter-spacing:.04em}
-  .gal-frame img{display:block;width:100%;aspect-ratio:2752/1702;object-fit:cover;background:var(--surface-warm)}
-  .gal-counter{position:absolute;left:14px;top:14px;z-index:6;display:inline-flex;align-items:center;gap:3px;background:rgba(20,20,19,.86);color:#f5f2e8;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;padding:6px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.09)}
-  .gal-counter b{color:#fff;font-weight:500}
-  .gal-counter span{color:rgba(255,255,255,.5)}
-  .gal-rail{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:6}
-  .gal-rail .seg{width:4px;height:24px;border-radius:3px;background:var(--border-soft);cursor:pointer;transition:background .3s var(--ease-standard),height .3s var(--ease-standard)}
-  .gal-rail .seg.on{background:var(--accent);height:42px}
-  .gal-scrollhint{margin-top:22px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--meta);letter-spacing:.04em}
-  @media(max-width:720px){
-    .gal-rail{right:8px;gap:7px}.gal-rail .seg{height:18px}.gal-rail .seg.on{height:30px}
+  @media(max-width:620px){
+    .site-header .wrap{padding-left:14px;padding-right:14px}.nav-download{display:none}
+    .hero{padding-top:36px}.hero-top{gap:30px}h1{font-size:clamp(38px,12vw,54px)}
+    .release-list{grid-template-columns:1fr}.release-fact{border-right:0}.release-fact:nth-last-child(-n+2){border-bottom:1px solid var(--line)}.release-fact:last-child{border-bottom:0}
+    .shot-grid{grid-template-columns:1fr}.overview-foot{align-items:flex-start;flex-direction:column}
+    .workflow{grid-template-columns:1fr}.workflow-step{min-height:0;border-right:0;border-bottom:1px solid var(--line)}.workflow-step:last-child{border-bottom:0}.workflow-step::after{display:none}
+    .downloads{grid-template-columns:1fr}.download-shell{border-radius:18px}.section{padding:68px 0}
   }
   @media(prefers-reduced-motion:reduce){
-    .gal-frame{transition:opacity .25s linear;transform:none}
+    html{scroll-behavior:auto}.btn,.shot-card,.download-row{transition:none}.btn:hover,.shot-card:hover,.download-row:hover{transform:none}
   }
-  .lightbox{position:fixed;inset:0;background:rgba(20,20,19,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:200;padding:5vh 5vw;cursor:zoom-out}
-  .lightbox.open{display:flex}
-  .lightbox img{max-width:100%;max-height:100%;border-radius:var(--radius-md);box-shadow:var(--elev-lift);border:1px solid var(--dark-3)}
-
-  .cta-wrap{position:relative;border:1px solid var(--dark-3);border-radius:var(--radius-xl);padding:clamp(44px,6vw,72px);overflow:hidden;background:linear-gradient(180deg,var(--dark-2),var(--dark))}
-  .cta-wrap::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 120% at 82% 0%,rgba(201,100,66,.18),transparent 60%);pointer-events:none}
-  .cta-in{position:relative;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
-  @media(max-width:820px){.cta-in{grid-template-columns:1fr}}
-  .cta-wrap .kicker{color:var(--warm-silver)}
-  .cta-wrap h2{font-size:clamp(28px,3.8vw,46px);color:#f5f2e8;margin-top:16px;letter-spacing:-.025em}
-  .cta-wrap h2 .acc{color:var(--accent)}
-  .cta-wrap p{color:#a8a59b;font-size:16px;margin-top:16px;max-width:46ch;line-height:1.62}
-  .dl{display:flex;flex-direction:column;gap:10px}
-  a.drow{text-decoration:none;color:inherit;display:flex}
-  .dl .drow{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1px solid var(--dark-3);border-radius:var(--radius-md);background:rgba(255,255,255,.03);transition:background .2s,border-color .2s;cursor:pointer}
-  .dl .drow:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
-  .dl .drow .pi{width:30px;height:30px;display:grid;place-items:center;color:#cbc7bb}
-  .dl .drow .pi svg{width:20px;height:20px}
-  .dl .drow .pt b{font-family:var(--font-mono);font-size:14px;color:#f0ede2;font-weight:500;display:block}
-  .dl .drow .pt span{font-family:var(--font-mono);font-size:10.5px;color:#8a877d;letter-spacing:.02em}
-  .dl .drow .ar{margin-left:auto;color:#8a877d;font-family:var(--font-mono);font-size:13px}
-  .download-notes{margin-top:22px;display:grid;gap:9px}
-  .download-notes p{margin:0!important;font-size:12.5px!important;line-height:1.55!important;color:#a8a59b!important}
-  .download-notes a{color:#f0ede2;text-decoration:underline;text-underline-offset:3px}
-  @media(max-width:600px){
-    .dl .drow{padding:12px 14px}.dl .drow .ar{display:none}.dl .drow .pt{min-width:0}
-    .dl .drow .pt b,.dl .drow .pt span{overflow-wrap:anywhere}
-  }
-
-  footer{border-top:1px solid var(--border);padding:38px 0;margin-top:24px}
-  .foot-in{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
-  .foot-brand{font-family:var(--font-ui);font-size:13.5px;color:var(--muted)}
-  .foot-brand b{font-family:var(--font-display);color:var(--fg);font-weight:600}
-  .foot-links{display:flex;gap:24px;font-family:var(--font-ui);font-size:13px}
-  .foot-links a{color:var(--meta);transition:color .2s}
-  .foot-links a:hover{color:var(--fg)}
-  .foot-note{margin-top:22px;font-family:var(--font-mono);font-size:11px;color:var(--meta);letter-spacing:.01em;width:100%;border-top:1px solid var(--border);padding-top:18px}
-
-  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
-  .rv.in{opacity:1;transform:none}
-  /* subtle entrance cascade for grouped reveals (CSS-only, zero runtime cost) */
-  .feats .feat.rv:nth-child(2){transition-delay:.07s}
-  .feats .feat.rv:nth-child(3){transition-delay:.14s}
-  .feats .feat.rv:nth-child(4){transition-delay:.21s}
-  @media(prefers-reduced-motion:reduce){
-    *{animation-duration:.001ms!important;transition-duration:.001ms!important}
-    .rv{opacity:1;transform:none}.fleet-track{animation:none}.term-body .cur{animation:none}html{scroll-behavior:auto}
-  }
-
-  /* a11y & polish — visible focus, anchor offset, skip link, button reset */
-  a:focus-visible,button:focus-visible,[role="button"]:focus-visible,.gal-stage:focus-visible{
-    outline:2px solid #3898ec;outline-offset:3px;
-  }
-  section[id]{scroll-margin-top:84px}
-  .skip{position:absolute;left:-9999px;top:0;z-index:99;padding:10px 16px;background:var(--fg);color:var(--bg);font-size:14px;border-radius:0 0 var(--radius-sm) 0}
-  .skip:focus{left:0}
-  button.drow{font:inherit;color:inherit;text-align:left;width:100%;appearance:none;-webkit-appearance:none}
 </style>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">跳到主要内容</a>
 
-<nav class="nav" id="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#top">
-      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="#c96442" stroke-width="2.4" stroke-linecap="round"/><circle cx="18" cy="12" r="2.2" fill="#c96442"/></svg></span>
-      Agent OS
-      <span class="ver">v0.2.9</span>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Agent OS 首页" data-aria-key="aria.home">
+      <img src="./agentos-icon.png" alt="" width="34" height="34" />
+      <span>Agent OS</span>
     </a>
-    <div class="nav-mid">
-      <a href="#highlights" data-i18n="nav.highlights">产品能力</a>
-      <a href="#quickstart" data-i18n="nav.quickstart">快速开始</a>
+    <span class="version">v0.2.9</span>
+    <nav class="nav-links" aria-label="主导航" data-aria-key="aria.nav">
+      <a href="#product" data-i18n="nav.product">产品界面</a>
+      <a href="#workflow" data-i18n="nav.workflow">操作流程</a>
+      <a href="#capabilities" data-i18n="nav.capabilities">功能范围</a>
       <a href="guide.html" data-i18n="nav.guide">使用指南</a>
-    </div>
-    <div class="nav-end">
-      <button class="lang-toggle" id="langToggle" type="button">EN</button>
-      <a class="btn btn-primary" href="#download">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span data-i18n="nav.download">免费下载</span>
-      </a>
-    </div>
-  </div>
-</nav>
-
-<header class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <span class="kicker" data-i18n="hero.kicker">本地优先的桌面 Agent 工作台</span>
-      <h1 data-i18n-html="hero.h1">管理 AI 会话与任务<span class="l2">从派发到验收，都在一个工作台。</span></h1>
-      <p class="sub" data-i18n-html="hero.sub">Agent OS 把 <b>AI CLI 会话、原生终端、任务看板、定时执行、对比、记忆搜索和统计</b>放进同一个桌面应用。选择本机或远程 Runtime Host，在真实工作目录里持续推进工作。</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#download">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="hero.cta1">免费下载 Agent OS</span>
-        </a>
-      </div>
-      <div class="hero-meta">
-        <span class="m"><span class="dot"></span><b data-i18n="hero.m1">开源</b> · MIT</span>
-        <span class="m"><b data-i18n="hero.m2">本地优先</b> · <span data-i18n="hero.m2b">主权数据</span></span>
-        <span class="m">macOS · Windows · Linux</span>
-      </div>
-    </div>
-
-    <div class="term rv" id="term">
-      <div class="term-bar">
-        <span class="tl"></span><span class="tl"></span><span class="tl"></span>
-        <span class="tt"><b>agent-os</b> &nbsp;— workspace ready</span>
-      </div>
-      <div class="term-body" id="termBody"></div>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <div class="release-note rv" role="status">
-      <span class="release-note-badge" data-i18n="release.badge">v0.2.9 调度可靠性修复</span>
-      <span data-i18n="release.desc">任务创建和 Cron 周期调度现已覆盖 daemon 降级与重连；单实例运行避免多版本争抢 Runtime。19 个制品已完成真机与 SHA-256 核验。源码 4a51dc8。</span>
-      <span class="release-note-links">
-        <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9" data-i18n="release.assets">查看 19 个制品</a>
-        <a href="changelog.html" data-i18n="release.changelog">完整更新日志</a>
-      </span>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <div class="fleet rv">
-      <div class="fleet-label" data-i18n="fleet.label">支持的 CLI 适配器 · 可用性取决于本机安装与登录</div>
-      <div class="fleet-track" id="fleet"></div>
+    </nav>
+    <div class="nav-actions">
+      <button class="lang" id="langToggle" type="button" aria-label="切换为英文">EN</button>
+      <a class="nav-download" href="#download" data-i18n="nav.download">下载</a>
     </div>
   </div>
 </header>
 
 <main id="main">
-
-<section class="sec" id="highlights">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker" data-i18n="hl.kicker">当前产品能力</span>
-      <h2 data-i18n="hl.h2">与 v0.2.9 软件界面逐项对应</h2>
-      <p data-i18n="hl.sub">左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。</p>
-    </div>
-
-    <div class="feats">
-      <div class="feat feat-task rv">
-        <div class="feat-head">
-          <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 3v4M16 3v4M3 10h18M8 14h3M14 14h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.task.t">Agent 任务看板与定时执行</h3><span class="fk" data-i18n="hl.task.k">派单 · Cron · Runtime daemon · 人工验收</span></div>
-        </div>
-        <p data-i18n="hl.task.d">创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。</p>
-          <div class="demo"><img src="task-board-v0.2.8.png" alt="Agent OS v0.2.9 task board / 任务看板实机界面" loading="lazy" /></div>
-      </div>
-
-      <div class="feat rv">
-        <div class="feat-head">
-          <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v10H8l-4 4V5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.f1.t">会话与原生 CLI</h3><span class="fk" data-i18n="hl.f1.k">结构化对话 · 原生 PTY · 持久队列</span></div>
-        </div>
-        <p data-i18n="hl.f1.d">可选择结构化对话或原生 CLI，指定 Runtime Host、Agent、模型、工作目录与权限模式。运行中的连续输入进入持久队列，终端由原生 PTY 驱动。</p>
-        <div class="demo">
-          <div class="demo-chat">
-            <div class="row"><span class="who u" data-i18n="hl.f1.r1a">你</span><span class="what" data-i18n="hl.f1.r1b">重构 <code>runtimeHost</code> 的会话编排</span></div>
-            <div class="row"><span class="who a">claude</span><span class="what" data-i18n="hl.f1.r2b">已读取契约，开始拆分 IPC 与 PTY 宿主…</span></div>
-            <div class="row termrow"><span class="who">pty</span><span class="what">$ npm run typecheck  ✓ 0 errors</span></div>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <span class="eyebrow" data-i18n="hero.eyebrow">桌面端 Agent 工作台</span>
+          <h1 data-i18n="hero.title">会话、任务与运行节点，都在 Agent OS。</h1>
+          <p data-i18n="hero.body">Agent OS 用统一界面管理 CLI 会话、任务看板、定时执行、对比、Web、记忆搜索和统计。任务可以在本机或远程 Runtime Host 中运行。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#product" data-i18n="hero.view">查看产品界面</a>
+            <a class="btn" href="#download" data-i18n="hero.download">下载 v0.2.9</a>
+            <a class="btn" href="https://github.com/lohasle/agent-life" target="_blank" rel="noreferrer" data-i18n="hero.source">GitHub 源码</a>
           </div>
         </div>
-      </div>
-
-      <div class="feat rv">
-        <div class="feat-head">
-          <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M7 9l3 3-3 3M13 15h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div><h3 data-i18n="hl.f2.t">CLI 与 Runtime 管理</h3><span class="fk" data-i18n="hl.f2.k">发现 · 安装/升级 · 诊断 · 远程节点</span></div>
-        </div>
-        <p data-i18n="hl.f2.d">自动扫描已支持的本机 CLI，并提供安装、升级、诊断和 BYOK 配置；远程节点接入后也可作为会话与任务的运行位置。CLI 厂商账号与登录仍由对应工具管理。</p>
-        <div class="demo">
-          <div class="demo-cli">
-            <div class="r"><span class="cli-dot" style="background:var(--cli-claude)"></span><span class="nm">claude</span><span class="bar"><i style="--w:100%;background:var(--cli-claude)"></i></span><span class="st" data-i18n="hl.f2.s1">就绪</span></div>
-            <div class="r"><span class="cli-dot" style="background:var(--cli-codex)"></span><span class="nm">codex</span><span class="bar"><i style="--w:100%;background:var(--cli-codex)"></i></span><span class="st" data-i18n="hl.f2.s1">就绪</span></div>
-            <div class="r"><span class="cli-dot" style="background:var(--cli-gemini)"></span><span class="nm">gemini</span><span class="bar"><i style="--w:64%;background:var(--cli-gemini)"></i></span><span class="st" data-i18n="hl.f2.s2">可升级</span></div>
-            <div class="r"><span class="cli-dot" style="background:var(--meta)"></span><span class="nm">hermes</span><span class="bar"><i style="--w:18%;background:var(--meta)"></i></span><span class="st dim" data-i18n="hl.f2.s3">未安装 · 一键装</span></div>
+        <aside class="release-card" aria-label="当前版本信息" data-aria-key="aria.release">
+          <div class="release-head"><strong data-i18n="release.title">当前版本 v0.2.9</strong><span data-i18n="release.state">可下载</span></div>
+          <div class="release-list">
+            <div class="release-fact"><b>8</b><span data-i18n="release.cli">CLI 适配器</span></div>
+            <div class="release-fact"><b>3</b><span data-i18n="release.platform">桌面平台</span></div>
+            <div class="release-fact"><b>Local / Remote</b><span>Runtime Host</span></div>
+            <div class="release-fact"><b data-i18n="release.local">本机保存</b><span data-i18n="release.data">会话、任务与索引</span></div>
           </div>
-        </div>
+        </aside>
       </div>
 
-      <div class="feat rv">
-        <div class="feat-head">
-          <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="8" height="14" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="5" width="8" height="14" rx="1.5" stroke="currentColor" stroke-width="1.7"/><path d="M11 12h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.f3.t">对比工作台与内置 Web</h3><span class="fk" data-i18n="hl.f3.k">多面板 · 批量发送 · 登录态保留</span></div>
-        </div>
-        <p data-i18n="hl.f3.d">在一个对比任务中并排放入 Web、结构化会话或 CLI 面板，单独发送或批量发送同一问题；内置 Web 书签保留站点登录态。</p>
-        <div class="demo">
-          <div class="demo-web">
-            <div class="col"><div class="t"><b data-i18n="hl.f3.c1">豆包</b><span style="color:#3f7a4e">●</span></div><div class="ln s"></div><div class="ln m"></div><div class="ln n"></div></div>
-            <div class="col"><div class="t"><b data-i18n="hl.f3.c2">元宝</b><span style="color:#3f7a4e">●</span></div><div class="ln m"></div><div class="ln s"></div><div class="ln n"></div></div>
-            <div class="bar-broadcast" data-i18n="hl.f3.bc">↳ broadcast · “解释 RSC 的 hydration 不匹配”</div>
+      <div class="overview" id="product">
+        <div class="section-heading">
+          <div>
+            <h2 data-i18n="product.title">产品界面总览</h2>
+            <p data-i18n="product.body">8 个当前版本实机界面同时展开。所有截图按完整比例显示，点击任一界面可查看原图。</p>
           </div>
+          <span class="section-note" data-i18n="product.note">无切换 · 无裁切</span>
         </div>
-      </div>
-
-      <div class="feat rv">
-        <div class="feat-head">
-          <div class="feat-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-          <div><h3 data-i18n="hl.f4.t">记忆、搜索与统计</h3><span class="fk" data-i18n="hl.f4.k">会话历史 · 本地索引 · 成长视图</span></div>
+        <div class="shot-grid">
+          <button class="shot-card" type="button" data-src="task-board-v0.2.9.png" data-title-key="shot.board" aria-label="查看任务看板完整截图">
+            <span class="shot-card-head"><span class="shot-index">01</span><span class="shot-title" data-i18n="shot.board">任务看板</span></span>
+            <span class="shot-media"><img src="task-board-v0.2.9.png" alt="Agent OS 任务看板完整界面" width="1280" height="832" fetchpriority="high" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="task-schedule-v0.2.9.png" data-title-key="shot.schedule" aria-label="查看定时任务完整截图">
+            <span class="shot-card-head"><span class="shot-index">02</span><span class="shot-title" data-i18n="shot.schedule">定时任务</span></span>
+            <span class="shot-media"><img src="task-schedule-v0.2.9.png" alt="Agent OS 定时任务完整界面" width="1280" height="832" decoding="async" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="mqoj247o-image.png" data-title-key="shot.session" aria-label="查看会话与 CLI 完整截图">
+            <span class="shot-card-head"><span class="shot-index">03</span><span class="shot-title" data-i18n="shot.session">会话与 CLI</span></span>
+            <span class="shot-media"><img src="mqoj247o-image.png" alt="Agent OS 会话与原生 CLI 完整界面" width="2752" height="1702" decoding="async" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="mqoj247r-image.png" data-title-key="shot.compare" aria-label="查看多面板对比完整截图">
+            <span class="shot-card-head"><span class="shot-index">04</span><span class="shot-title" data-i18n="shot.compare">多面板对比</span></span>
+            <span class="shot-media"><img src="mqoj247r-image.png" alt="Agent OS Web、会话与 CLI 多面板对比完整界面" width="2752" height="1702" decoding="async" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="mqoj247u-image.png" data-title-key="shot.web" aria-label="查看内置 Web 完整截图">
+            <span class="shot-card-head"><span class="shot-index">05</span><span class="shot-title" data-i18n="shot.web">内置 Web</span></span>
+            <span class="shot-media"><img src="mqoj247u-image.png" alt="Agent OS 内置 Web 与书签完整界面" width="2752" height="1702" loading="lazy" decoding="async" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="mqoj247v-image.png" data-title-key="shot.stats" aria-label="查看使用统计完整截图">
+            <span class="shot-card-head"><span class="shot-index">06</span><span class="shot-title" data-i18n="shot.stats">使用统计</span></span>
+            <span class="shot-media"><img src="mqoj247v-image.png" alt="Agent OS 本地使用统计完整界面" width="2752" height="1702" loading="lazy" decoding="async" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="mqoj247w-image.png" data-title-key="shot.growth" aria-label="查看成长 Cardex 完整截图">
+            <span class="shot-card-head"><span class="shot-index">07</span><span class="shot-title" data-i18n="shot.growth">成长 Cardex</span></span>
+            <span class="shot-media"><img src="mqoj247w-image.png" alt="Agent OS 成长 Cardex 完整界面" width="2752" height="1702" loading="lazy" decoding="async" /></span>
+          </button>
+          <button class="shot-card" type="button" data-src="mqoj247x-image.png" data-title-key="shot.settings" aria-label="查看 CLI 与节点设置完整截图">
+            <span class="shot-card-head"><span class="shot-index">08</span><span class="shot-title" data-i18n="shot.settings">CLI 与节点设置</span></span>
+            <span class="shot-media"><img src="mqoj247x-image.png" alt="Agent OS CLI 管理与远程节点设置完整界面" width="2752" height="1702" loading="lazy" decoding="async" /></span>
+          </button>
         </div>
-        <p data-i18n="hl.f4.d">已支持来源的会话历史进入本地索引，可全文搜索并跳回上下文；记忆页管理经验、候选与策略，统计页展示使用趋势和成长图鉴。</p>
-        <div class="demo">
-          <div class="demo-search">
-            <div class="box"><span style="color:var(--meta)">$</span><span class="q">RuntimeHost</span><div class="scope"><span class="on">global</span><span>session</span><span>deep</span></div></div>
-            <div class="res"><div class="ttl" data-i18n="hl.f4.r1a">拆分 IPC 与 PTY 宿主协议</div><div class="pth">claude · ~/agent-os/src/main</div><div class="snip" data-i18n="hl.f4.r1b">…将 <mark>RuntimeHost</mark> 抽象为接口，Step B 替换为 daemon…</div></div>
-            <div class="res"><div class="ttl" data-i18n="hl.f4.r2a">会话生命周期经 RuntimeHost</div><div class="pth">codex</div><div class="snip" data-i18n="hl.f4.r2b">终端操作统一经 <mark>RuntimeHost</mark>，IPC handler 保持薄…</div></div>
+        <div class="overview-foot">
+          <span data-i18n="product.hint">点击截图查看原始尺寸；按 Esc 关闭。</span>
+          <div class="module-list" aria-label="主要模块" data-aria-key="aria.modules">
+            <span data-i18n="module.session">会话</span><span data-i18n="module.board">看板</span><span data-i18n="module.schedule">定时</span><span data-i18n="module.compare">对比</span><span>Web</span><span data-i18n="module.memory">记忆</span><span data-i18n="module.stats">统计</span>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="sec" id="quickstart" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker" data-i18n="guide.kicker">快速开始</span>
-      <h2 data-i18n="guide.h2">从下载安装到第一次任务</h2>
-      <p data-i18n="guide.sub">Agent OS 管理工作流，不替代 Claude、Codex 等工具本身的账号、订阅和登录。先准备至少一个可用的 Agent CLI。</p>
-    </div>
-    <div class="guide-grid">
-      <article class="guide-step rv"><span class="num">01 / DOWNLOAD</span><h3 data-i18n="guide.s1.t">下载并安装</h3><p data-i18n="guide.s1.d">根据 CPU 与系统选择 DMG、Windows 安装器、deb 或 AppImage。macOS 未公证版本首次启动需右键“打开”。</p></article>
-      <article class="guide-step rv"><span class="num">02 / DISCOVER</span><h3 data-i18n="guide.s2.t">完成 CLI 登录</h3><p data-i18n="guide.s2.d">首次启动会扫描本机 CLI。在设置中查看状态、安装、升级或诊断；账号授权仍在对应 CLI 中完成。</p></article>
-      <article class="guide-step rv"><span class="num">03 / WORK</span><h3 data-i18n="guide.s3.t">创建会话</h3><p data-i18n="guide.s3.d">选择“会话”或“CLI”，再指定 Runtime Host、Agent、模型、工作目录与权限模式，开始真实工作。</p></article>
-      <article class="guide-step rv"><span class="num">04 / DELIVER</span><h3 data-i18n="guide.s4.t">派发和验收</h3><p data-i18n="guide.s4.d">在看板新建任务并立即运行，或配置一次性/Cron 计划；Agent 完成后进入 Review，由你确认 Done。</p></article>
-    </div>
-    <div class="guide-actions rv">
-      <a class="btn btn-primary" href="guide.html" data-i18n="guide.open">打开完整使用指南</a>
-      <span class="guide-note" data-i18n="guide.note">包含远程节点、任务调度、记忆搜索与常见问题</span>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="gallery">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker" data-i18n="gal.kicker">软件实景</span>
-      <h2 data-i18n="gal.h2">这不是概念图，是真实运行的桌面端</h2>
-      <p data-i18n="gal.sub">以下均为当前桌面应用的真实界面：任务看板、会话/CLI、对比、Web、统计、成长与设置。</p>
-    </div>
-  </div>
-  <div class="gal-pin" id="galPin">
-    <div class="gal-pin-sticky">
-      <div class="gal-pin-inner">
-        <div class="gal-stage" id="galStage" role="button" tabindex="0" aria-label="Agent OS 界面 — 向下滚动浏览">
-          <div class="gal-frames" id="galFrames"></div>
-          <div class="gal-counter"><b id="galCur">01</b><span> / </span><span id="galTotal">06</span></div>
-          <div class="gal-rail" id="galRail"></div>
-        </div>
-        <p class="gal-scrollhint" data-i18n="gal.hint">向下滚动浏览界面 ↓</p>
+  <section class="section alt" id="workflow">
+    <div class="wrap">
+      <div class="section-intro">
+        <h2 data-i18n="workflow.title">从选择运行环境到完成验收</h2>
+        <p data-i18n="workflow.body">会话和任务使用同一套 Runtime Host、CLI、模型与工作目录配置。任务可立即运行，也可按一次性计划或 Cron 执行；完成后进入 Review。</p>
+      </div>
+      <div class="workflow">
+        <article class="workflow-step"><span class="step-num">01 / RUNTIME</span><h3 data-i18n="workflow.s1.title">选择运行环境</h3><p data-i18n="workflow.s1.body">选择本机或远程 Runtime Host，再指定 CLI、模型、工作目录与权限模式。</p></article>
+        <article class="workflow-step"><span class="step-num">02 / CREATE</span><h3 data-i18n="workflow.s2.title">创建会话或任务</h3><p data-i18n="workflow.s2.body">直接打开结构化会话或原生 CLI；需要跟踪交付时，从看板创建任务。</p></article>
+        <article class="workflow-step"><span class="step-num">03 / RUN</span><h3 data-i18n="workflow.s3.title">立即或定时执行</h3><p data-i18n="workflow.s3.body">任务支持立即运行、一次性计划和 Cron。对比工作台可向多个面板批量发送。</p></article>
+        <article class="workflow-step"><span class="step-num">04 / REVIEW</span><h3 data-i18n="workflow.s4.title">检查结果并归档</h3><p data-i18n="workflow.s4.body">任务完成后进入 Review，由用户确认 Done；历史会话可搜索并回到原上下文。</p></article>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="sec" id="memory" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker" data-i18n="mem.kicker">记忆与成长</span>
-      <h2 data-i18n="mem.h2">把协作沉淀成你的资产</h2>
-      <p data-i18n="mem.sub">会话记录、全文索引、经验候选与使用统计保存在本机；你可以搜索、回到原会话，并决定哪些内容进入长期记忆。</p>
-    </div>
-
-    <div class="moat">
-      <div class="moat-card rv">
-        <div class="mk" data-i18n="mem.c1.k">记忆层 / MEMORY</div>
-        <h3 data-i18n="mem.c1.t">跨 CLI 的工作记忆</h3>
-        <p data-i18n="mem.c1.d">会话历史按来源统一展示并建立本地全文索引；经验、候选和策略分栏管理，不会把每段对话自动当作长期记忆。</p>
-        <div class="demo-search">
-          <div class="box"><span style="color:var(--meta)">$</span><span class="q">memory.search</span><div class="scope"><span class="on">global</span><span>deep</span></div></div>
-          <div class="res"><div class="ttl" data-i18n="mem.c1.r1a">QoS 降级与断网重连的异常场景</div><div class="pth">gemini</div><div class="snip" data-i18n="mem.c1.r1b">…压测脚本由 agent 在测试中自动生成…</div></div>
-          <div class="res"><div class="ttl" data-i18n="mem.c1.r2a">BYOK 兜底与端点测速策略</div><div class="pth">claude</div><div class="snip" data-i18n="mem.c1.r2b">…端点 / APIKey / 延迟测速…</div></div>
-        </div>
-        <div class="grow-tags">
-          <span data-i18n="mem.tag1">本地 SQLite 索引</span>
-          <span data-i18n="mem.tag2">离线可用</span>
-          <span data-i18n="mem.tag3">主权数据</span>
-        </div>
+  <section class="section" id="capabilities">
+    <div class="wrap">
+      <div class="section-intro">
+        <h2 data-i18n="cap.title">当前版本包含的功能</h2>
+        <p data-i18n="cap.body">以下范围与 v0.2.9 桌面端界面对应。CLI 是否可用取决于本机安装和对应厂商账号状态。</p>
       </div>
-
-      <div class="moat-card rv">
-        <div class="mk" data-i18n="mem.c2.k">成长层 / GROWTH</div>
-        <h3 data-i18n="mem.c2.t">让「用 AI 工作」可见</h3>
-        <p data-i18n="mem.c2.d">本地记录你与 AI 协作的轨迹，统计与成长系统让无形消耗，变成可见、可回望的积累。</p>
-        <div class="heat" id="heat" aria-hidden="true"></div>
-        <div class="heat-cap" data-i18n="mem.c2.cap">协作密度示意 · 产品内本地视图</div>
-        <div class="grow-tags">
-          <span data-i18n="mem.tag4">活跃统计</span>
-          <span data-i18n="mem.tag5">跨 CLI 归一</span>
-          <span data-i18n="mem.tag6">可回望轨迹</span>
-        </div>
+      <div class="cap-grid">
+        <article class="cap"><span class="cap-label">SESSIONS & TASKS</span><h3 data-i18n="cap.c1.title">会话与任务执行</h3><p data-i18n="cap.c1.body">结构化会话、原生 PTY、持久输入队列、四列任务看板、一次性计划、Cron、运行记录和人工验收。</p><div class="tags"><span data-i18n="tag.session">结构化会话</span><span data-i18n="tag.cli">原生 CLI</span><span data-i18n="tag.board">任务看板</span><span>Cron</span></div></article>
+        <article class="cap"><span class="cap-label">COMPARE & WEB</span><h3 data-i18n="cap.c2.title">对比与内置 Web</h3><p data-i18n="cap.c2.body">同一任务中并排放置 Web、结构化会话或 CLI 面板，支持单独发送和批量发送；Web 书签保留登录状态。</p><div class="tags"><span data-i18n="tag.panel">多面板</span><span data-i18n="tag.batch">批量发送</span><span data-i18n="tag.bookmark">书签</span><span data-i18n="tag.sessionState">登录状态</span></div></article>
+        <article class="cap"><span class="cap-label">MEMORY & STATS</span><h3 data-i18n="cap.c3.title">记忆、搜索与统计</h3><p data-i18n="cap.c3.body">支持来源的会话在本机建立全文索引；记忆页管理经验、候选与策略；统计页显示使用趋势与成长 Cardex。</p><div class="tags"><span data-i18n="tag.search">全文搜索</span><span>SQLite</span><span data-i18n="tag.stats">使用统计</span><span>Cardex</span></div></article>
+        <article class="cap"><span class="cap-label">RUNTIME & CLI</span><h3 data-i18n="cap.c4.title">运行节点与 CLI 管理</h3><p data-i18n="cap.c4.body">扫描本机 CLI，查看版本与健康状态，执行安装、升级和诊断；远程节点可作为会话与任务的运行位置。</p><div class="tags"><span>Runtime Host</span><span data-i18n="tag.remote">远程节点</span><span data-i18n="tag.diagnose">诊断</span><span>BYOK</span></div></article>
+      </div>
+      <div class="adapters" aria-label="支持的 CLI 适配器" data-aria-key="aria.adapters">
+        <span class="adapter">Claude</span><span class="adapter">Codex</span><span class="adapter">Gemini</span><span class="adapter">Cursor</span><span class="adapter">OpenCode</span><span class="adapter">Pi</span><span class="adapter">Hermes</span><span class="adapter">OpenClaw</span>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<section class="sec" id="cli">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker" data-i18n="cli.kicker">生态</span>
-      <h2 data-i18n="cli.h2">8 个 CLI 适配器，按本机环境启用</h2>
-      <p data-i18n="cli.sub">Agent OS 扫描 PATH 与常见安装位置，识别版本和健康状态。实际可用工具取决于你安装并登录的 CLI。</p>
-    </div>
-    <div class="cli-grid rv" id="cliGrid"></div>
-    <div class="cli-foot rv">▸ <span data-i18n="cli.f1">统一适配器协议</span> · <b data-i18n="cli.f2">安装 / 升级 / 诊断 / BYOK</b> · <span data-i18n="cli.f3">账号订阅与登录由各 CLI 厂商负责</span></div>
-  </div>
-</section>
-
-<section class="sec" id="download" style="padding-top:0">
-  <div class="wrap">
-    <div class="cta-wrap rv">
-      <div class="cta-in">
-        <div>
-          <span class="kicker" data-i18n="cta.kicker">下载 v0.2.9</span>
-          <h2 data-i18n-html="cta.h2">选择你的平台，<span class="acc">开始工作。</span></h2>
-          <p data-i18n="cta.p">桌面应用提供 macOS、Windows 与 Linux 制品。会话、任务、索引和统计默认保存在本机；调用模型产生的费用与数据策略由所使用的 CLI 和模型服务商决定。</p>
+  <section class="section" id="download">
+    <div class="wrap">
+      <div class="download-shell">
+        <div class="download-top">
+          <div><span class="eyebrow" data-i18n="download.eyebrow">Agent OS v0.2.9</span><h2 data-i18n="download.title">选择系统并下载安装</h2><p data-i18n="download.body">桌面端提供 macOS、Windows 与 Linux 制品。远程 Runtime 节点安装包和脚本位于同一 Release。</p></div>
           <div class="download-notes">
-            <p data-i18n-html="cta.note1">macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。</p>
-            <p data-i18n-html="cta.note2">需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9">Release</a> 下载节点包与 <code>install-node.sh</code>。</p>
-            <p><a href="guide.html" data-i18n="cta.guide">查看安装与首次使用指南 →</a></p>
+            <div class="download-note" data-i18n="download.note1">macOS 当前制品未做 Apple Developer ID 公证，首次启动请在 Finder 中右键应用并选择“打开”。</div>
+            <div class="download-note"><span data-i18n="download.note2">安装与首次使用步骤见</span>&nbsp;<a href="guide.html" data-i18n="download.guide">完整使用指南</a></div>
+            <div class="download-note"><span data-i18n="download.note3">远程节点包与 install-node.sh 见</span>&nbsp;<a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9" target="_blank" rel="noreferrer">GitHub Release</a></div>
           </div>
         </div>
-        <div class="dl">
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-arm64.dmg" data-platform="mac-arm64">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>macOS · Apple Silicon</b><span data-i18n="cta.macArm">M1 / M2 / M3 / M4 · DMG</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-mac-arm64.dmg</span>
-          </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-x64.dmg" data-platform="mac-x64">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M16 3c0 2-1.5 3.5-3.5 3.5C12.5 4.5 14 3 16 3zM12 7c2.5 0 4.5 1.5 6 1.5 1 0 2-.5 2-.5s2 3-1.5 6c-1 1.7-2.3 3.3-4 3.3-1 0-1.8-.6-2.5-.6s-1.5.6-2.5.6c-2 0-4-3-4.5-6-.5-3 1-4.5 2.5-4.5 1.2 0 2 .6 2.5.6" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>macOS · Intel</b><span data-i18n="cta.macIntel">Intel x64 · DMG</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-mac-x64.dmg</span>
-          </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-win-x64-setup.exe" data-platform="win">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M7 13h4" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="pt"><b>Windows</b><span data-i18n="cta.d2">x64 安装包 · v0.2.9</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-win-x64-setup.exe</span>
-          </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-amd64.deb" data-platform="linux">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <span class="pt"><b>Linux · x64</b><span>x64 · deb</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-linux-amd64.deb</span>
-          </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-x86_64.AppImage" data-platform="linux">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <span class="pt"><b>Linux · x64</b><span>AppImage</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-linux-x86_64.AppImage</span>
-          </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.deb" data-platform="linux">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <span class="pt"><b>Linux · arm64</b><span>deb</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-linux-arm64.deb</span>
-          </a>
-          <a class="drow" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.AppImage" data-platform="linux">
-            <span class="pi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h18l-2 6H5l-2-6zM6 13l2-7h8l2 7M9 6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <span class="pt"><b>Linux · arm64</b><span>AppImage</span></span>
-            <span class="ar">↓ Agent-Os-0.2.9-linux-arm64.AppImage</span>
-          </a>
+        <div class="downloads">
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-arm64.dmg"><span class="platform"><b>macOS · Apple Silicon</b><span>Agent-Os-0.2.9-mac-arm64.dmg</span></span><span class="download-arrow">↓</span></a>
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-x64.dmg"><span class="platform"><b>macOS · Intel</b><span>Agent-Os-0.2.9-mac-x64.dmg</span></span><span class="download-arrow">↓</span></a>
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-win-x64-setup.exe"><span class="platform"><b>Windows · x64</b><span>Agent-Os-0.2.9-win-x64-setup.exe</span></span><span class="download-arrow">↓</span></a>
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-amd64.deb"><span class="platform"><b>Linux · x64</b><span>Agent-Os-0.2.9-linux-amd64.deb</span></span><span class="download-arrow">↓</span></a>
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-x86_64.AppImage"><span class="platform"><b>Linux · x64 AppImage</b><span>Agent-Os-0.2.9-linux-x86_64.AppImage</span></span><span class="download-arrow">↓</span></a>
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.deb"><span class="platform"><b>Linux · arm64</b><span>Agent-Os-0.2.9-linux-arm64.deb</span></span><span class="download-arrow">↓</span></a>
+          <a class="download-row" href="https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.AppImage"><span class="platform"><b>Linux · arm64 AppImage</b><span>Agent-Os-0.2.9-linux-arm64.AppImage</span></span><span class="download-arrow">↓</span></a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </main>
 
 <footer>
-  <div class="wrap foot-in">
-    <div class="foot-brand"><b>Agent OS</b> &nbsp;·&nbsp; <span data-i18n="foot.brand">个人 AI 超级工作台</span> &nbsp;·&nbsp; v0.2.9</div>
-    <div class="foot-links">
-      <a href="#highlights" data-i18n="nav.highlights">产品能力</a>
-      <a href="#quickstart" data-i18n="nav.quickstart">快速开始</a>
-      <a href="guide.html" data-i18n="nav.guide">使用指南</a>
-      <a href="#download" data-i18n="nav.download">下载</a>
-      <a href="changelog.html" data-i18n="nav.changelog">更新记录</a>
-    </div>
-    <div class="foot-note" data-i18n="foot.note">MIT License · 本地优先 · 主权数据 · 所有会话与索引离线可用</div>
+  <div class="wrap footer">
+    <div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.2.9</div>
+    <div class="footer-links"><a href="guide.html" data-i18n="nav.guide">使用指南</a><a href="changelog.html" data-i18n="footer.changelog">更新记录</a><a href="https://github.com/lohasle/agent-life" target="_blank" rel="noreferrer">GitHub</a><span data-i18n="footer.note">MIT License · 会话、任务与索引默认保存在本机</span></div>
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
+  <div class="lightbox-bar"><span class="lightbox-title" id="lightboxTitle">Agent OS</span><button class="lightbox-close" id="lightboxClose" type="button" aria-label="关闭截图" data-aria-key="aria.close">×</button></div>
+  <div class="lightbox-media"><img id="lightboxImage" src="agentos-icon.png" alt="" width="2752" height="1702" /></div>
+  <p class="lightbox-hint" data-i18n="lightbox.hint">按 Esc 或点击背景关闭</p>
+</div>
+
 <script>
 (function(){
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var STRINGS = {
+  var strings={
     zh:{
-      "nav.highlights":"产品能力","nav.quickstart":"快速开始","nav.guide":"使用指南","nav.download":"免费下载","nav.changelog":"更新记录","skip":"跳到主要内容",
-      "hero.kicker":"本地优先的桌面 Agent 工作台",
-      "hero.h1":'管理 AI 会话与任务<span class="l2">从派发到验收，都在一个工作台。</span>',
-      "hero.sub":'Agent OS 把 <b>AI CLI 会话、原生终端、任务看板、定时执行、对比、记忆搜索和统计</b>放进同一个桌面应用。选择本机或远程 Runtime Host，在真实工作目录里持续推进工作。',
-      "hero.cta1":"免费下载 Agent OS",
-      "hero.m1":"开源","hero.m2":"本地优先","hero.m2b":"主权数据",
-      "release.badge":"v0.2.9 调度可靠性修复","release.desc":"任务创建和 Cron 周期调度现已覆盖 daemon 降级与重连；单实例运行避免多版本争抢 Runtime。19 个制品已完成真机与 SHA-256 核验。源码 4a51dc8。","release.assets":"查看 19 个制品","release.changelog":"完整更新日志",
-      "fleet.label":"支持的 CLI 适配器 · 可用性取决于本机安装与登录",
-      "hl.kicker":"当前产品能力","hl.h2":"与 v0.2.9 软件界面逐项对应","hl.sub":"左侧导航中的会话、看板、定时、对比、记忆、Web 与统计，都对应下面的真实功能和实机界面。",
-      "hl.task.t":"Agent 任务看板与定时执行","hl.task.k":"派单 · Cron · Runtime daemon · 人工验收","hl.task.d":"创建任务并指定 Runtime Host、Agent CLI、模型与工作区；在 Todo、In Progress、Review、Done 四列中跟踪执行。一次性和 Cron 计划由后台 Runtime daemon 持有，桌面窗口关闭后仍可按时运行。",
-      "hl.f1.t":"会话与原生 CLI","hl.f1.k":"结构化对话 · 原生 PTY · 持久队列","hl.f1.d":"可选择结构化对话或原生 CLI，指定 Runtime Host、Agent、模型、工作目录与权限模式。运行中的连续输入进入持久队列，终端由原生 PTY 驱动。",
-      "hl.f1.r1a":"你","hl.f1.r1b":'重构 <code>runtimeHost</code> 的会话编排',"hl.f1.r2b":"已读取契约，开始拆分 IPC 与 PTY 宿主…",
-      "hl.f2.t":"CLI 与 Runtime 管理","hl.f2.k":"发现 · 安装/升级 · 诊断 · 远程节点","hl.f2.d":"自动扫描已支持的本机 CLI，并提供安装、升级、诊断和 BYOK 配置；远程节点接入后也可作为会话与任务的运行位置。CLI 厂商账号与登录仍由对应工具管理。",
-      "hl.f2.s1":"就绪","hl.f2.s2":"可升级","hl.f2.s3":"未安装 · 一键装",
-      "hl.f3.t":"对比工作台与内置 Web","hl.f3.k":"多面板 · 批量发送 · 登录态保留","hl.f3.d":"在一个对比任务中并排放入 Web、结构化会话或 CLI 面板，单独发送或批量发送同一问题；内置 Web 书签保留站点登录态。",
-      "hl.f3.c1":"豆包","hl.f3.c2":"元宝","hl.f3.bc":'↳ broadcast · “解释 RSC 的 hydration 不匹配”',
-      "hl.f4.t":"记忆、搜索与统计","hl.f4.k":"会话历史 · 本地索引 · 成长视图","hl.f4.d":"已支持来源的会话历史进入本地索引，可全文搜索并跳回上下文；记忆页管理经验、候选与策略，统计页展示使用趋势和成长图鉴。",
-      "hl.f4.r1a":"拆分 IPC 与 PTY 宿主协议","hl.f4.r1b":'…将 <mark>RuntimeHost</mark> 抽象为接口，Step B 替换为 daemon…',
-      "hl.f4.r2a":"会话生命周期经 RuntimeHost","hl.f4.r2b":'终端操作统一经 <mark>RuntimeHost</mark>，IPC handler 保持薄…',
-      "guide.kicker":"快速开始","guide.h2":"从下载安装到第一次任务","guide.sub":"Agent OS 管理工作流，不替代 Claude、Codex 等工具本身的账号、订阅和登录。先准备至少一个可用的 Agent CLI。","guide.s1.t":"下载并安装","guide.s1.d":"根据 CPU 与系统选择 DMG、Windows 安装器、deb 或 AppImage。macOS 未公证版本首次启动需右键“打开”。","guide.s2.t":"完成 CLI 登录","guide.s2.d":"首次启动会扫描本机 CLI。在设置中查看状态、安装、升级或诊断；账号授权仍在对应 CLI 中完成。","guide.s3.t":"创建会话","guide.s3.d":"选择“会话”或“CLI”，再指定 Runtime Host、Agent、模型、工作目录与权限模式，开始真实工作。","guide.s4.t":"派发和验收","guide.s4.d":"在看板新建任务并立即运行，或配置一次性/Cron 计划；Agent 完成后进入 Review，由你确认 Done。","guide.open":"打开完整使用指南","guide.note":"包含远程节点、任务调度、记忆搜索与常见问题",
-      "mem.kicker":"记忆与成长","mem.h2":"把协作沉淀成你的资产","mem.sub":"会话记录、全文索引、经验候选与使用统计保存在本机；你可以搜索、回到原会话，并决定哪些内容进入长期记忆。",
-      "mem.c1.k":"记忆层 / MEMORY","mem.c1.t":"跨 CLI 的工作记忆","mem.c1.d":"会话历史按来源统一展示并建立本地全文索引；经验、候选和策略分栏管理，不会把每段对话自动当作长期记忆。",
-      "mem.c1.r1a":"QoS 降级与断网重连的异常场景","mem.c1.r1b":"…压测脚本由 agent 在测试中自动生成…",
-      "mem.c1.r2a":"BYOK 兜底与端点测速策略","mem.c1.r2b":"…端点 / APIKey / 延迟测速…",
-      "mem.tag1":"本地 SQLite 索引","mem.tag2":"离线可用","mem.tag3":"主权数据",
-      "mem.c2.k":"成长层 / GROWTH","mem.c2.t":"让「用 AI 工作」可见","mem.c2.d":"本地记录你与 AI 协作的轨迹，统计与成长系统让无形消耗，变成可见、可回望的积累。",
-      "mem.c2.cap":"协作密度示意 · 产品内本地视图","mem.tag4":"活跃统计","mem.tag5":"跨 CLI 归一","mem.tag6":"可回望轨迹",
-      "cli.kicker":"生态","cli.h2":"8 个 CLI 适配器，按本机环境启用","cli.sub":"Agent OS 扫描 PATH 与常见安装位置，识别版本和健康状态。实际可用工具取决于你安装并登录的 CLI。",
-      "cli.f1":"统一适配器协议","cli.f2":"安装 / 升级 / 诊断 / BYOK","cli.f3":"账号订阅与登录由各 CLI 厂商负责","gal.kicker":"软件实景","gal.h2":"这不是概念图，是真实运行的桌面端","gal.sub":"以下均为当前桌面应用的真实界面：任务看板、会话/CLI、对比、Web、统计、成长与设置。","gal.note":"▸ 以下均为 Agent OS 桌面端实机界面，点击可放大查看。","gal.hint":"向下滚动浏览界面 ↓ · 点击图片可放大 · 点右侧进度条可跳转",
-      "cta.kicker":"下载 v0.2.9","cta.h2":'选择你的平台，<span class="acc">开始工作。</span>',
-      "cta.p":"桌面应用提供 macOS、Windows 与 Linux 制品。会话、任务、索引和统计默认保存在本机；调用模型产生的费用与数据策略由所使用的 CLI 和模型服务商决定。",
-      "cta.note1":"macOS 制品未使用 Apple Developer ID 公证，首次启动请右键应用选择“打开”。","cta.note2":'需要远程执行？前往 <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9">Release</a> 下载节点包与 <code>install-node.sh</code>。',"cta.guide":"查看安装与首次使用指南 →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 安装包 · v0.2.9",
-      "foot.brand":"桌面 Agent 工作台","foot.note":"MIT License · 会话、任务和索引默认本地保存 · 模型请求遵循所选 CLI 与服务商策略"
+      "skip":"跳到主要内容","nav.product":"产品界面","nav.workflow":"操作流程","nav.capabilities":"功能范围","nav.guide":"使用指南","nav.download":"下载","aria.home":"Agent OS 首页","aria.nav":"主导航","aria.release":"当前版本信息","aria.modules":"主要模块","aria.adapters":"支持的 CLI 适配器","aria.close":"关闭截图",
+      "hero.eyebrow":"桌面端 Agent 工作台","hero.title":"会话、任务与运行节点，都在 Agent OS。","hero.body":"Agent OS 用统一界面管理 CLI 会话、任务看板、定时执行、对比、Web、记忆搜索和统计。任务可以在本机或远程 Runtime Host 中运行。","hero.view":"查看产品界面","hero.download":"下载 v0.2.9","hero.source":"GitHub 源码",
+      "release.title":"当前版本 v0.2.9","release.state":"可下载","release.cli":"CLI 适配器","release.platform":"桌面平台","release.local":"本机保存","release.data":"会话、任务与索引",
+      "product.title":"产品界面总览","product.body":"8 个当前版本实机界面同时展开。所有截图按完整比例显示，点击任一界面可查看原图。","product.note":"无切换 · 无裁切","product.hint":"点击截图查看原始尺寸；按 Esc 关闭。",
+      "shot.board":"任务看板","shot.schedule":"定时任务","shot.session":"会话与 CLI","shot.compare":"多面板对比","shot.web":"内置 Web","shot.stats":"使用统计","shot.growth":"成长 Cardex","shot.settings":"CLI 与节点设置",
+      "module.session":"会话","module.board":"看板","module.schedule":"定时","module.compare":"对比","module.memory":"记忆","module.stats":"统计",
+      "workflow.title":"从选择运行环境到完成验收","workflow.body":"会话和任务使用同一套 Runtime Host、CLI、模型与工作目录配置。任务可立即运行，也可按一次性计划或 Cron 执行；完成后进入 Review。","workflow.s1.title":"选择运行环境","workflow.s1.body":"选择本机或远程 Runtime Host，再指定 CLI、模型、工作目录与权限模式。","workflow.s2.title":"创建会话或任务","workflow.s2.body":"直接打开结构化会话或原生 CLI；需要跟踪交付时，从看板创建任务。","workflow.s3.title":"立即或定时执行","workflow.s3.body":"任务支持立即运行、一次性计划和 Cron。对比工作台可向多个面板批量发送。","workflow.s4.title":"检查结果并归档","workflow.s4.body":"任务完成后进入 Review，由用户确认 Done；历史会话可搜索并回到原上下文。",
+      "cap.title":"当前版本包含的功能","cap.body":"以下范围与 v0.2.9 桌面端界面对应。CLI 是否可用取决于本机安装和对应厂商账号状态。","cap.c1.title":"会话与任务执行","cap.c1.body":"结构化会话、原生 PTY、持久输入队列、四列任务看板、一次性计划、Cron、运行记录和人工验收。","cap.c2.title":"对比与内置 Web","cap.c2.body":"同一任务中并排放置 Web、结构化会话或 CLI 面板，支持单独发送和批量发送；Web 书签保留登录状态。","cap.c3.title":"记忆、搜索与统计","cap.c3.body":"支持来源的会话在本机建立全文索引；记忆页管理经验、候选与策略；统计页显示使用趋势与成长 Cardex。","cap.c4.title":"运行节点与 CLI 管理","cap.c4.body":"扫描本机 CLI，查看版本与健康状态，执行安装、升级和诊断；远程节点可作为会话与任务的运行位置。",
+      "tag.session":"结构化会话","tag.cli":"原生 CLI","tag.board":"任务看板","tag.panel":"多面板","tag.batch":"批量发送","tag.bookmark":"书签","tag.sessionState":"登录状态","tag.search":"全文搜索","tag.stats":"使用统计","tag.remote":"远程节点","tag.diagnose":"诊断",
+      "download.eyebrow":"Agent OS v0.2.9","download.title":"选择系统并下载安装","download.body":"桌面端提供 macOS、Windows 与 Linux 制品。远程 Runtime 节点安装包和脚本位于同一 Release。","download.note1":"macOS 当前制品未做 Apple Developer ID 公证，首次启动请在 Finder 中右键应用并选择“打开”。","download.note2":"安装与首次使用步骤见","download.guide":"完整使用指南","download.note3":"远程节点包与 install-node.sh 见","footer.changelog":"更新记录","footer.note":"MIT License · 会话、任务与索引默认保存在本机","lightbox.hint":"按 Esc 或点击背景关闭"
     },
     en:{
-      "nav.highlights":"Product","nav.quickstart":"Quick start","nav.guide":"User guide","nav.download":"Download","nav.changelog":"Changelog","skip":"Skip to content",
-      "hero.kicker":"Local-first desktop agent workbench",
-      "hero.h1":'Manage AI sessions and tasks.<span class="l2">From assignment to review, in one workbench.</span>',
-      "hero.sub":'Agent OS brings <b>AI CLI sessions, native terminals, task boards, scheduling, comparison, memory search, and stats</b> into one desktop app. Choose a local or remote Runtime Host and keep working in a real project directory.',
-      "hero.cta1":"Download Agent OS",
-      "hero.m1":"Open source","hero.m2":"Local-first","hero.m2b":"sovereign data",
-      "release.badge":"v0.2.9 scheduling reliability fix","release.desc":"Task creation and Cron scheduling now survive daemon fallback and reconnection; single-instance startup prevents multiple app versions from competing for one Runtime. All 19 artifacts passed packaged-app and SHA-256 verification. Source 4a51dc8.","release.assets":"View all 19 artifacts","release.changelog":"Full changelog",
-      "fleet.label":"Supported CLI adapters · availability depends on local installation and sign-in",
-      "hl.kicker":"Current product","hl.h2":"Matched to the v0.2.9 desktop app","hl.sub":"Sessions, Board, Schedule, Compare, Memory, Web, and Stats in the left rail map directly to the capabilities and real screens below.",
-      "hl.task.t":"Agent task board & scheduling","hl.task.k":"Assign · Cron · Runtime daemon · human review","hl.task.d":"Create tasks with a Runtime Host, Agent CLI, model, and workspace, then track them through Todo, In Progress, Review, and Done. One-off and Cron schedules live in the Runtime daemon and keep running after the desktop window closes.",
-      "hl.f1.t":"Sessions & native CLI","hl.f1.k":"Structured chat · native PTY · persistent queue","hl.f1.d":"Choose structured chat or native CLI, then select the Runtime Host, agent, model, workspace, and permission mode. Follow-up input is queued persistently while a run is active.",
-      "hl.f1.r1a":"you","hl.f1.r1b":'refactor the <code>runtimeHost</code> session orchestration',"hl.f1.r2b":"read the contract, splitting IPC and PTY host…",
-      "hl.f2.t":"CLI & Runtime management","hl.f2.k":"Discover · install/upgrade · diagnose · remote nodes","hl.f2.d":"Scan supported local CLIs and manage installation, upgrades, diagnostics, and BYOK settings. Connected remote nodes can run sessions and tasks. Vendor accounts and sign-in remain managed by each CLI.",
-      "hl.f2.s1":"ready","hl.f2.s2":"update →","hl.f2.s3":"missing · 1-click install",
-      "hl.f3.t":"Compare workbench & built-in Web","hl.f3.k":"Multi-panel · batch send · persistent sign-in","hl.f3.d":"Place Web, structured chat, or CLI panels side by side in one comparison task, then send individually or in a batch. Built-in Web bookmarks retain site sessions.",
-      "hl.f3.c1":"Doubao","hl.f3.c2":"Yuanbao","hl.f3.bc":'↳ broadcast · “explain RSC hydration mismatch”',
-      "hl.f4.t":"Memory, search & stats","hl.f4.k":"Session history · local index · growth views","hl.f4.d":"Supported session sources are indexed locally for full-text search and context jumps. Memory manages experience, candidates, and policy; Stats shows usage trends and the growth Cardex.",
-      "hl.f4.r1a":"Split IPC and PTY host protocol","hl.f4.r1b":'…abstract <mark>RuntimeHost</mark> as an interface, Step B swaps in the daemon…',
-      "hl.f4.r2a":"Session lifecycle via RuntimeHost","hl.f4.r2b":'terminal ops all go through <mark>RuntimeHost</mark>, IPC handlers stay thin…',
-      "guide.kicker":"Quick start","guide.h2":"From download to your first task","guide.sub":"Agent OS manages the workflow; it does not replace the accounts, subscriptions, or sign-in of tools such as Claude or Codex. Prepare at least one working Agent CLI first.","guide.s1.t":"Download & install","guide.s1.d":"Choose a DMG, Windows installer, deb, or AppImage for your OS and CPU. On macOS, right-click Open for the unsigned build.","guide.s2.t":"Sign in to a CLI","guide.s2.d":"First launch scans local CLIs. Check status, install, upgrade, or diagnose in Settings; authorize accounts in the corresponding CLI.","guide.s3.t":"Create a session","guide.s3.d":"Choose Session or CLI, then select a Runtime Host, agent, model, workspace, and permission mode to start real work.","guide.s4.t":"Assign & review","guide.s4.d":"Create and run a board task immediately, or set a one-off/Cron schedule. Agent completion enters Review for you to confirm Done.","guide.open":"Open the full user guide","guide.note":"Remote nodes, scheduling, memory search, and troubleshooting included",
-      "mem.kicker":"Memory & growth","mem.h2":"Turn collaboration into your own asset","mem.sub":"Sessions, full-text indexes, memory candidates, and usage statistics stay on this machine. Search, return to the original session, and decide what becomes durable memory.",
-      "mem.c1.k":"MEMORY LAYER","mem.c1.t":"Working memory across CLIs","mem.c1.d":"Session history is normalized by source and indexed locally. Experience, candidates, and policy are managed separately; not every conversation becomes durable memory automatically.",
-      "mem.c1.r1a":"QoS downgrade and reconnect edge cases","mem.c1.r1b":"…stress-test scripts auto-generated by the agent in-test…",
-      "mem.c1.r2a":"BYOK fallback and endpoint probing","mem.c1.r2b":"…endpoint / API key / latency probing…",
-      "mem.tag1":"Local SQLite index","mem.tag2":"Works offline","mem.tag3":"Sovereign data",
-      "mem.c2.k":"GROWTH LAYER","mem.c2.t":"Make “working with AI” visible","mem.c2.d":"Your collaboration trail is recorded locally — stats and growth turn invisible effort into a visible, replayable arc.",
-      "mem.c2.cap":"Collaboration density · illustrative, local in-product view","mem.tag4":"Activity stats","mem.tag5":"Cross-CLI normalized","mem.tag6":"Replayable trail",
-      "cli.kicker":"Ecosystem","cli.h2":"8 CLI adapters, enabled by your local setup","cli.sub":"Agent OS scans PATH and common install locations for versions and health. Available tools depend on the CLIs you install and sign in to.",
-      "cli.f1":"Unified adapter protocol","cli.f2":"Install / upgrade / diagnose / BYOK","cli.f3":"Accounts, subscriptions, and sign-in are handled by each CLI vendor","gal.kicker":"In the app","gal.h2":"Not mockups — the actual desktop app","gal.sub":"Real screens from the current desktop app: task board, sessions/CLI, compare, Web, stats, growth, and settings.","gal.note":"▸ Every shot below is a live capture of the Agent OS desktop. Click to enlarge.","gal.hint":"Scroll to browse ↓ · click to enlarge · tap the rail to jump",
-      "cta.kicker":"Download v0.2.9","cta.h2":'Choose your platform. <span class="acc">Start working.</span>',
-      "cta.p":"Desktop builds are available for macOS, Windows, and Linux. Sessions, tasks, indexes, and stats stay local by default; model costs and data policies are determined by the CLI and model provider you use.",
-      "cta.note1":"The macOS build is not notarized with an Apple Developer ID. Right-click the app and choose Open on first launch.","cta.note2":'Need remote execution? Open the <a href="https://github.com/lohasle/agent-life/releases/tag/v0.2.9">Release</a> for node packages and <code>install-node.sh</code>.',"cta.guide":"Read the install and first-use guide →","cta.macArm":"M1 / M2 / M3 / M4 · DMG","cta.macIntel":"Intel x64 · DMG","cta.d2":"x64 installer · v0.2.9",
-      "foot.brand":"Desktop agent workbench","foot.note":"MIT License · sessions, tasks, and indexes stay local by default · model traffic follows the selected CLI and provider"
+      "skip":"Skip to main content","nav.product":"Product screens","nav.workflow":"Workflow","nav.capabilities":"Capabilities","nav.guide":"User guide","nav.download":"Download","aria.home":"Agent OS home","aria.nav":"Main navigation","aria.release":"Current release information","aria.modules":"Main modules","aria.adapters":"Supported CLI adapters","aria.close":"Close screenshot",
+      "hero.eyebrow":"Desktop agent workbench","hero.title":"Sessions, tasks, and Runtime Hosts in Agent OS.","hero.body":"Agent OS provides one interface for CLI sessions, task boards, scheduling, comparison, Web, memory search, and statistics. Tasks can run on a local or remote Runtime Host.","hero.view":"View product screens","hero.download":"Download v0.2.9","hero.source":"GitHub source",
+      "release.title":"Current release v0.2.9","release.state":"Available","release.cli":"CLI adapters","release.platform":"desktop platforms","release.local":"Stored locally","release.data":"sessions, tasks, and indexes",
+      "product.title":"Product screen overview","product.body":"8 current desktop screens shown together. Every screenshot keeps its full aspect ratio; select any screen to view the original.","product.note":"No slides · no cropping","product.hint":"Select a screenshot for the original size; press Esc to close.",
+      "shot.board":"Task board","shot.schedule":"Scheduled tasks","shot.session":"Sessions & CLI","shot.compare":"Multi-panel compare","shot.web":"Built-in Web","shot.stats":"Usage statistics","shot.growth":"Growth Cardex","shot.settings":"CLI & node settings",
+      "module.session":"Sessions","module.board":"Board","module.schedule":"Schedule","module.compare":"Compare","module.memory":"Memory","module.stats":"Stats",
+      "workflow.title":"From runtime selection to review","workflow.body":"Sessions and tasks share the same Runtime Host, CLI, model, and workspace settings. Run tasks immediately or with a one-off/Cron schedule, then review the result.","workflow.s1.title":"Choose a runtime","workflow.s1.body":"Choose a local or remote Runtime Host, then select the CLI, model, workspace, and permission mode.","workflow.s2.title":"Create a session or task","workflow.s2.body":"Open structured chat or a native CLI. Create a board task when the work needs delivery tracking.","workflow.s3.title":"Run now or schedule","workflow.s3.body":"Run tasks immediately, once, or by Cron. Compare can send the same input to multiple panels.","workflow.s4.title":"Review and archive","workflow.s4.body":"Completed tasks enter Review for user confirmation. Search session history to return to the original context.",
+      "cap.title":"Included in the current release","cap.body":"This scope matches the v0.2.9 desktop interface. CLI availability depends on local installation and the vendor account state.","cap.c1.title":"Sessions & task execution","cap.c1.body":"Structured chat, native PTY, persistent input queue, four-column task board, one-off schedules, Cron, run history, and user review.","cap.c2.title":"Compare & built-in Web","cap.c2.body":"Place Web, structured chat, or CLI panels side by side. Send to one panel or all panels; Web bookmarks retain sign-in state.","cap.c3.title":"Memory, search & statistics","cap.c3.body":"Supported session sources are indexed locally. Memory manages experience, candidates, and policy; Stats shows usage trends and Growth Cardex.","cap.c4.title":"Runtime Hosts & CLI management","cap.c4.body":"Scan local CLIs, inspect versions and health, then install, upgrade, or diagnose. Remote nodes can run both sessions and tasks.",
+      "tag.session":"Structured chat","tag.cli":"Native CLI","tag.board":"Task board","tag.panel":"Multiple panels","tag.batch":"Batch send","tag.bookmark":"Bookmarks","tag.sessionState":"Sign-in state","tag.search":"Full-text search","tag.stats":"Usage stats","tag.remote":"Remote nodes","tag.diagnose":"Diagnostics",
+      "download.eyebrow":"Agent OS v0.2.9","download.title":"Choose a build for your system","download.body":"Desktop builds are available for macOS, Windows, and Linux. Remote Runtime node packages and scripts are included in the same Release.","download.note1":"The macOS build is not notarized with an Apple Developer ID. On first launch, right-click the app in Finder and choose Open.","download.note2":"For installation and first use, read the","download.guide":"full user guide","download.note3":"For remote node packages and install-node.sh, open the","footer.changelog":"Changelog","footer.note":"MIT License · sessions, tasks, and indexes stay local by default","lightbox.hint":"Press Esc or select the backdrop to close"
     }
   };
-  var LANG = (function(){ try{ return localStorage.getItem('ao-lang') || 'zh'; }catch(e){ return 'zh'; } })();
-  function applyLang(lang){
-    LANG = lang;
-    document.documentElement.lang = (lang==='zh') ? 'zh-CN' : 'en';
-    var T = STRINGS[lang] || STRINGS.zh;
-    /* values are authored static strings (trusted) → innerHTML keeps <code>/<mark>/entities intact */
-    document.querySelectorAll('[data-i18n]').forEach(function(el){
-      var k = el.getAttribute('data-i18n'); if(T[k]!=null) el.innerHTML = T[k];
+  var lang="zh";
+  try{lang=localStorage.getItem("agentos-lang")||"zh"}catch(e){}
+  var toggle=document.getElementById("langToggle");
+  var lightbox=document.getElementById("lightbox");
+  var lightboxImage=document.getElementById("lightboxImage");
+  var lightboxTitle=document.getElementById("lightboxTitle");
+  var closeButton=document.getElementById("lightboxClose");
+  var lastFocus=null;
+
+  function applyLang(next){
+    lang=next;
+    var table=strings[lang]||strings.zh;
+    document.documentElement.lang=lang==="zh"?"zh-CN":"en";
+    document.querySelectorAll("[data-i18n]").forEach(function(node){
+      var key=node.getAttribute("data-i18n");
+      if(table[key]!=null)node.textContent=table[key];
     });
-    document.querySelectorAll('[data-i18n-html]').forEach(function(el){
-      var k = el.getAttribute('data-i18n-html'); if(T[k]!=null) el.innerHTML = T[k];
+    document.querySelectorAll("[data-aria-key]").forEach(function(node){
+      var key=node.getAttribute("data-aria-key");
+      if(table[key]!=null)node.setAttribute("aria-label",table[key]);
     });
-    var tg = document.getElementById('langToggle');
-    if(tg) tg.textContent = (lang==='zh') ? 'EN' : '中';
-    try{ localStorage.setItem('ao-lang', lang); }catch(e){}
-  }
-  var tg = document.getElementById('langToggle');
-  if(tg) tg.addEventListener('click', function(){ applyLang(LANG==='zh'?'en':'zh'); });
-
-  var CLI = [
-    {n:'claude',   label:{zh:'Claude',         en:'Claude'},         c:'var(--cli-claude)'},
-    {n:'codex',    label:{zh:'Codex',          en:'Codex'},          c:'var(--cli-codex)'},
-    {n:'gemini',   label:{zh:'Gemini',         en:'Gemini'},         c:'var(--cli-gemini)'},
-    {n:'cursor',   label:{zh:'Cursor',         en:'Cursor'},         c:'var(--cli-cursor)'},
-    {n:'opencode', label:{zh:'OpenCode',       en:'OpenCode'},       c:'var(--cli-opencode)'},
-    {n:'pi',       label:{zh:'Pi',             en:'Pi'},             c:'var(--cli-pi)'},
-    {n:'hermes',   label:{zh:'Hermes',         en:'Hermes'},         c:'var(--cli-hermes)'},
-    {n:'openclaw', label:{zh:'OpenClaw',       en:'OpenClaw'},       c:'var(--cli-openclaw)'}
-  ];
-  var body = document.getElementById('termBody');
-  function el(cls,html){var d=document.createElement('div');d.className='ln '+cls;d.innerHTML=html;return d;}
-  function buildTerminal(){
-    body.innerHTML='';
-    var L=[];
-    L.push(el('','<span class="p">$</span> <span class="cmd">agent-os open ~/project</span>'));
-    L.push(el('dim','<span class="dim">◇ preparing local workspace …</span>'));
-    L.push(el('','<span class="ok">✓</span> <span class="cmd">Runtime Host</span>  <span class="path">local</span>  <span class="ok">online</span>'));
-    L.push(el('','<span class="ok">✓</span> <span class="cmd">Agent CLI</span>  <span class="path">claude · codex · cursor</span>  <span class="ok">ready</span>'));
-    L.push(el('','<span class="ok">✓</span> <span class="cmd">Task Core</span>  <span class="path">board · cron · review</span>  <span class="ok">ready</span>'));
-    L.push(el('','<span class="ok">✓</span> <span class="cmd">Memory Index</span>  <span class="path">local SQLite</span>  <span class="ok">ready</span>'));
-    L.push(el('','<span class="dim">→ sessions and tasks stay attached to the workspace</span>'));
-    L.push(el('','<span class="p">$</span> <span class="cur"></span>'));
-    L.forEach(function(l){body.appendChild(l);});
-    if(reduce){Array.prototype.forEach.call(body.querySelectorAll('.ln'),function(l){l.classList.add('show')});return;}
-    var nodes=body.querySelectorAll('.ln');var i=0;
-    function step(){ if(i>=nodes.length)return; nodes[i].classList.add('show');i++;
-      var delay=(i<=2)?230:150; setTimeout(step,delay); }
-    setTimeout(step,420);
-  }
-
-  var fleetEl=document.getElementById('fleet');
-  function fleetHTML(){
-    return CLI.map(function(f){return '<span><i class="cli-dot" style="background:'+f.c+'"></i>'+f.label[LANG]+'</span>';}).join('');
-  }
-  function renderFleet(){ fleetEl.innerHTML=fleetHTML()+fleetHTML(); }
-  /* pause the infinite marquee when the fleet is off-screen (saves compositor work) */
-  if(fleetEl && 'IntersectionObserver' in window){
-    var ioFleet=new IntersectionObserver(function(es){es.forEach(function(e){fleetEl.style.animationPlayState=e.isIntersecting?'':'paused';});},{threshold:0});
-    ioFleet.observe(fleetEl);
-  }
-
-  var grid=document.getElementById('cliGrid');
-  function renderGrid(){
-    grid.innerHTML = CLI.map(function(c){
-      return '<div class="cli"><span class="d" style="background:'+c.c+'"></span><span class="n">'+c.label[LANG]+'</span></div>';
-    }).join('');
-  }
-
-  var heat=document.getElementById('heat');
-  if(heat){
-    var weeks=26, days=7, total=weeks*days, seed=0;
-    function rnd(){seed=(seed*9301+49297)%233280;return seed/233280;}
-    var lv=['var(--border-soft)','rgba(201,100,66,.28)','rgba(201,100,66,.5)','rgba(201,100,66,.72)','var(--accent)'];
-    var html='';
-    for(var i=0;i<total;i++){
-      var dow=i%7, r=rnd(), lvl;
-      if(dow===5||dow===6){ lvl = r<0.7?0:(r<0.9?1:2); }
-      else { lvl = r<0.2?0:(r<0.45?1:(r<0.68?2:(r<0.87?3:4))); }
-      var col=Math.floor(i/7); if(col>14 && r>0.7) lvl=Math.min(4,lvl+1);
-      html+='<i style="background:'+lv[lvl]+'"></i>';
-    }
-    heat.innerHTML=html;
-  }
-
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-  },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.rv').forEach(function(n){io.observe(n);});
-
-  var nav=document.getElementById('nav');
-  function onScroll(){ if(window.scrollY>20)nav.classList.add('on'); else nav.classList.remove('on'); }
-  window.addEventListener('scroll',onScroll,{passive:true});
-
-  var termStarted=false;
-  function maybeStart(){
-    if(termStarted)return;
-    var r=body.getBoundingClientRect();
-    if(r.top<window.innerHeight && r.bottom>0){ termStarted=true; buildTerminal(); }
-  }
-  window.addEventListener('scroll',maybeStart,{passive:true});
-  window.addEventListener('load',maybeStart);
-
-  if(tg) tg.addEventListener('click', function(){
-    if(termStarted) buildTerminal();
-    renderFleet(); renderGrid(); buildGallery();
-  });
-
-  /* ---- product-shot gallery: scroll-pinned scrub (dify-style) ---- */
-  var SHOTS=[
-    {src:'task-board-v0.2.8.png',alt:{zh:'Agent OS v0.2.9 任务看板与定时执行',en:'Agent OS v0.2.9 task board and scheduling'}},
-    {src:'mqoj247o-image.png',alt:{zh:'会话与原生 CLI 工作台',en:'Session and native CLI workbench'}},
-    {src:'mqoj247r-image.png',alt:{zh:'Web、结构化会话与 CLI 多面板对比',en:'Web, structured chat, and CLI comparison panels'}},
-    {src:'mqoj247u-image.png',alt:{zh:'内置 Web 与书签管理',en:'Built-in Web surface and bookmarks'}},
-    {src:'mqoj247v-image.png',alt:{zh:'本地使用统计与活跃趋势',en:'Local usage statistics and activity trends'}},
-    {src:'mqoj247w-image.png',alt:{zh:'成长 Cardex 图鉴',en:'Growth Cardex'}},
-    {src:'mqoj247x-image.png',alt:{zh:'CLI 管理、远程节点、诊断与设置',en:'CLI management, remote nodes, diagnostics, and settings'}}
-  ];
-  var gPin=document.getElementById('galPin'),
-      gStage=document.getElementById('galStage'),
-      gFrames=document.getElementById('galFrames'),
-      gRail=document.getElementById('galRail'),
-      gCur=document.getElementById('galCur'),
-      gTotal=document.getElementById('galTotal');
-  var gIdx=-1,gReady=false;
-  function pad2(n){return (n<10?'0':'')+n;}
-  function frameMarkup(i){
-    var a=(LANG==='zh')?SHOTS[i].alt.zh:SHOTS[i].alt.en;
-    return '<div class="frame"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="tt">Agent OS</span><span class="tn">'+pad2(i+1)+'</span></div><img src="'+SHOTS[i].src+'" alt="'+a+'" decoding="async" loading="lazy" />';
-  }
-  function buildGallery(){
-    if(!gStage||!gPin)return;
-    var html='',rail='',i;
-    for(i=0;i<SHOTS.length;i++){
-      html+='<div class="gal-frame'+(i===0?' on':'')+'" data-i="'+i+'">'+frameMarkup(i)+'</div>';
-      rail+='<span class="seg'+(i===0?' on':'')+'" data-i="'+i+'" aria-hidden="true"></span>';
-    }
-    if(gFrames)gFrames.innerHTML=html;
-    if(gRail)gRail.innerHTML=rail;
-    if(gTotal)gTotal.textContent=pad2(SHOTS.length);
-    gIdx=0;
-    if(gCur)gCur.textContent='01';
-    /* runway = pinned view (100vh) + one step of scroll per frame transition */
-    var step=window.innerWidth<720?56:64;
-    gPin.style.height=(100+(SHOTS.length-1)*step)+'vh';
-    gReady=true;
-  }
-  function setActive(i){
-    if(!gFrames)return;
-    i=Math.max(0,Math.min(SHOTS.length-1,i));
-    if(i===gIdx)return;
-    gIdx=i;
-    var fr=gFrames.children,k,sg,j;
-    for(k=0;k<fr.length;k++)fr[k].classList.toggle('on',parseInt(fr[k].getAttribute('data-i'),10)===i);
-    if(gRail){sg=gRail.children;for(j=0;j<sg.length;j++)sg[j].classList.toggle('on',parseInt(sg[j].getAttribute('data-i'),10)===i);}
-    if(gCur)gCur.textContent=pad2(i+1);
-  }
-  /* rAF-gated scrub: coalesce scroll bursts into at most one layout read + one write per frame (prevents layout thrash) */
-  var _scrubRaf=null;
-  function scrub(){
-    if(!gReady||!gPin||_scrubRaf)return;
-    _scrubRaf=window.requestAnimationFrame(function(){_scrubRaf=null;_doScrub();});
-  }
-  function _doScrub(){
-    if(!gReady||!gPin)return;
-    var r=gPin.getBoundingClientRect();
-    var vh=window.innerHeight;
-    var span=r.height-vh;
-    var p=span>0?(-r.top)/span:0;
-    if(p<0)p=0;else if(p>1)p=1;
-    var idx=Math.floor(p*SHOTS.length);
-    if(idx>=SHOTS.length)idx=SHOTS.length-1;
-    setActive(idx);
-  }
-  function scrollToIdx(i){
-    if(!gPin)return;
-    i=Math.max(0,Math.min(SHOTS.length-1,i));
-    var r=gPin.getBoundingClientRect();
-    var vh=window.innerHeight;
-    var span=Math.max(1,r.height-vh);
-    var p=SHOTS.length>1?i/(SHOTS.length-1):0;
-    var top=r.top+window.scrollY;
-    window.scrollTo({top:top+p*span,behavior:reduce?'auto':'smooth'});
-  }
-  if(gStage){
-    buildGallery();
-    window.addEventListener('scroll',scrub,{passive:true});
-    var _rz=null;
-    window.addEventListener('resize',function(){clearTimeout(_rz);_rz=setTimeout(function(){buildGallery();scrub();},150);});
-    /* keyboard nav while focused (arrows) — does not hijack page scroll otherwise */
-    gStage.addEventListener('keydown',function(e){
-      if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();scrollToIdx(gIdx+1);}
-      else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();scrollToIdx(gIdx-1);}
+    document.querySelectorAll(".shot-card").forEach(function(card){
+      var title=table[card.getAttribute("data-title-key")]||"Agent OS";
+      card.setAttribute("aria-label",lang==="zh"?"查看"+title+"完整截图":"View the full "+title+" screenshot");
+      var image=card.querySelector("img");
+      if(image)image.alt=lang==="zh"?"Agent OS "+title+"完整界面":"Agent OS "+title+" full interface";
     });
-    /* click a rail segment to jump straight to that frame */
-    if(gRail)gRail.addEventListener('click',function(e){var s=e.target.closest('[data-i]');if(s)scrollToIdx(parseInt(s.getAttribute('data-i'),10));});
-    /* click the stage (not the rail) to enlarge current frame */
-    gStage.addEventListener('click',function(e){if(e.target.closest('.gal-rail'))return;openLb(gIdx<0?0:gIdx);});
-    scrub();
+    document.title=lang==="zh"?"Agent OS — 会话、任务与运行节点":"Agent OS — Sessions, Tasks & Runtime Hosts";
+    toggle.textContent=lang==="zh"?"EN":"中";
+    toggle.setAttribute("aria-label",lang==="zh"?"切换为英文":"Switch to Chinese");
+    try{localStorage.setItem("agentos-lang",lang)}catch(e){}
   }
 
-  /* ---- product-shot lightbox (click to enlarge, Esc / click to close) ---- */
-  var lb=document.createElement('div');lb.className='lightbox';
-  var lbi=document.createElement('img');lb.appendChild(lbi);document.body.appendChild(lb);
-  function closeLb(){lb.classList.remove('open');}
-  function openLb(i){if(!SHOTS[i])return;lbi.src=SHOTS[i].src;lb.classList.add('open');}
-  lb.addEventListener('click',closeLb);
-  window.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb();});
+  function openLightbox(card){
+    var key=card.getAttribute("data-title-key");
+    var table=strings[lang]||strings.zh;
+    lastFocus=card;
+    lightboxImage.src=card.getAttribute("data-src");
+    lightboxImage.alt=(table[key]||"Agent OS")+(lang==="zh"?"完整界面":" full interface");
+    lightboxTitle.textContent=table[key]||"Agent OS";
+    lightbox.hidden=false;
+    document.body.classList.add("modal-open");
+    closeButton.focus();
+  }
+  function closeLightbox(){
+    if(lightbox.hidden)return;
+    lightbox.hidden=true;
+    document.body.classList.remove("modal-open");
+    if(lastFocus)lastFocus.focus();
+  }
 
-  applyLang(LANG);
-  renderFleet();
-  renderGrid();
-  maybeStart();
+  toggle.addEventListener("click",function(){applyLang(lang==="zh"?"en":"zh")});
+  document.querySelectorAll(".shot-card").forEach(function(card){card.addEventListener("click",function(){openLightbox(card)})});
+  closeButton.addEventListener("click",closeLightbox);
+  lightbox.addEventListener("click",function(event){if(event.target===lightbox||event.target.classList.contains("lightbox-media"))closeLightbox()});
+  document.addEventListener("keydown",function(event){if(event.key==="Escape")closeLightbox()});
+  applyLang(lang);
 })();
 </script>
 </body>
