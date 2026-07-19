@@ -16,8 +16,8 @@
     --font:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--max:1240px;--content:960px;--gut:clamp(18px,4vw,48px);
   }
-  *{box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  *{box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:clip}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip}
   button,a{font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:rgba(37,99,235,.14)}a{color:inherit;text-decoration:none}
   h1,p{margin-top:0}h1{text-wrap:balance}p{text-wrap:pretty}:focus-visible{outline:3px solid rgba(37,99,235,.38);outline-offset:3px}
   .skip{position:fixed;left:16px;top:12px;z-index:300;transform:translateY(-160%);background:var(--dark);color:#fff;padding:10px 14px;border-radius:8px;font-size:14px}.skip:focus{transform:none}
@@ -68,6 +68,9 @@
       <li><b>任务 fallback 可用</b> — daemon 暂时不可用时，进程内 Runtime 仍可创建、编辑、删除和运行任务，不再提示“当前 Runtime Host 不支持任务调度”。</li>
       <li><b>周期调度互斥</b> — daemon 与 fallback 共用同一任务仓储，并在切换时严格交接调度器，避免丢任务或重复触发。</li>
       <li><b>桌面单实例</b> — 重复启动只聚焦已有窗口，不再让不同版本争抢同一个 daemon。</li>
+      <li><b>任务详情闭环</b> — 同一任务集中展示多次运行记录、执行阶段与输出事件，并提供独立“交付物”页签；结果进入 Review 后可打开关联会话，再由用户确认 Done。</li>
+      <li><b>飞书消息渠道</b> — 设置页新增消息渠道中心，飞书机器人通过长连接把 IM 消息转交给本机 Agent OS，并显示连接、消息、闭环与错误状态；其他平台按各自状态展示。</li>
+      <li><b>远程托管中心</b> — 本机可作为主控选择可访问网卡，为不同平台生成节点接入命令，并集中检查节点在线状态、版本兼容与 CLI 可用性。</li>
       <li><b>完整发布验收</b> — 全量 350 项测试、41 项任务专项测试及安装包真机任务/Cron/单实例验证通过；19 个资产按源码 <code>4a51dc8</code> 重建并完成 SHA-256 核验。</li>
     </ul>
   </section>
