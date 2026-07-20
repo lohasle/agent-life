@@ -11,26 +11,26 @@
 
 ## 最新版本
 
-当前最新版本：**v0.2.9** · 2026-07-18
+当前最新版本：**v0.3.0** · 2026-07-19
 
-本版本重点修复任务创建与周期调度可靠性：daemon 重连或临时降级时，桌面进程内 Runtime 仍可创建和管理任务；daemon 与 fallback 共用任务仓储并互斥调度，避免丢任务或重复触发。桌面应用同时改为单实例运行，防止不同版本争抢同一个 daemon。
+本版本完成消息通道与远程节点可靠性升级：飞书交互改为真实端到端健康状态，新增个人微信、企业微信、Telegram 与 WhatsApp；局域网节点安装、升级和发布链路增加脚本摘要、原子回滚、主控接管确认与同源制品门禁。
 
-最终构建已基于源码提交 `4a51dc8` 完成发布：19 个 Release 资产均已重新构建，并逐个通过 GitHub SHA-256 digest 核验。
+最终构建绑定 Agent-OS 源码提交 `c172f0fd57cb`；桌面、节点与校验资产只有在远端 exact set 和 SHA-256 全部一致后才会公开。
 
-产品网站内容以 v0.2.9 当前界面为准，按“产品展示 → 快速开始/完整指南 → 分平台下载”组织；CLI 可用性、厂商登录、本地数据与模型服务边界均已明确说明。
+产品网站与下载链接由发布 workflow 从版本清单同步；截图文件名保留其实际采集版本。
 
 | 平台 | 安装包 | 下载 |
 |---|---|---|
-| macOS · Apple Silicon | `Agent-Os-0.2.9-mac-arm64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-arm64.dmg) |
-| macOS · Intel | `Agent-Os-0.2.9-mac-x64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-x64.dmg) |
-| Windows · x64 | `Agent-Os-0.2.9-win-x64-setup.exe` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-win-x64-setup.exe) |
-| Linux · x64 (deb) | `Agent-Os-0.2.9-linux-amd64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-amd64.deb) |
-| Linux · x64 (AppImage) | `Agent-Os-0.2.9-linux-x86_64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-x86_64.AppImage) |
-| Linux · arm64 (deb) | `Agent-Os-0.2.9-linux-arm64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.deb) |
-| Linux · arm64 (AppImage) | `Agent-Os-0.2.9-linux-arm64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-linux-arm64.AppImage) |
+| macOS · Apple Silicon | `Agent-Os-0.3.0-mac-arm64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-mac-arm64.dmg) |
+| macOS · Intel | `Agent-Os-0.3.0-mac-x64.dmg` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-mac-x64.dmg) |
+| Windows · x64 | `Agent-Os-0.3.0-win-x64-setup.exe` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-win-x64-setup.exe) |
+| Linux · x64 (deb) | `Agent-Os-0.3.0-linux-amd64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-linux-amd64.deb) |
+| Linux · x64 (AppImage) | `Agent-Os-0.3.0-linux-x86_64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-linux-x86_64.AppImage) |
+| Linux · arm64 (deb) | `Agent-Os-0.3.0-linux-arm64.deb` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-linux-arm64.deb) |
+| Linux · arm64 (AppImage) | `Agent-Os-0.3.0-linux-arm64.AppImage` | [下载](https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-linux-arm64.AppImage) |
 
 > macOS 安装包未做开发者签名（无 Developer ID），首次启动需右键 → 打开。
-> Windows / Linux 为 mac 交叉打包产出。
+> Windows / Linux 安装包由对应架构的原生 GitHub-hosted runner 构建。
 
 ## 版本检查 API
 
@@ -42,10 +42,10 @@ GET https://api.github.com/repos/lohasle/agent-life/releases/latest
 
 ```json
 {
-  "tag_name": "v0.2.9",
-  "name": "v0.2.9 — Agent OS",
+  "tag_name": "v0.3.0",
+  "name": "v0.3.0 — Agent OS",
   "assets": [
-    { "name": "Agent-Os-0.2.9-mac-arm64.dmg", "browser_download_url": "https://github.com/lohasle/agent-life/releases/download/v0.2.9/Agent-Os-0.2.9-mac-arm64.dmg" }
+    { "name": "Agent-Os-0.3.0-mac-arm64.dmg", "browser_download_url": "https://github.com/lohasle/agent-life/releases/download/v0.3.0/Agent-Os-0.3.0-mac-arm64.dmg" }
   ]
 }
 ```

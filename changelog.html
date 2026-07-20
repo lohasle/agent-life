@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.2.9</span>
+    <span class="version">v0.3.0</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,18 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.0</span><span class="ver__date">2026-07-19</span></div>
+    <ul class="ver__list">
+      <li><b>五平台消息通道</b> — 飞书不再把传输连接误报为可用；个人微信、企业微信、Telegram 与 WhatsApp 使用各自独立 transport、接入流程、访问控制和错误状态。</li>
+      <li><b>远程节点真实验收</b> — Runtime protocol 升至 8，主控只有完成协议、真实 PTY 探针和 Agent 发现后才返回 node-adopted；安装与升级以该确认作为成功边界。</li>
+      <li><b>一键安装与升级回滚</b> — 接入命令先验证桌面端锚定的脚本 SHA-256；安装和 agentos-cli update 均使用完整 stage、固定 Node、全文件校验、原子提升与失败恢复。</li>
+      <li><b>同源发布事务</b> — 五个平台由原生 runner 同时生成桌面和节点制品；Release 先进入私有 draft，远端 exact asset set、bytes 与 SHA-256 全部一致后才晋升 Latest。</li>
+      <li><b>桌面更新完整性</b> — 更新器识别 x64、x86_64、amd64 与 arm64、aarch64 架构别名，禁止异构 fallback，并在安装前验证 GitHub asset bytes 与 SHA-256 digest。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>c172f0fd57cb</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.2.9</span><span class="ver__date">2026-07-18</span></div>
@@ -138,6 +150,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.2.9</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.0</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
