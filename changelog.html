@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.3.0</span>
+    <span class="version">v0.3.1</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,18 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.1</span><span class="ver__date">2026-07-22</span></div>
+    <ul class="ver__list">
+      <li><b>多平台消息通道</b> — 飞书改为端到端健康状态；个人微信、企业微信、Telegram 与 WhatsApp 使用独立 transport、接入流程、访问控制和错误状态。</li>
+      <li><b>语义定时与任务状态</b> — 支持“先说今晚 9 点、再补任务内容”的两轮创建；看板卡片、最近更新与详情统一使用工作流状态，确认后不再残留待确认。</li>
+      <li><b>产品可运营性</b> — 新增基础运营 CLI、分步功能引导、关于页版本目录、崩溃诊断与恢复入口，并接入经过隐私白名单约束的 Mixpanel Full 分析。</li>
+      <li><b>会话与渲染可靠性</b> — 收口会话级缓存生命周期，增强流式 Markdown、未闭合代码围栏和严格模式下的稳定渲染，避免异常内容导致空白。</li>
+      <li><b>远程节点与同源发布</b> — 统一受托管设备运行状态与远程 Agent 选择；五个平台继续由原生 runner 构建，并以 provenance、逐文件摘要和 draft 晋升门禁保证源码与制品同源。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>fb3cf5c8b8af</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.3.0</span><span class="ver__date">2026-07-19</span></div>
@@ -150,6 +162,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.0</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.1</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
