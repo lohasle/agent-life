@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.3.1</span>
+    <span class="version">v0.3.2</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,16 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.2</span><span class="ver__date">2026-07-22</span></div>
+    <ul class="ver__list">
+      <li><b>执行过程连续流归并</b> — 同一会话、同一回合内相邻的思考或文本 delta 按原文连续展示，不再把“未完成”等一句话从任意流片段边界拆开。</li>
+      <li><b>语义边界保持清晰</b> — 工具调用、工具结果、权限请求、错误以及跨回合事件仍保持独立过程节点，兼顾可读性与执行审计。</li>
+      <li><b>历史记录即时兼容</b> — 归并发生在共享任务投影层，无需迁移 SQLite 数据；已有任务运行记录打开后即可获得新的连续展示效果。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>87907abec348</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.3.1</span><span class="ver__date">2026-07-22</span></div>
@@ -162,6 +172,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.1</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.2</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
