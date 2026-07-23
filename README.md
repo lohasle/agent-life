@@ -1,6 +1,6 @@
 # Agent OS
 
-> 本地优先的桌面 Agent 工作台 —— 统一管理 AI CLI 会话、原生终端、任务看板、定时执行、对比、记忆搜索、统计与远程 Runtime 节点。
+> 顶级的本地优先 Agent 工作台：安全托管其他主机上的 Agent，并把飞书等消息渠道变成所有已安装 Agent 的统一入口。
 
 本仓库同时托管：
 
@@ -8,6 +8,18 @@
 - **使用指南** (`guide.html`) — 安装、首次启动、会话、任务、定时执行与远程节点说明。
 - **版本发布** — 最新安装包见 [Releases](https://github.com/lohasle/agent-life/releases)。
 - **更新记录** — 见 [`CHANGELOG`](https://lohasle.github.io/agent-life/changelog.html) 页。
+
+## 两个核心亮点
+
+### 1. 远程托管 Agent，授权边界由对方设置
+
+受托管设备负责核验配对码和身份指纹，并自行决定开放哪些能力、Agent 与文件目录。控制端只能访问明确授权的资源；越界路径、错误凭证以及暂停或撤销后的请求都会被拒绝。
+
+### 2. 一次接入消息渠道，切换所有 Agent
+
+连接飞书、个人微信、企业微信、Telegram 或 WhatsApp 后，可在同一对话中通过 `/agents` 查看实时可用列表，再使用 `/use codex`、`/use claude` 等命令切换 Agent。每个 Agent 保留独立的持久会话，切回时继续原上下文；统一搜索与长期记忆仍由 Agent OS 管理。
+
+支持的切换命令以本机发现结果为准，当前适配器包括 Claude、Codex、Cursor Agent、Gemini、Hermes、OpenCode、Pi 与 OpenClaw。
 
 ## 最新版本
 
@@ -56,7 +68,8 @@ GET https://api.github.com/repos/lohasle/agent-life/releases/latest
 - `guide.html` — 中英文完整使用指南。
 - `changelog.html` — 版本更新记录页。
 - `agentos-icon.png` — 与桌面应用一致的官网 favicon 与品牌图标。
-- `task-board-v0.2.9.png` / `task-schedule-v0.2.9.png` — 完整比例的任务看板与定时任务实机截图。
+- `message-channels-agent-switch-v0.3.3.png` — 消息渠道配置与 Agent 回合状态实机截图。
+- `remote-hosting-pairing-v0.3.3.png` — 远程 Agent 配对与方向性授权实机截图。
 - `mqoj247*.png` — 落地页配图资源。
 - `DESIGN-HANDOFF.md` / `DESIGN-MANIFEST.json` — 设计交付件。
 

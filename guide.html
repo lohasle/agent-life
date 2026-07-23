@@ -71,6 +71,7 @@
   .step-num{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--blue-soft);font-family:var(--mono);font-size:12px;color:var(--blue)}
   .step h3{font-size:20px;margin:2px 0 7px}.step p{color:var(--muted);font-size:14px}
   .notice{margin-top:18px;border-left:3px solid var(--blue);background:var(--blue-soft);padding:15px 18px;color:var(--text-2);font-size:14px;border-radius:0 10px 10px 0}
+  .install-note{margin-top:12px}
   code{font-family:var(--mono);font-size:.9em;background:var(--surface-soft);border-radius:5px;padding:2px 5px}
   .faq{display:grid;gap:10px}
   details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
@@ -93,14 +94,14 @@
   </div>
 </header>
 
-<header class="hero">
+<section class="hero" aria-labelledby="guideTitle">
   <div class="wrap">
     <span class="eyebrow" data-i18n="hero.eyebrow">USER GUIDE · v0.3.3</span>
-    <h1 data-i18n="hero.title">从安装到第一次 Agent 任务</h1>
+    <h1 id="guideTitle" data-i18n="hero.title">从安装到第一次 Agent 任务</h1>
     <p data-i18n="hero.desc">本指南只描述当前版本已经提供的界面和流程，帮助你完成 CLI 准备、创建会话、派发与计划任务、审阅交付物，并按需接入消息通道或远程节点。</p>
     <div class="hero-actions"><a class="btn primary" href="index.html#download" data-i18n="hero.download">下载 Agent OS</a><a class="btn" href="index.html" data-i18n="hero.back">返回产品页</a></div>
   </div>
-</header>
+</section>
 
 <div class="layout">
   <aside class="toc" aria-label="指南导航" data-aria-key="aria.guide">
@@ -123,8 +124,8 @@
       <h2 data-i18n="install.title">选择并安装桌面应用</h2>
       <p class="lead" data-i18n="install.lead">根据操作系统与 CPU 架构选择对应制品。所有链接都指向 v0.3.3 GitHub Release。</p>
       <div class="grid">
-        <article class="card"><span class="tag">macOS</span><h3 data-i18n="install.mac.title">DMG 安装</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-mac-arm64.dmg"><b>Apple Silicon</b><span>mac-arm64.dmg</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-mac-x64.dmg"><b>Intel</b><span>mac-x64.dmg</span></a></div><p style="margin-top:12px" data-i18n="install.mac.note">当前制品未做 Apple Developer ID 公证。首次启动请在 Finder 中右键应用并选择“打开”。</p></article>
-        <article class="card"><span class="tag">Windows</span><h3 data-i18n="install.win.title">x64 安装器</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-win-x64-setup.exe"><b>Windows x64</b><span>setup.exe</span></a></div><p style="margin-top:12px" data-i18n="install.win.note">运行安装器后按向导安装。当前 Windows 制品由 Windows 原生 GitHub-hosted runner 构建。</p></article>
+        <article class="card"><span class="tag">macOS</span><h3 data-i18n="install.mac.title">DMG 安装</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-mac-arm64.dmg"><b>Apple Silicon</b><span>mac-arm64.dmg</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-mac-x64.dmg"><b>Intel</b><span>mac-x64.dmg</span></a></div><p class="install-note" data-i18n="install.mac.note">当前制品未做 Apple Developer ID 公证。首次启动请在 Finder 中右键应用并选择“打开”。</p></article>
+        <article class="card"><span class="tag">Windows</span><h3 data-i18n="install.win.title">x64 安装器</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-win-x64-setup.exe"><b>Windows x64</b><span>setup.exe</span></a></div><p class="install-note" data-i18n="install.win.note">运行安装器后按向导安装。当前 Windows 制品由 Windows 原生 GitHub-hosted runner 构建。</p></article>
         <article class="card"><span class="tag">Linux x64</span><h3>deb / AppImage</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-linux-amd64.deb"><b>deb</b><span>linux-amd64.deb</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-linux-x86_64.AppImage"><b>AppImage</b><span>linux-x86_64.AppImage</span></a></div></article>
         <article class="card"><span class="tag">Linux arm64</span><h3>deb / AppImage</h3><div class="downloads"><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-linux-arm64.deb"><b>deb</b><span>linux-arm64.deb</span></a><a class="download" href="https://github.com/lohasle/agent-life/releases/download/v0.3.3/Agent-Os-0.3.3-linux-arm64.AppImage"><b>AppImage</b><span>linux-arm64.AppImage</span></a></div></article>
       </div>
@@ -171,22 +172,25 @@
     </section>
 
     <section class="section" id="channels">
-      <h2 data-i18n="channels.title">从消息渠道转交工作</h2>
-      <p class="lead" data-i18n="channels.lead">在设置 → 消息渠道中管理 IM 接入。当前界面支持飞书、个人微信、企业微信、Telegram 与 WhatsApp；每个平台展示独立接入步骤、健康状态、访问策略与必要前置条件。</p>
+      <h2 data-i18n="channels.title">一条消息渠道，切换所有已安装 Agent</h2>
+      <p class="lead" data-i18n="channels.lead">在设置 → 消息渠道中连接飞书、个人微信、企业微信、Telegram 或 WhatsApp。渠道接入一次后，会自动获得所有已安装且支持结构化聊天 Agent 的统一消息入口。</p>
       <div class="grid">
-        <article class="card"><span class="tag">FEISHU</span><h3 data-i18n="channels.feishu.title">连接飞书机器人</h3><p data-i18n="channels.feishu.desc">配置机器人 App ID 等连接信息并启用渠道。页面会显示连接状态、最近消息、最近闭环和最近错误。</p></article>
-        <article class="card"><span class="tag">CHANNEL STATUS</span><h3 data-i18n="channels.status.title">按应用内状态判断可用性</h3><p data-i18n="channels.status.desc">飞书、个人微信、企业微信、Telegram 与 WhatsApp 只有在各自健康状态与前置条件通过后才可用；Discord 与 QQ 仍只展示规划状态。</p></article>
+        <article class="card"><span class="tag">ONE CONNECTION</span><h3 data-i18n="channels.feishu.title">连接渠道并确认闭环</h3><p data-i18n="channels.feishu.desc">配置平台连接信息并启用渠道；确认页面同时显示传输在线、已收到消息和 Agent 回合闭环。访问策略会在消息进入 Agent 前生效。</p></article>
+        <article class="card"><span class="tag">DYNAMIC AGENTS</span><h3 data-i18n="channels.status.title">在聊天中选择 Agent</h3><p data-i18n="channels.status.desc">发送 <code translate="no">/agents</code> 查看实时可用列表，再发送 <code translate="no">/use codex</code>、<code translate="no">/use claude</code> 等命令切换。</p></article>
+        <article class="card"><span class="tag">PERSISTENT CONTEXT</span><h3 data-i18n="channels.context.title">切换 Agent，不覆盖原会话</h3><p data-i18n="channels.context.desc">每个 Agent 都绑定自己的持久会话。切回时继续原上下文；统一搜索和长期记忆仍由 Agent OS 管理。只有 <code translate="no">/new</code> 会为当前 Agent 主动开启新对话。</p></article>
+        <article class="card"><span class="tag">COMMANDS</span><h3 data-i18n="channels.commands.title">常用消息命令</h3><p><code translate="no">/agents</code> · <code translate="no">/use &lt;agent&gt;</code> · <code translate="no">/new</code> · <code translate="no">/status</code> · <code translate="no">/open</code> · <code translate="no">/stop</code> · <code translate="no">/help</code></p></article>
       </div>
-      <div class="notice" data-i18n="channels.notice">消息渠道会让外部用户驱动本机 Agent。接入前请确认机器人权限、可联系范围和本机工作目录边界。</div>
+      <div class="notice" data-i18n="channels.notice">消息渠道会让外部用户驱动本机 Agent。使用 owner、allowlist 或显式配对限制访问者；未经批准的请求不会进入 Agent，也不会在批准后自动重放。</div>
     </section>
 
     <section class="section" id="remote">
-      <h2 data-i18n="remote.title">远程托管与 Runtime 节点</h2>
-      <p class="lead" data-i18n="remote.lead">开启远程托管后，本机作为主控接受其他电脑的节点接入。节点上线后可成为会话和任务的 Runtime Host。</p>
+      <h2 data-i18n="remote.title">由受托管端控制边界的远程 Agent</h2>
+      <p class="lead" data-i18n="remote.lead">Agent OS 可以托管其他电脑上的 Agent，但控制端不会因此获得整机权限。受托管端负责核验设备，并决定开放哪些能力、Agent 和文件目录。</p>
       <div class="steps">
-        <article class="step"><span class="step-num">01</span><div><h3 data-i18n="remote.s1.title">开启托管并选择网卡</h3><p data-i18n="remote.s1.desc">在设置 → 远程托管中启用主控，选择目标机器可以访问的本机网卡，并核对监听地址与证书指纹。</p></div></article>
-        <article class="step"><span class="step-num">02</span><div><h3 data-i18n="remote.s2.title">生成节点接入命令</h3><p data-i18n="remote.s2.desc">填写节点别名并选择目标平台，生成接入命令后在目标电脑执行。接入凭据属于敏感信息，不要发布到聊天、日志或代码仓库。</p></div></article>
-        <article class="step"><span class="step-num">03</span><div><h3 data-i18n="remote.s3.title">检查版本与可用性</h3><p data-i18n="remote.s3.desc">节点上线后检查在线状态、桌面与节点版本兼容、CLI 发现和目录访问，再在新建会话或任务时选择该 Runtime Host。</p></div></article>
+        <article class="step"><span class="step-num">01</span><div><h3 data-i18n="remote.s1.title">发现设备并发起配对</h3><p data-i18n="remote.s1.desc">通过局域网发现或手动地址连接。双方看到短期配对会话、设备名称和身份指纹；凭据不会出现在公开设备列表中。</p></div></article>
+        <article class="step"><span class="step-num">02</span><div><h3 data-i18n="remote.s2.title">受托管端核验并批准</h3><p data-i18n="remote.s2.desc">对方在自己的设备上核对 6 位配对码与设备指纹，再主动批准控制端。未批准前不开放任何 Agent、会话或文件能力。</p></div></article>
+        <article class="step"><span class="step-num">03</span><div><h3 data-i18n="remote.s3.title">由对方设置能力与目录</h3><p data-i18n="remote.s3.desc">受托管端选择允许的能力、Agent 和目录。文件访问按真实路径边界校验，根目录、兄弟目录和符号链接逃逸都会被拒绝。</p></div></article>
+        <article class="step"><span class="step-num">04</span><div><h3 data-i18n="remote.s4.title">随时暂停或永久撤销</h3><p data-i18n="remote.s4.desc">对方可以暂停授权或永久撤销。撤销后不能静默恢复，已有远程视图、会话和事件流会立即停止。</p></div></article>
       </div>
     </section>
 
@@ -236,6 +240,50 @@
     "remote.title":"Remote hosting and Runtime nodes","remote.lead":"With Remote hosting enabled, the local machine acts as the controller for nodes on other computers. Online nodes become Runtime Hosts for sessions and tasks.","remote.s1.title":"Enable hosting and select a network interface","remote.s1.desc":"Open Settings → Remote hosting, enable the controller, choose an interface reachable from the target machine, and verify the listen address and certificate fingerprint.","remote.s2.title":"Generate a node enrollment command","remote.s2.desc":"Enter a node alias, choose its platform, generate the command, and run it on the target computer. Treat enrollment credentials as secrets; never publish them in chats, logs, or repositories.","remote.s3.title":"Verify version and availability","remote.s3.desc":"After the node is online, inspect presence, desktop/node version compatibility, CLI discovery, and directory access before selecting that Runtime Host in a session or task.",
     "faq.title":"Frequently asked questions","faq.q1":"Why does Agent OS not sign in to Claude or Codex automatically?","faq.a1":"Agent OS discovers, launches, and manages CLIs. Vendor accounts, subscriptions, OAuth, and API-key authorization must follow each CLI's official flow.","faq.q2":"What if macOS cannot verify the developer?","faq.a2":"The current DMG is not notarized. In Finder, right-click Agent OS, choose Open, and confirm once.","faq.q3":"Does all data stay on the computer?","faq.a3":"Session metadata, tasks, indexes, and stats stay local by default. Whether model requests reach external services depends on the selected CLI, model provider, and permissions.","faq.q4":"Where can I find updates?","faq.a4":'The app checks the agent-life GitHub Release. You can also read the <a href="changelog.html">changelog</a> or download the latest artifact.',"faq.q5":"What if task creation says the Runtime Host cannot schedule tasks?","faq.a5":"Upgrade to v0.3.3, fully quit any older Agent OS process, and relaunch. v0.3.3 supports task creation during daemon fallback and runs as a single instance to prevent competing Runtimes.","faq.q6":"Why can I not enable every platform in Message channels?","faq.a6":"The list includes active integrations and future entry points. Use each platform's current status as the source of truth. Feishu, personal WeChat, WeCom, Telegram, and WhatsApp each expose their live health, access policy, and platform prerequisites.","foot.product":"Product","foot.changelog":"Changelog"
   };
+  Object.assign(ZH,{
+    "channels.title":"一条消息渠道，切换所有已安装 Agent",
+    "channels.lead":"在设置 → 消息渠道中连接飞书、个人微信、企业微信、Telegram 或 WhatsApp。渠道接入一次后，会自动获得所有已安装且支持结构化聊天 Agent 的统一消息入口。",
+    "channels.feishu.title":"连接渠道并确认闭环",
+    "channels.feishu.desc":"配置平台连接信息并启用渠道；确认页面同时显示传输在线、已收到消息和 Agent 回合闭环。访问策略会在消息进入 Agent 前生效。",
+    "channels.status.title":"在聊天中选择 Agent",
+    "channels.status.desc":"发送 /agents 查看实时可用列表，再发送 /use codex、/use claude 等命令切换。",
+    "channels.context.title":"切换 Agent，不覆盖原会话",
+    "channels.context.desc":"每个 Agent 都绑定自己的持久会话。切回时继续原上下文；统一搜索和长期记忆仍由 Agent OS 管理。只有 /new 会为当前 Agent 主动开启新对话。",
+    "channels.commands.title":"常用消息命令",
+    "channels.notice":"消息渠道会让外部用户驱动本机 Agent。使用 owner、allowlist 或显式配对限制访问者；未经批准的请求不会进入 Agent，也不会在批准后自动重放。",
+    "remote.title":"由受托管端控制边界的远程 Agent",
+    "remote.lead":"Agent OS 可以托管其他电脑上的 Agent，但控制端不会因此获得整机权限。受托管端负责核验设备，并决定开放哪些能力、Agent 和文件目录。",
+    "remote.s1.title":"发现设备并发起配对",
+    "remote.s1.desc":"通过局域网发现或手动地址连接。双方看到短期配对会话、设备名称和身份指纹；凭据不会出现在公开设备列表中。",
+    "remote.s2.title":"受托管端核验并批准",
+    "remote.s2.desc":"对方在自己的设备上核对 6 位配对码与设备指纹，再主动批准控制端。未批准前不开放任何 Agent、会话或文件能力。",
+    "remote.s3.title":"由对方设置能力与目录",
+    "remote.s3.desc":"受托管端选择允许的能力、Agent 和目录。文件访问按真实路径边界校验，根目录、兄弟目录和符号链接逃逸都会被拒绝。",
+    "remote.s4.title":"随时暂停或永久撤销",
+    "remote.s4.desc":"对方可以暂停授权或永久撤销。撤销后不能静默恢复，已有远程视图、会话和事件流会立即停止。"
+  });
+  Object.assign(EN,{
+    "channels.title":"Switch every installed Agent from one message channel",
+    "channels.lead":"Connect Feishu, personal WeChat, WeCom, Telegram, or WhatsApp in Settings → Message channels. One connection becomes a unified message entry point for every installed Agent that supports structured chat.",
+    "channels.feishu.title":"Connect the channel and verify the full loop",
+    "channels.feishu.desc":"Configure and enable the platform, then confirm transport online, inbound received, and Agent turn completed. Access policy is enforced before a message reaches an Agent.",
+    "channels.status.title":"Choose an Agent in chat",
+    "channels.status.desc":"Send /agents for the live list, then switch with commands such as /use codex or /use claude.",
+    "channels.context.title":"Switch Agents without overwriting the previous session",
+    "channels.context.desc":"Every Agent keeps its own persistent session. Switching back resumes the original context; unified search and durable memory remain in Agent OS. Only /new explicitly starts a new conversation for the current Agent.",
+    "channels.commands.title":"Message commands",
+    "channels.notice":"A channel lets external users drive a local Agent. Restrict access with owner, allowlist, or explicit pairing. Unapproved requests never reach an Agent and are not replayed after approval.",
+    "remote.title":"Remote Agents bounded by the managed computer",
+    "remote.lead":"Agent OS can host Agents on another computer without giving the controller whole-machine access. The managed computer verifies the device and chooses the capabilities, Agents, and folders to expose.",
+    "remote.s1.title":"Discover the device and request pairing",
+    "remote.s1.desc":"Connect through local discovery or a manual address. Both sides see a short-lived pairing session, device name, and identity fingerprint; credentials never appear in the public device view.",
+    "remote.s2.title":"The managed computer verifies and approves",
+    "remote.s2.desc":"The other side compares the 6-digit pairing code and fingerprint, then explicitly approves the controller. No Agent, session, or file capability is exposed beforehand.",
+    "remote.s3.title":"The other side sets capabilities and folders",
+    "remote.s3.desc":"The managed computer selects allowed capabilities, Agents, and directories. Real-path boundary checks reject filesystem root, sibling folders, and symlink escapes.",
+    "remote.s4.title":"Pause or permanently revoke at any time",
+    "remote.s4.desc":"The other side can pause or permanently revoke access. Revocation cannot silently reactivate, and existing remote views, sessions, and event streams stop immediately."
+  });
   var lang='zh';try{lang=localStorage.getItem('agentos-lang')||'zh';}catch(e){}
   function apply(next){
     lang=next;document.documentElement.lang=lang==='zh'?'zh-CN':'en';document.title=lang==='zh'?'Agent OS 使用指南':'Agent OS User Guide';

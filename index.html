@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agent OS — 会话、任务与运行节点</title>
-<meta name="description" content="Agent OS 是桌面端 Agent 工作台，集中管理 CLI 会话、任务看板、定时执行、对比、Web、记忆搜索、统计和远程运行节点。" />
+<title>Agent OS — 安全托管远程 Agent，一条消息通道切换所有 Agent</title>
+<meta name="description" content="Agent OS 让受托管主机自行控制授权与文件访问边界，并把飞书等消息渠道变成所有已安装 Agent 的统一入口；使用 /use 切换 Agent，原有会话与记忆继续保留。" />
 <meta name="theme-color" content="#f6f8fc" />
 <link rel="icon" type="image/png" href="./agentos-icon.png" />
 <link rel="apple-touch-icon" href="./agentos-icon.png" />
@@ -102,6 +102,29 @@
   .module-list{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .module-list span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 8px}
 
+  .highlight-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .highlight{display:flex;flex-direction:column;min-width:0;padding:clamp(24px,3vw,36px);border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--bg);overflow:hidden}
+  .highlight-kicker{display:inline-flex;align-items:center;gap:9px;color:var(--blue);font:650 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px}
+  .highlight-kicker::before{content:"";width:20px;height:2px;border-radius:2px;background:var(--blue)}
+  .highlight h3{font-size:clamp(26px,3vw,36px);line-height:1.1;letter-spacing:-.04em;margin-bottom:16px}
+  .highlight>p{color:var(--text-2);font-size:15px;line-height:1.75;margin-bottom:20px}
+  .feature-points{display:grid;gap:10px;margin:0 0 24px;padding:0;list-style:none}
+  .feature-points li{position:relative;padding-left:22px;color:var(--text-2);font-size:13px;line-height:1.6}
+  .feature-points li::before{content:"✓";position:absolute;left:0;top:0;color:var(--green);font-weight:800}
+  .trust-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 22px}
+  .trust-fact{min-width:0;padding:13px;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
+  .trust-fact b{display:block;font:650 12px/1.35 var(--mono);color:var(--text);overflow-wrap:anywhere}
+  .trust-fact span{display:block;margin-top:5px;color:var(--muted);font-size:11px;line-height:1.45}
+  .agent-table-wrap{margin:0 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+  .agent-table{width:100%;border-collapse:collapse;font-size:13px}
+  .agent-table th,.agent-table td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line)}
+  .agent-table tr:last-child td{border-bottom:0}
+  .agent-table th{color:var(--muted);font:650 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--surface-soft)}
+  .agent-table code{color:var(--blue-dark);font:12px/1.4 var(--mono);white-space:nowrap}
+  .feature-note{color:var(--muted);font-size:12px;line-height:1.6;margin:-4px 0 22px}
+  .feature-visual{display:block;margin:auto 0 0;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;box-shadow:var(--shadow-sm)}
+  .feature-visual img{display:block;width:100%;height:auto}
+
   .section{padding:clamp(72px,9vw,112px) 0}
   .section.alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .section-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(32px,7vw,100px);align-items:start;margin-bottom:42px}
@@ -179,6 +202,7 @@
 
   @media(max-width:1020px){
     .hero-top{grid-template-columns:1fr}.release-card{max-width:720px}.shot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .highlight-grid{grid-template-columns:1fr}
     .principle-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .workflow{grid-template-columns:repeat(2,minmax(0,1fr))}.workflow-step:nth-child(2){border-right:0}.workflow-step:nth-child(-n+2){border-bottom:1px solid var(--line)}.workflow-step:nth-child(2)::after{display:none}
     .download-top{grid-template-columns:1fr}
@@ -213,6 +237,7 @@
     <span class="version">v0.3.3</span>
     <nav class="nav-links" aria-label="主导航" data-aria-key="aria.nav">
       <a href="#product" data-i18n="nav.product">产品界面</a>
+      <a href="#highlights" data-i18n="nav.highlights">核心亮点</a>
       <a href="#scenarios" data-i18n="nav.scenarios">使用场景</a>
       <a href="#principles" data-i18n="nav.principles">设计理念</a>
       <a href="#capabilities" data-i18n="nav.capabilities">功能范围</a>
@@ -231,8 +256,8 @@
       <div class="hero-top">
         <div class="hero-copy">
           <span class="eyebrow" data-i18n="hero.eyebrow">桌面端 Agent 工作台</span>
-          <h1 data-i18n="hero.title">会话、任务与运行节点，都在 Agent OS。</h1>
-          <p data-i18n="hero.body">Agent OS 不只是聊天窗口：它把 Web、CLI 与 Agent 放在同一对比工作台，把跨 Agent 会话搜索和记忆放进同一存储层，再用任务、定时、远程节点与消息渠道承接长期工作。</p>
+          <h1 data-i18n="hero.title">安全托管远程 Agent，一条消息通道切换所有 Agent。</h1>
+          <p data-i18n="hero.body">受托管主机自己批准设备、能力与可访问目录；接入飞书等任一消息渠道后，即可在同一对话中使用 /use 切换已安装 Agent，切回时原会话与记忆仍然保留。</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#product" data-i18n="hero.view">查看产品界面</a>
             <a class="btn" href="#download" data-i18n="hero.download">下载 v0.3.3</a>
@@ -242,7 +267,7 @@
         <aside class="release-card" aria-label="当前版本信息" data-aria-key="aria.release">
           <div class="release-head"><strong data-i18n="release.title">当前版本 v0.3.3</strong><span data-i18n="release.state">可下载</span></div>
           <div class="release-list">
-            <div class="release-fact"><b>8</b><span data-i18n="release.cli">CLI 适配器</span></div>
+            <div class="release-fact"><b>8 × /use</b><span data-i18n="release.cli">消息内可切换 Agent</span></div>
             <div class="release-fact"><b>3</b><span data-i18n="release.platform">桌面平台</span></div>
             <div class="release-fact"><b>Local / Remote</b><span>Runtime Host</span></div>
             <div class="release-fact"><b data-i18n="release.local">本机保存</b><span data-i18n="release.data">会话、任务与索引</span></div>
@@ -274,13 +299,13 @@
             <span class="shot-card-head"><span class="shot-index">04</span><span class="shot-title" data-i18n="shot.schedule">计划与 Cron</span></span>
             <span class="shot-media"><img src="schedule-create-v0.2.9.png" alt="Agent OS 一次性计划与 Cron 创建界面" width="1420" height="1574" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="message-channels-feishu-v0.2.9.png" data-title-key="shot.channels" aria-label="查看消息渠道界面">
-            <span class="shot-card-head"><span class="shot-index">05</span><span class="shot-title" data-i18n="shot.channels">消息渠道</span></span>
-            <span class="shot-media"><img src="message-channels-feishu-v0.2.9.png" alt="Agent OS 飞书消息渠道界面" width="1796" height="1266" loading="eager" decoding="sync" fetchpriority="high" /></span>
+          <button class="shot-card" type="button" data-src="message-channels-agent-switch-v0.3.3.png" data-title-key="shot.channels" aria-label="查看消息接入与 Agent 切换界面">
+            <span class="shot-card-head"><span class="shot-index">05</span><span class="shot-title" data-i18n="shot.channels">消息接入与 Agent 切换</span></span>
+            <span class="shot-media"><img src="message-channels-agent-switch-v0.3.3.png" alt="Agent OS 消息接入与 Agent 切换界面" width="1706" height="1218" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
-          <button class="shot-card" type="button" data-src="remote-hosting-v0.2.9.png" data-title-key="shot.remote" aria-label="查看远程托管界面">
-            <span class="shot-card-head"><span class="shot-index">06</span><span class="shot-title" data-i18n="shot.remote">远程托管</span></span>
-            <span class="shot-media"><img src="remote-hosting-v0.2.9.png" alt="Agent OS 远程托管与节点接入界面" width="1764" height="1294" loading="eager" decoding="sync" fetchpriority="high" /></span>
+          <button class="shot-card" type="button" data-src="remote-hosting-pairing-v0.3.3.png" data-title-key="shot.remote" aria-label="查看远程 Agent 安全配对与授权界面">
+            <span class="shot-card-head"><span class="shot-index">06</span><span class="shot-title" data-i18n="shot.remote">远程 Agent 安全配对</span></span>
+            <span class="shot-media"><img src="remote-hosting-pairing-v0.3.3.png" alt="Agent OS 远程 Agent 安全配对与授权界面" width="859" height="613" loading="eager" decoding="sync" fetchpriority="high" /></span>
           </button>
           <button class="shot-card" type="button" data-src="mqoj247o-image.png" data-title-key="shot.session" aria-label="查看会话与 CLI 界面">
             <span class="shot-card-head"><span class="shot-index">07</span><span class="shot-title" data-i18n="shot.session">会话与 CLI</span></span>
@@ -293,7 +318,7 @@
         </div>
         <div class="overview-foot">
           <span data-i18n="product.hint">点击截图查看界面细节；按 Esc 关闭。</span>
-          <div class="module-list" aria-label="主要模块" data-aria-key="aria.modules">
+          <div class="module-list" role="group" aria-label="主要模块" data-aria-key="aria.modules">
             <span data-i18n="module.board">看板</span><span data-i18n="module.run">运行记录</span><span data-i18n="module.delivery">交付物</span><span data-i18n="module.schedule">定时</span><span data-i18n="module.channels">消息渠道</span><span data-i18n="module.remote">远程托管</span><span data-i18n="module.session">会话</span><span data-i18n="module.compare">对比</span>
           </div>
         </div>
@@ -301,7 +326,57 @@
     </div>
   </section>
 
-  <section class="section alt" id="scenarios">
+  <section class="section alt" id="highlights">
+    <div class="wrap">
+      <div class="section-intro">
+        <h2 data-i18n="highlights.title">两个入口，把分散的 Agent 变成一个工作系统</h2>
+        <p data-i18n="highlights.body">一端解决“让哪台机器执行、能访问什么”，另一端解决“从哪里发消息、交给哪个 Agent”。控制权、上下文与结果仍统一留在 Agent OS。</p>
+      </div>
+      <div class="highlight-grid">
+        <article class="highlight">
+          <span class="highlight-kicker">01 / SAFE REMOTE HOSTING</span>
+          <h3 data-i18n="highlight.remote.title">托管其他主机的 Agent，但边界由对方决定</h3>
+          <p data-i18n="highlight.remote.body">控制端只能使用受托管端明确批准的能力、Agent 与目录。配对、授权、暂停和撤销都在对方设备完成，不把“远程可用”变成“整机开放”。</p>
+          <ul class="feature-points">
+            <li data-i18n="highlight.remote.p1">对方核验配对码与设备指纹后主动批准</li>
+            <li data-i18n="highlight.remote.p2">文件访问限制在对方选择的目录，越界与符号链接逃逸会被拒绝</li>
+            <li data-i18n="highlight.remote.p3">授权可随时暂停或永久撤销，已有远程会话立即失效</li>
+          </ul>
+          <div class="trust-grid" aria-label="远程授权安全机制" data-aria-key="aria.remoteTrust">
+            <div class="trust-fact"><b translate="no">Ed25519</b><span data-i18n="highlight.remote.identity">稳定设备身份</span></div>
+            <div class="trust-fact"><b translate="no">TLS</b><span data-i18n="highlight.remote.transport">加密传输与指纹核验</span></div>
+            <div class="trust-fact"><b translate="no">realpath scope</b><span data-i18n="highlight.remote.scope">真实目录边界</span></div>
+            <div class="trust-fact"><b translate="no">fail closed</b><span data-i18n="highlight.remote.failClosed">不确定即拒绝</span></div>
+          </div>
+          <figure class="feature-visual"><img src="remote-hosting-pairing-v0.3.3.png" alt="受托管设备核验配对码并设置方向性授权" width="859" height="613" loading="lazy" decoding="async" /></figure>
+        </article>
+        <article class="highlight">
+          <span class="highlight-kicker">02 / ONE CHANNEL, EVERY AGENT</span>
+          <h3 data-i18n="highlight.channels.title">接入一次消息渠道，获得所有 Agent 的消息入口</h3>
+          <p data-i18n="highlight.channels.body">连接飞书等消息渠道后，Agent OS 动态列出本机已安装且支持结构化聊天的 Agent。在同一对话中发送 /use 即可切换，不必为每个 Agent 重建机器人。</p>
+          <div class="agent-table-wrap">
+            <table class="agent-table">
+              <thead><tr><th data-i18n="highlight.table.agent">Agent</th><th data-i18n="highlight.table.command">切换命令</th></tr></thead>
+              <tbody>
+                <tr><td translate="no">Claude</td><td><code translate="no">/use claude</code></td></tr>
+                <tr><td translate="no">Codex</td><td><code translate="no">/use codex</code></td></tr>
+                <tr><td translate="no">Cursor Agent</td><td><code translate="no">/use cursor-agent</code></td></tr>
+                <tr><td translate="no">Gemini</td><td><code translate="no">/use gemini</code></td></tr>
+                <tr><td translate="no">Hermes</td><td><code translate="no">/use hermes</code></td></tr>
+                <tr><td translate="no">OpenCode</td><td><code translate="no">/use opencode</code></td></tr>
+                <tr><td translate="no">Pi</td><td><code translate="no">/use pi</code></td></tr>
+                <tr><td translate="no">OpenClaw</td><td><code translate="no">/use openclaw</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="feature-note" data-i18n="highlight.channels.note">每个 Agent 保留自己的持久会话；切回时继续原上下文，统一搜索与长期记忆仍由 Agent OS 管理。实际列表以本机发现结果为准。</p>
+          <figure class="feature-visual"><img src="message-channels-agent-switch-v0.3.3.png" alt="飞书消息渠道连接状态与 Agent OS 访问控制" width="1706" height="1218" loading="lazy" decoding="async" /></figure>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="scenarios">
     <div class="wrap">
       <div class="section-intro">
         <h2 data-i18n="scenarios.title">四类重度 AI 用户，四种持续工作流</h2>
@@ -341,7 +416,7 @@
           <dl>
             <div><dt data-i18n="scenario.scene">场景</dt><dd data-i18n="scenario.remote.scene">笔记本负责控制，台式机或家中服务器负责运行；外出时从已授权的消息通道发起工作。</dd></div>
             <div><dt data-i18n="scenario.pain">原来的问题</dt><dd data-i18n="scenario.remote.pain">反复远程登录、复制提示词和确认环境；节点版本、CLI 状态与任务结果分散在不同机器。</dd></div>
-            <div><dt data-i18n="scenario.solve">Agent OS</dt><dd data-i18n="scenario.remote.solve">远程托管统一接入节点并选择 Runtime Host；已授权消息通道把工作转给本机 Agent，再回到任务记录审阅。</dd></div>
+            <div><dt data-i18n="scenario.solve">Agent OS</dt><dd data-i18n="scenario.remote.solve">受托管主机自行批准能力与目录；连接任一消息渠道后，用 /use 把工作交给正确 Agent，切换时不覆盖原会话。</dd></div>
           </dl>
         </article>
       </div>
@@ -358,8 +433,8 @@
         <article class="principle"><span class="principle-index">01 / COMPARE</span><h3 data-i18n="principle.compare.title">把 Web、CLI 与 Agent 放在同一张工作台</h3><p data-i18n="principle.compare.body">对比不只发生在模型回答之间。一个面板可以是真实网页，另一个是结构化 Agent 会话或原生 CLI；既能单独输入，也能向多个面板批量发送同一问题。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.compare.outcome">减少在浏览器、终端和聊天窗口之间反复复制信息，也能同时观察资料、命令输出和 Agent 处理结果。</p></div></article>
         <article class="principle"><span class="principle-index">02 / STORAGE</span><h3 data-i18n="principle.storage.title">跨 Agent 会话搜索与记忆，属于同一存储层</h3><p data-i18n="principle.storage.body">会话历史不按单一厂商割裂。支持来源的会话在本机建立索引，搜索结果可以回到原上下文；经验、候选记忆和记忆策略也在同一存储区域管理。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.storage.outcome">不再分别翻找 Claude、Codex、Pi 等工具的历史记录，也避免每次切换 Agent 都重新解释项目背景。</p></div></article>
         <article class="principle"><span class="principle-index">03 / TASKS</span><h3 data-i18n="principle.tasks.title">把一次提示变成可追踪、可验收的工作</h3><p data-i18n="principle.tasks.body">任务经过 Todo、In Progress、Review、Done，保存执行环境、运行批次、过程事件和结构化交付物；计划任务还能按单次时间或 Cron 由 Runtime daemon 持续触发。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.tasks.outcome">Agent 运行不再是终端里的一次性输出；重复工作有计划，失败和重试可追溯，最终结果由人确认后才完成。</p></div></article>
-        <article class="principle"><span class="principle-index">04 / RUNTIME</span><h3 data-i18n="principle.runtime.title">本地优先，不等于只能在一台机器上运行</h3><p data-i18n="principle.runtime.body">会话、任务和索引默认保存在本机；执行位置可以选择本机或远程 Runtime Host。本机作为主控发现和接入节点，并检查在线、版本兼容、CLI 与目录状态。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.runtime.outcome">笔记本可以负责控制，把耗时任务交给台式机或服务器，同时保留统一的任务记录与审阅入口。</p></div></article>
-        <article class="principle"><span class="principle-index">05 / CHANNELS</span><h3 data-i18n="principle.channels.title">消息渠道只是入口，不再形成新的信息孤岛</h3><p data-i18n="principle.channels.body">飞书、个人微信、企业微信、Telegram 与 WhatsApp 按各自 transport 接收工作；执行仍进入统一的会话、任务、运行记录和交付流程，公网回调只在平台明确要求时启用。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.channels.outcome">离开桌面也能发起工作，同时避免“聊天里一份结果、桌面里另一份历史”的分裂。</p></div></article>
+        <article class="principle"><span class="principle-index">04 / RUNTIME</span><h3 data-i18n="principle.runtime.title">跨主机运行，不跨越对方的授权边界</h3><p data-i18n="principle.runtime.body">受托管端核验设备并决定开放哪些能力、Agent 与目录；控制端只能看到和使用授权范围内的资源。暂停或撤销后，已有远程访问立即停止。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.runtime.outcome">把任务交给台式机或服务器执行，同时不要求对方开放整机、根目录或无边界权限。</p></div></article>
+        <article class="principle"><span class="principle-index">05 / CHANNELS</span><h3 data-i18n="principle.channels.title">一个消息入口，切换所有已安装 Agent</h3><p data-i18n="principle.channels.body">飞书等渠道接入一次后，可用 /agents 查看实时可用列表，用 /use codex 等命令切换 Agent。每个 Agent 的会话独立保留，切回时继续原上下文。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.channels.outcome">无需为 Claude、Codex、Gemini 等分别搭机器人，也不会因 Agent 切换丢掉上一段对话与记忆。</p></div></article>
         <article class="principle"><span class="principle-index">06 / CONTROL</span><h3 data-i18n="principle.control.title">保留 CLI 原生能力，也保留人的最终控制</h3><p data-i18n="principle.control.body">同一入口同时提供结构化会话和原生 PTY，不替代厂商 CLI 的登录与能力。任务明确记录权限和会话策略，结果先进入 Review，而不是自动宣告完成。</p><div class="principle-outcome"><span data-i18n="principle.outcome">解决的痛点</span><p data-i18n="principle.control.outcome">避免桌面封装牺牲 CLI 能力，也避免长时间自动化在没有权限边界和人工验收的情况下持续运行。</p></div></article>
       </div>
     </div>
@@ -389,12 +464,12 @@
       <div class="cap-grid">
         <article class="cap"><span class="cap-label">TASK LIFECYCLE</span><h3 data-i18n="cap.c1.title">看板、运行记录与交付</h3><p data-i18n="cap.c1.body">Todo、In Progress、Review、Done 四阶段管理任务；每次执行保留过程事件、运行历史和结构化交付物，最后由用户确认完成。</p><div class="tags"><span data-i18n="tag.board">任务看板</span><span data-i18n="tag.timeline">执行过程</span><span data-i18n="tag.delivery">交付物</span><span>Review</span></div></article>
         <article class="cap"><span class="cap-label">SCHEDULES</span><h3 data-i18n="cap.c2.title">单次计划与 Cron</h3><p data-i18n="cap.c2.body">计划任务沿用 Engineer、模型、工作目录、权限和会话策略，可设置单次时间或五段 Cron、时区与错过执行策略。</p><div class="tags"><span data-i18n="tag.once">单次计划</span><span>Cron</span><span data-i18n="tag.timezone">时区</span><span data-i18n="tag.misfire">错过策略</span></div></article>
-        <article class="cap"><span class="cap-label">MESSAGE CHANNELS</span><h3 data-i18n="cap.c3.title">多平台消息通道</h3><p data-i18n="cap.c3.body">飞书、个人微信、企业微信、Telegram 与 WhatsApp 通过独立 transport 把消息交给本机 Agent OS；设置页区分传输在线、回合可用、访问策略与平台前置条件。</p><div class="tags"><span data-i18n="tag.feishu">飞书</span><span data-i18n="tag.longConnection">长连接</span><span data-i18n="tag.localAgent">本机 Agent</span><span data-i18n="tag.status">渠道状态</span></div></article>
-        <article class="cap"><span class="cap-label">RUNTIME & CLI</span><h3 data-i18n="cap.c4.title">远程托管与节点管理</h3><p data-i18n="cap.c4.body">本机可作为主控接收其他电脑的节点接入。选择可访问网卡并生成平台接入命令，随后查看节点在线、版本兼容与 CLI 状态。</p><div class="tags"><span data-i18n="tag.hosting">远程托管</span><span>Runtime Host</span><span data-i18n="tag.remote">远程节点</span><span data-i18n="tag.compatibility">版本兼容</span></div></article>
-        <article class="cap"><span class="cap-label">COMPARE & WEB</span><h3 data-i18n="cap.c5.title">对比与内置 Web</h3><p data-i18n="cap.c5.body">并排放置 Web、结构化会话或 CLI 面板，支持单独发送和批量发送；Web 书签保留登录状态。</p><div class="tags"><span data-i18n="tag.panel">多面板</span><span data-i18n="tag.batch">批量发送</span><span data-i18n="tag.bookmark">书签</span><span data-i18n="tag.sessionState">登录状态</span></div></article>
-        <article class="cap"><span class="cap-label">MEMORY & STATS</span><h3 data-i18n="cap.c6.title">记忆、搜索与统计</h3><p data-i18n="cap.c6.body">支持来源的会话在本机建立全文索引；记忆页管理经验、候选与策略；统计页显示使用趋势与成长 Cardex。</p><div class="tags"><span data-i18n="tag.search">全文搜索</span><span>SQLite</span><span data-i18n="tag.stats">使用统计</span><span>Cardex</span></div></article>
+        <article class="cap"><span class="cap-label">MESSAGE CHANNELS</span><h3 data-i18n="cap.c3.title">一次接入，所有 Agent 都能收消息</h3><p data-i18n="cap.c3.body">飞书、个人微信、企业微信、Telegram 与 WhatsApp 作为统一消息入口；/agents 动态列出可用 Agent，/use 切换并复用各自持久会话。访问控制在消息进入 Agent 前生效。</p><div class="tags"><span data-i18n="tag.feishu">飞书</span><span>/agents</span><span>/use codex</span><span data-i18n="tag.status">渠道状态</span></div></article>
+        <article class="cap"><span class="cap-label">RUNTIME &amp; CLI</span><h3 data-i18n="cap.c4.title">由对方控制边界的远程 Agent 托管</h3><p data-i18n="cap.c4.body">受托管设备核验配对码和身份指纹，自行批准能力、Agent 与允许目录；控制端只获得方向性授权，越界访问、错误凭证和撤销后的请求全部拒绝。</p><div class="tags"><span data-i18n="tag.hosting">远程托管</span><span data-i18n="tag.authorization">方向性授权</span><span data-i18n="tag.fileBoundary">目录边界</span><span data-i18n="tag.revocable">可撤销</span></div></article>
+        <article class="cap"><span class="cap-label">COMPARE &amp; WEB</span><h3 data-i18n="cap.c5.title">对比与内置 Web</h3><p data-i18n="cap.c5.body">并排放置 Web、结构化会话或 CLI 面板，支持单独发送和批量发送；Web 书签保留登录状态。</p><div class="tags"><span data-i18n="tag.panel">多面板</span><span data-i18n="tag.batch">批量发送</span><span data-i18n="tag.bookmark">书签</span><span data-i18n="tag.sessionState">登录状态</span></div></article>
+        <article class="cap"><span class="cap-label">MEMORY &amp; STATS</span><h3 data-i18n="cap.c6.title">记忆、搜索与统计</h3><p data-i18n="cap.c6.body">支持来源的会话在本机建立全文索引；记忆页管理经验、候选与策略；统计页显示使用趋势与成长 Cardex。</p><div class="tags"><span data-i18n="tag.search">全文搜索</span><span>SQLite</span><span data-i18n="tag.stats">使用统计</span><span>Cardex</span></div></article>
       </div>
-      <div class="adapters" aria-label="支持的 CLI 适配器" data-aria-key="aria.adapters">
+      <div class="adapters" role="group" aria-label="支持的 CLI 适配器" data-aria-key="aria.adapters">
         <span class="adapter">Claude</span><span class="adapter">Codex</span><span class="adapter">Gemini</span><span class="adapter">Cursor</span><span class="adapter">OpenCode</span><span class="adapter">Pi</span><span class="adapter">Hermes</span><span class="adapter">OpenClaw</span>
       </div>
     </div>
@@ -470,6 +545,90 @@
       "download.eyebrow":"Agent OS v0.3.3","download.title":"Choose a build for your system","download.body":"Desktop builds are available for macOS, Windows, and Linux. Remote Runtime node packages and scripts are included in the same Release.","download.note1":"The macOS build is not notarized with an Apple Developer ID. On first launch, right-click the app in Finder and choose Open.","download.note2":"For installation and first use, read the","download.guide":"full user guide","download.note3":"For remote node packages and install-node.sh, open the","footer.changelog":"Changelog","footer.note":"MIT License · sessions, tasks, and indexes stay local by default","lightbox.hint":"Press Esc or select the backdrop to close"
     }
   };
+  var featureCopy={
+    zh:{
+      "nav.highlights":"核心亮点",
+      "aria.remoteTrust":"远程授权安全机制",
+      "hero.title":"安全托管远程 Agent，一条消息通道切换所有 Agent。",
+      "hero.body":"受托管主机自己批准设备、能力与可访问目录；接入飞书等任一消息渠道后，即可在同一对话中使用 /use 切换已安装 Agent，切回时原会话与记忆仍然保留。",
+      "release.cli":"消息内可切换 Agent",
+      "product.body":"从安全配对、消息接入到任务验收，查看 Agent OS 如何把分散的主机、Agent 与工作记录统一起来。",
+      "shot.channels":"消息接入与 Agent 切换",
+      "shot.remote":"远程 Agent 安全配对",
+      "highlights.title":"两个入口，把分散的 Agent 变成一个工作系统",
+      "highlights.body":"一端解决“让哪台机器执行、能访问什么”，另一端解决“从哪里发消息、交给哪个 Agent”。控制权、上下文与结果仍统一留在 Agent OS。",
+      "highlight.remote.title":"托管其他主机的 Agent，但边界由对方决定",
+      "highlight.remote.body":"控制端只能使用受托管端明确批准的能力、Agent 与目录。配对、授权、暂停和撤销都在对方设备完成，不把“远程可用”变成“整机开放”。",
+      "highlight.remote.p1":"对方核验配对码与设备指纹后主动批准",
+      "highlight.remote.p2":"文件访问限制在对方选择的目录，越界与符号链接逃逸会被拒绝",
+      "highlight.remote.p3":"授权可随时暂停或永久撤销，已有远程会话立即失效",
+      "highlight.remote.identity":"稳定设备身份",
+      "highlight.remote.transport":"加密传输与指纹核验",
+      "highlight.remote.scope":"真实目录边界",
+      "highlight.remote.failClosed":"不确定即拒绝",
+      "highlight.channels.title":"接入一次消息渠道，获得所有 Agent 的消息入口",
+      "highlight.channels.body":"连接飞书等消息渠道后，Agent OS 动态列出本机已安装且支持结构化聊天的 Agent。在同一对话中发送 /use 即可切换，不必为每个 Agent 重建机器人。",
+      "highlight.channels.note":"每个 Agent 保留自己的持久会话；切回时继续原上下文，统一搜索与长期记忆仍由 Agent OS 管理。实际列表以本机发现结果为准。",
+      "highlight.table.agent":"Agent",
+      "highlight.table.command":"切换命令",
+      "scenario.remote.solve":"受托管主机自行批准能力与目录；连接任一消息渠道后，用 /use 把工作交给正确 Agent，切换时不覆盖原会话。",
+      "principle.runtime.title":"跨主机运行，不跨越对方的授权边界",
+      "principle.runtime.body":"受托管端核验设备并决定开放哪些能力、Agent 与目录；控制端只能看到和使用授权范围内的资源。暂停或撤销后，已有远程访问立即停止。",
+      "principle.runtime.outcome":"把任务交给台式机或服务器执行，同时不要求对方开放整机、根目录或无边界权限。",
+      "principle.channels.title":"一个消息入口，切换所有已安装 Agent",
+      "principle.channels.body":"飞书等渠道接入一次后，可用 /agents 查看实时可用列表，用 /use codex 等命令切换 Agent。每个 Agent 的会话独立保留，切回时继续原上下文。",
+      "principle.channels.outcome":"无需为 Claude、Codex、Gemini 等分别搭机器人，也不会因 Agent 切换丢掉上一段对话与记忆。",
+      "cap.c3.title":"一次接入，所有 Agent 都能收消息",
+      "cap.c3.body":"飞书、个人微信、企业微信、Telegram 与 WhatsApp 作为统一消息入口；/agents 动态列出可用 Agent，/use 切换并复用各自持久会话。访问控制在消息进入 Agent 前生效。",
+      "cap.c4.title":"由对方控制边界的远程 Agent 托管",
+      "cap.c4.body":"受托管设备核验配对码和身份指纹，自行批准能力、Agent 与允许目录；控制端只获得方向性授权，越界访问、错误凭证和撤销后的请求全部拒绝。",
+      "tag.authorization":"方向性授权",
+      "tag.fileBoundary":"目录边界",
+      "tag.revocable":"可撤销"
+    },
+    en:{
+      "nav.highlights":"Highlights",
+      "aria.remoteTrust":"Remote authorization safeguards",
+      "hero.title":"Host remote Agents safely. Switch every Agent from one message channel.",
+      "hero.body":"The managed computer approves the device, capabilities, and accessible folders. Connect Feishu or another channel once, then use /use to switch installed Agents without losing their existing sessions or memory.",
+      "release.cli":"Agents switchable in chat",
+      "product.body":"See how Agent OS unifies machines, Agents, and work records—from secure pairing and message access to final task review.",
+      "shot.channels":"Channel access & Agent switching",
+      "shot.remote":"Secure remote Agent pairing",
+      "highlights.title":"2 entry points turn scattered Agents into one work system",
+      "highlights.body":"One decides which machine executes and what it may access. The other decides where a message enters and which Agent receives it. Control, context, and results remain unified in Agent OS.",
+      "highlight.remote.title":"Host Agents on other machines while the other side controls the boundary",
+      "highlight.remote.body":"A controller can use only the capabilities, Agents, and folders explicitly approved by the managed computer. Pairing, grants, pauses, and revocation happen on that computer—remote access never means opening the whole machine.",
+      "highlight.remote.p1":"The other side verifies the pairing code and device fingerprint before approval",
+      "highlight.remote.p2":"File access stays inside selected folders; traversal and symlink escapes are rejected",
+      "highlight.remote.p3":"Access can be paused or permanently revoked, immediately invalidating remote sessions",
+      "highlight.remote.identity":"Stable device identity",
+      "highlight.remote.transport":"Encrypted transport & fingerprint verification",
+      "highlight.remote.scope":"Canonical folder boundary",
+      "highlight.remote.failClosed":"Uncertain means denied",
+      "highlight.channels.title":"Connect one message channel and reach every Agent",
+      "highlight.channels.body":"After connecting Feishu or another channel, Agent OS dynamically lists installed Agents that support structured chat. Send /use in the same conversation to switch—no separate bot per Agent.",
+      "highlight.channels.note":"Each Agent keeps its persistent session, so switching back resumes the original context. Unified search and durable memory remain managed by Agent OS. The actual list follows local discovery.",
+      "highlight.table.agent":"Agent",
+      "highlight.table.command":"Switch command",
+      "scenario.remote.solve":"The managed machine approves capabilities and folders. Connect any message channel, then use /use to route work to the right Agent without overwriting earlier sessions.",
+      "principle.runtime.title":"Run across machines without crossing the other side’s authorization boundary",
+      "principle.runtime.body":"The managed computer verifies the device and decides which capabilities, Agents, and folders to expose. A controller sees only authorized resources; pausing or revoking access stops existing remote use immediately.",
+      "principle.runtime.outcome":"Send work to a desktop or server without asking its owner to expose the entire machine, filesystem root, or unlimited permissions.",
+      "principle.channels.title":"One message entry point for every installed Agent",
+      "principle.channels.body":"Connect Feishu or another channel once. Use /agents for the live list and commands such as /use codex to switch. Each Agent keeps a separate session that resumes when selected again.",
+      "principle.channels.outcome":"No separate bot for Claude, Codex, Gemini, and others—and no lost conversation or memory when switching Agents.",
+      "cap.c3.title":"One connection gives every Agent a message channel",
+      "cap.c3.body":"Feishu, personal WeChat, WeCom, Telegram, and WhatsApp act as unified entry points. /agents lists live availability, while /use switches and reuses persistent sessions. Access control runs before a message reaches an Agent.",
+      "cap.c4.title":"Remote Agent hosting bounded by the managed computer",
+      "cap.c4.body":"The managed device verifies the pairing code and identity fingerprint, then approves capabilities, Agents, and folders. Out-of-scope access, invalid credentials, and post-revocation requests fail closed.",
+      "tag.authorization":"Directional grant",
+      "tag.fileBoundary":"Folder boundary",
+      "tag.revocable":"Revocable"
+    }
+  };
+  Object.assign(strings.zh,featureCopy.zh);
+  Object.assign(strings.en,featureCopy.en);
   var lang="zh";
   try{lang=localStorage.getItem("agentos-lang")||"zh"}catch(e){}
   var toggle=document.getElementById("langToggle");
@@ -497,7 +656,7 @@
       var image=card.querySelector("img");
       if(image)image.alt=lang==="zh"?"Agent OS "+title+"界面":"Agent OS "+title+" interface";
     });
-    document.title=lang==="zh"?"Agent OS — 会话、任务与运行节点":"Agent OS — Sessions, Tasks & Runtime Hosts";
+    document.title=lang==="zh"?"Agent OS — 安全托管远程 Agent，一条消息通道切换所有 Agent":"Agent OS — Secure Remote Agents, One Message Channel";
     toggle.textContent=lang==="zh"?"EN":"中";
     toggle.setAttribute("aria-label",lang==="zh"?"切换为英文":"Switch to Chinese");
     try{localStorage.setItem("agentos-lang",lang)}catch(e){}
