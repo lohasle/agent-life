@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.3.2</span>
+    <span class="version">v0.3.3</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,17 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.3</span><span class="ver__date">2026-07-23</span></div>
+    <ul class="ver__list">
+      <li><b>会话标题来源统一</b> — 移除 renderer、消息渠道与 runtime 之间的重复改名竞争；聊天任务被 runtime 接受后即以真实 prompt 定稿，用户手动改名不会被后续回合覆盖。</li>
+      <li><b>CLI 标题更可靠、更安全</b> — 不再从 PTY 原始按键推断标题，避免 IME 分片、控制序列和敏感命令造成截断或凭据泄漏；native transcript 就绪后再生成任务级标题。</li>
+      <li><b>历史标题自动修复</b> — 识别项目占位名、默认 session 名、注入上下文和序列化 transcript；旧聊天会话从 SQLite 首条真实用户消息幂等恢复，标题中的 password、token、API key 等值会被遮罩。</li>
+      <li><b>全界面一致命名</b> — 会话/CLI 侧栏、工作台和聊天页头、标签页、总览、归档及搜索统一使用共享标题投影；CLI 产品名也统一为 Claude Code、Gemini CLI、Cursor Agent、Hermes Agent 等正式名称。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>0f1d88b0681f</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.3.2</span><span class="ver__date">2026-07-22</span></div>
@@ -172,6 +183,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.2</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.3</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
