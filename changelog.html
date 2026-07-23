@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.3.4</span>
+    <span class="version">v0.3.5</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,17 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.5</span><span class="ver__date">2026-07-23</span></div>
+    <ul class="ver__list">
+      <li><b>模型列表实时对齐 Agent</b> — Codex、OpenCode、Pi、Cursor 与 Hermes 从各自原生协议、命令或原生缓存读取真实模型；没有可靠枚举接口的 Agent 不再展示猜测列表，可输入 CLI 原生模型 ID。</li>
+      <li><b>原生思考级别</b> — Codex、Claude、OpenCode 与 Pi 的思考级别来自当前模型元数据或当前 CLI 帮助，并通过各 Agent 的原生参数启动；对话和 CLI 终端使用同一选择逻辑。</li>
+      <li><b>附件能力精确对齐</b> — Codex 图片、Pi 文件与图片、Hermes 单图等能力按 Agent 与当前模型取交集；首条消息和已有会话均支持选择、粘贴与拖放，不支持的类型或数量会在启动 Agent 前明确拒绝。</li>
+      <li><b>远程协议与可靠性</b> — 远程 Runtime 返回自身模型目录和结构化附件能力，协议版本升级以阻止旧节点误解析；本地附件到远程节点的上传协议完成前继续安全禁用。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>a1aac29239d0</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.3.4</span><span class="ver__date">2026-07-23</span></div>
@@ -192,6 +203,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.4</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.5</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
