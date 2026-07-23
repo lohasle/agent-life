@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.3.3</span>
+    <span class="version">v0.3.4</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,15 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.4</span><span class="ver__date">2026-07-23</span></div>
+    <ul class="ver__list">
+      <li><b>Windows 自动更新恢复</b> — 修复 Windows 10 上从 0.3.0、0.3.2 等版本升级时，进度完成后因只读文件句柄执行 fsync 报 EPERM、无法进入安装步骤的问题。</li>
+      <li><b>下载安全门禁保持不变</b> — 更新包仍须通过 HTTPS、bytes 与 GitHub SHA-256 校验，并在 fsync 成功后才原子提升；真实持久化失败仍会清理临时文件并拒绝安装。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>fcc8e1f78778</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.3.3</span><span class="ver__date">2026-07-23</span></div>
@@ -183,6 +192,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.3</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.4</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
