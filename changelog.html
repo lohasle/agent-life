@@ -45,7 +45,7 @@
 <header class="site-header">
   <div class="wrap nav-row">
     <a class="brand" href="index.html" aria-label="Agent OS 首页"><img src="./agentos-icon.png" alt="" width="34" height="34" />Agent OS</a>
-    <span class="version">v0.3.5</span>
+    <span class="version">v0.3.7</span>
     <nav class="nav-links" aria-label="主导航"><a href="index.html#product">产品界面</a><a href="guide.html">使用指南</a><a href="index.html#capabilities">核心能力</a></nav>
     <a class="nav-download" href="index.html#download">下载</a>
   </div>
@@ -61,6 +61,19 @@
   </header>
 
   <div class="wrap"><div class="timeline">
+
+  <section class="ver">
+    <div class="ver__head"><span class="ver__tag">v0.3.7</span><span class="ver__date">2026-07-24</span></div>
+    <ul class="ver__list">
+      <li><b>图片附件发送前可确认</b> — 选择、粘贴或拖拽图片后，首屏与已有会话都会显示带文件名和删除按钮的缩略图；普通文件继续使用紧凑胶囊，预览失败也不会影响发送。</li>
+      <li><b>定时任务更自然</b> — 新增每隔 N 分钟或小时的固定间隔计划，手工表单与自然语言创建共用同一调度模型；任务说明从编辑、执行到会话展示都保留原始换行。</li>
+      <li><b>消息渠道成为完整控制面</b> — 飞书、微信、企业微信、Telegram 等已接入渠道可查看和切换自己的会话，创建、查看、编辑、暂停、恢复与确认删除当前工作区任务，并用 /steer 即时修正运行方向。</li>
+      <li><b>运行中调整方向</b> — 对话输入区在 Agent 工作时同时提供调整方向、排队和中断；steer 会安全结束当前回合，在同一会话与原生 Agent 上下文中优先执行修正指令。</li>
+      <li><b>安全迁移与可用性</b> — 设置中可导入导出长期记忆、任务和非敏感 Agent 偏好；API Key、渠道凭据、远程 token、设备私钥和会话正文不会进入备份。</li>
+      <li><b>发布重跑更可靠</b> — 同一源码版本的公开 Release 重跑只复用并校验单个 aggregate manifest，随后继续执行严格的来源、资产集合与 SHA-256 后验。</li>
+      <li><b>构建来源</b> — 本版本制品绑定 Agent-OS 源码 <code>c6672f7b1f0b</code>，完整 revision 与逐文件摘要见 Release provenance。</li>
+    </ul>
+  </section>
 
   <section class="ver">
     <div class="ver__head"><span class="ver__tag">v0.3.5</span><span class="ver__date">2026-07-23</span></div>
@@ -203,6 +216,6 @@
   </div></div>
 </main>
 
-<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.5</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
+<footer><div class="wrap footer"><div class="footer-brand"><img src="./agentos-icon.png" alt="" width="25" height="25" />Agent OS · v0.3.7</div><div class="footer-links"><a href="index.html">产品页</a><a href="guide.html">使用指南</a><a href="https://github.com/lohasle/agent-life">GitHub</a><span>MIT License</span></div></div></footer>
 </body>
 </html>
