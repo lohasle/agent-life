@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **Merged into [aiutil/agent-os](https://github.com/aiutil/agent-os). The product site and application source now live in one repository.**
+>
+> **本产品站已合并至 [aiutil/agent-os](https://github.com/aiutil/agent-os)，产品页与应用源码现由同一仓库维护。**
+
 # Agent OS
 
 > 顶级的本地优先 Agent 工作台：安全托管其他主机上的 Agent，并把飞书等消息渠道变成所有已安装 Agent 的统一入口。
